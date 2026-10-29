@@ -114,7 +114,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             }`}>
               <div className="relative aspect-video w-full overflow-hidden bg-slate-800">
                 <img
-                  src="/assets/aistudio/CHN_Navarra_728_5e3ef281.png"
+                  src={`${import.meta.env.BASE_URL}assets/aistudio/CHN_Navarra_728_5e3ef281.png`}
                   alt="Quirófano Central II & Quirófano de Urgencias II Hospital Universitario de Navarra"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
