@@ -1,0 +1,288 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useEffect } from 'react';
+import { Header } from './components/Header';
+import { HeroSection } from './components/HeroSection';
+import { SurgerySearch } from './components/SurgerySearch';
+import { PositionInteractiveViewer } from './components/PositionInteractiveViewer';
+import { UrologyDocumentViewer } from './components/UrologyDocumentViewer';
+import { TablePreEntryPreparation } from './components/TablePreEntryPreparation';
+import { ShiftCalculator } from './components/ShiftCalculator';
+import { OperatingRoomsMap } from './components/OperatingRoomsMap';
+import { OfficialProtocolsViewer } from './components/OfficialProtocolsViewer';
+import { ProfessionalPortfolio } from './components/ProfessionalPortfolio';
+import { VideoTutorialsViewer } from './components/VideoTutorialsViewer';
+import { PortfolioRecord, SurgeryProtocol, Language } from './types/operatingRoom';
+import { TRANSLATIONS } from './i18n/translations';
+
+const INITIAL_RECORDS: PortfolioRecord[] = [
+  {
+    id: 'rec-uro-1',
+    date: '2026-10-28',
+    specialty: 'urologia',
+    surgeryName: 'Nefrectomía Radical Laparoscópica con Pilé (Protocolo HUN B)',
+    operatingRoom: 'Quirófano 5',
+    role: 'dentro',
+    patientTransferDone: true,
+    tableConverted: true,
+    nursingCollaborator: 'Enf. Anestesia Lucía Ezquerro',
+    notes: 'Paso en supino. Ombligo alineado en el círculo de la mesa (FIG. 2 y 3). Volteo con lado a operar arriba y tripa al borde. Chocolatina entre piernas (FIG. 5). Pilé con botón Flex de SensorLine (FIG. 7). Topes articulados en escápulas y lumbares con hueveras protectoras (FIG. 8). Brazo en teja acolchada (FIG. 11) y cincha de seguridad (FIG. 10). Accesorios depositados en el mueble INTERNO de Q5.',
+    verified: true
+  },
+  {
+    id: 'rec-uro-2',
+    date: '2026-10-27',
+    specialty: 'urologia',
+    surgeryName: 'RTU Vesical en Litotomía con Perneras Allen (Protocolo HUN B)',
+    operatingRoom: 'Quirófano 5',
+    role: 'dentro',
+    patientTransferDone: true,
+    tableConverted: true,
+    nursingCollaborator: 'Enf. Quirófano Carlos Barricart',
+    notes: 'Nalgas en borde pélvico tras visto bueno anestésico. Medias de tubitón colocadas. Perneras Allen ancladas con pieza negra y rosca en los dos círculos (FIG. 13 y 15). Subida simultánea de piernas comprobando muslos relajados en cara interna (FIG. 16 y 17). Al finalizar, colocación de tramo de pies antes de bajar piernas. Accesorios en mueble interior.',
+    verified: true
+  },
+  {
+    id: 'rec-1',
+    date: '2026-10-25',
+    specialty: 'traumatologia',
+    surgeryName: 'Artroscopia de Hombro Derecho (Silla de Playa)',
+    operatingRoom: 'Quirófano 7',
+    role: 'dentro',
+    patientTransferDone: true,
+    tableConverted: true,
+    nursingCollaborator: 'Enf. Anestesia M. Carmen',
+    notes: 'Montaje del respaldo de silla de playa y cabecero trilobular. Asistencia en el bloqueo interescalénico. Retirada del panel escapular derecho. Al finalizar, descenso suave a horizontal y traslado a antequirófano tras desinfección.',
+    verified: true
+  },
+  {
+    id: 'rec-3',
+    date: '2026-10-23',
+    specialty: 'urgencias',
+    surgeryName: 'Laparotomía Exploradora Urgente / Hemoperitoneo',
+    operatingRoom: 'Quirófano 1',
+    role: 'fuera',
+    patientTransferDone: true,
+    tableConverted: false,
+    nursingCollaborator: 'Enf. Urgencias Área General V',
+    notes: 'Recepción del paciente con check list completo y pegatinas. Retirada de cabecero y potencia en cama. Traslado urgente al transfer. Acudido de emergencia a Hemoterapia a por 2 concentrados de hematíes con conservadora homologada.',
+    verified: true
+  }
+];
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState<string>('preparacion_mesa');
+  const [language, setLanguage] = useState<Language>(() => {
+    return (localStorage.getItem('hun_language') as Language) || 'es';
+  });
+
+  const [nightMode, setNightMode] = useState<boolean>(() => {
+    return localStorage.getItem('hun_night_mode') === 'true';
+  });
+
+  const [portfolioRecords, setPortfolioRecords] = useState<PortfolioRecord[]>(() => {
+    const saved = localStorage.getItem('hun_portfolio_records');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        return INITIAL_RECORDS;
+      }
+    }
+    return INITIAL_RECORDS;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('hun_language', language);
+  }, [language]);
+
+  useEffect(() => {
+    localStorage.setItem('hun_night_mode', nightMode ? 'true' : 'false');
+    if (nightMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [nightMode]);
+
+  useEffect(() => {
+    localStorage.setItem('hun_portfolio_records', JSON.stringify(portfolioRecords));
+  }, [portfolioRecords]);
+
+  const handleAddPortfolioRecord = (newRecord: PortfolioRecord) => {
+    setPortfolioRecords(prev => [newRecord, ...prev]);
+  };
+
+  const handleDeletePortfolioRecord = (id: string) => {
+    setPortfolioRecords(prev => prev.filter(r => r.id !== id));
+  };
+
+  const handleAddFromSurgery = (surgery: SurgeryProtocol) => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const newRecord: PortfolioRecord = {
+      id: `rec-${Date.now()}`,
+      date: todayStr,
+      specialty: surgery.specialtyId,
+      surgeryName: language === 'es' ? surgery.name : (surgery.nameEu || surgery.name),
+      operatingRoom: surgery.operatingRoom,
+      role: 'dentro',
+      patientTransferDone: true,
+      tableConverted: true,
+      nursingCollaborator: language === 'es' ? 'Enfermería Bloque Quirúrgico HUN B' : 'NUO B Ebakuntza Blokeko Erizaintza',
+      notes: language === 'es' 
+        ? `Protocolo: ${surgery.position.name}. Mesa: ${surgery.tableSetup.configuration}. Accesorios verificados y guardados según norma.`
+        : `Protokoloa: ${surgery.position.nameEu || surgery.position.name}. Mahaia: ${surgery.tableSetup.configuration}. Osagarriak arauaren arabera kokatuta.`,
+      verified: true
+    };
+    handleAddPortfolioRecord(newRecord);
+  };
+
+  const t = TRANSLATIONS[language];
+
+  return (
+    <div className={`min-h-screen flex flex-col transition-colors duration-200 ${
+      nightMode ? 'bg-slate-950 text-slate-100 dark' : 'bg-slate-50/60 text-slate-900'
+    }`}>
+      {/* Top Header with Language switcher */}
+      <Header
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        nightMode={nightMode}
+        setNightMode={setNightMode}
+        language={language}
+        setLanguage={setLanguage}
+      />
+
+      {/* Main Viewport Content */}
+      <main className="flex-1">
+        {/* Hero Banner shown on home tabs with operating room photo & room distribution */}
+        {(activeTab === 'buscador' || activeTab === 'preparacion_mesa') && (
+          <HeroSection
+            onSearchClick={() => {
+              setActiveTab('buscador');
+              setTimeout(() => {
+                const el = document.getElementById('surgery-search-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }, 50);
+            }}
+            onPreEntryClick={() => setActiveTab('preparacion_mesa')}
+            onUrologyDocClick={() => setActiveTab('urologia_doc')}
+            onVideosClick={() => setActiveTab('videotutoriales')}
+            nightMode={nightMode}
+            language={language}
+          />
+        )}
+
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8" id="surgery-search-section">
+          {activeTab === 'videotutoriales' && (
+            <VideoTutorialsViewer
+              nightMode={nightMode}
+              language={language}
+              onNavigateToPreEntry={() => setActiveTab('preparacion_mesa')}
+              onNavigateToUrology={() => setActiveTab('urologia_doc')}
+              onNavigateToPositions={() => setActiveTab('posiciones')}
+            />
+          )}
+
+          {activeTab === 'preparacion_mesa' && (
+            <TablePreEntryPreparation
+              nightMode={nightMode}
+              language={language}
+              onNavigateToSurgerySearch={(query) => {
+                setActiveTab('buscador');
+              }}
+              onNavigateToVideos={(videoId) => {
+                setActiveTab('videotutoriales');
+              }}
+            />
+          )}
+
+          {activeTab === 'buscador' && (
+            <SurgerySearch
+              nightMode={nightMode}
+              language={language}
+              onAddToPortfolio={handleAddFromSurgery}
+              onNavigateToPositions={() => setActiveTab('posiciones')}
+              onNavigateToUrologyDoc={() => setActiveTab('urologia_doc')}
+            />
+          )}
+
+          {activeTab === 'urologia_doc' && (
+            <UrologyDocumentViewer
+              nightMode={nightMode}
+              language={language}
+              onNavigateToSearchWithFilter={(filter) => {
+                setActiveTab('buscador');
+              }}
+            />
+          )}
+
+          {activeTab === 'posiciones' && (
+            <PositionInteractiveViewer 
+              nightMode={nightMode}
+              language={language}
+            />
+          )}
+
+          {activeTab === 'turnos' && (
+            <ShiftCalculator 
+              nightMode={nightMode}
+              language={language}
+              onNavigateToProtocols={() => setActiveTab('protocolos')}
+            />
+          )}
+
+          {activeTab === 'bloque' && (
+            <OperatingRoomsMap 
+              nightMode={nightMode} 
+              language={language}
+              onSelectSpecialty={(specId) => {
+                setActiveTab('buscador');
+              }}
+            />
+          )}
+
+          {activeTab === 'protocolos' && (
+            <OfficialProtocolsViewer 
+              nightMode={nightMode}
+              language={language}
+            />
+          )}
+
+          {activeTab === 'portafolio' && (
+            <ProfessionalPortfolio
+              records={portfolioRecords}
+              onAddRecord={handleAddPortfolioRecord}
+              onDeleteRecord={handleDeletePortfolioRecord}
+              nightMode={nightMode}
+              language={language}
+              onNavigateToSearch={() => setActiveTab('buscador')}
+            />
+          )}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className={`border-t py-6 text-xs transition-colors ${
+        nightMode ? 'bg-slate-900 border-slate-800 text-slate-500' : 'bg-white border-slate-200 text-slate-500'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-slate-700 dark:text-slate-300">
+              {t.hospitalName}
+            </span>
+            <span>·</span>
+            <span>{t.pavilionName}</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <span>{t.footerRights}</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

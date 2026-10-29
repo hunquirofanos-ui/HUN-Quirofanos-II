@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Azul quirúrgico hospitalario atenuado y sereno (menos brillante) */
+  --color-blue-50: #f2f6fa;
+  --color-blue-100: #e3edf5;
+  --color-blue-200: #c7ddeb;
+  --color-blue-300: #9cc3dc;
+  --color-blue-400: #69a3c7;
+  --color-blue-500: #4085ad;
+  --color-blue-600: #2a6990; /* Azul quirúrgico mate, reposado y clínico */
+  --color-blue-700: #225575; /* Tono profundo y elegante */
+  --color-blue-800: #1d4661;
+  --color-blue-900: #1b3b50;
+  --color-blue-950: #102433;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Protocolos Quirófano Central HUN B - Bloque Quirúrgico",
+  "description": "Herramienta interactiva y portafolio profesional para celadores del Quirófano Central II y Quirófano de Urgencias II del Hospital Universitario de Navarra (Área General V) en colaboración con enfermería: preparación de mesas quirúrgicas, posiciones, accesorios y protocolos dentro/fuera.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

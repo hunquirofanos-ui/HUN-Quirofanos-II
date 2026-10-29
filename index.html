@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Protocolos de Celadores para el Quirófano Central II & Quirófano de Urgencias II</title>
+    <meta name="description" content="Protocolos de celadores para el Quirófano Central II y Quirófano de Urgencias II del Hospital Universitario de Navarra (Área General V) en colaboración con enfermería." />
+    <meta property="og:title" content="Protocolos de Celadores para el Quirófano Central II & Quirófano de Urgencias II" />
+    <meta property="og:description" content="Protocolos de celadores para el Quirófano Central II y Quirófano de Urgencias II del Hospital Universitario de Navarra (Área General V) en colaboración con enfermería." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#1e3a8a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="HUN Quirófanos II" />
+    <link rel="apple-touch-icon" href="/assets/aistudio/Logotipo_hospitalario_con_quir_fanos_II_413ef642.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('SW registration skipped:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

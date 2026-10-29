@@ -1,0 +1,28 @@
+{
+  "id": "/",
+  "name": "HUN Quirófano Central II & Urgencias II · Área General V",
+  "short_name": "HUN Quirófanos II",
+  "description": "Protocolos de celadores para Quirófano Central II y Quirófano de Urgencias II del Hospital Universitario de Navarra (Área General V).",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#1e3a8a",
+  "lang": "es",
+  "categories": ["medical", "education", "productivity"],
+  "icons": [
+    {
+      "src": "/assets/aistudio/Logotipo_hospitalario_con_quir_fanos_II_413ef642.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/aistudio/Logotipo_hospitalario_con_quir_fanos_II_413ef642.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
