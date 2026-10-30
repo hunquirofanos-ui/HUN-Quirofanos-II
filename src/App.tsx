@@ -5,6 +5,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
+import { HomeWelcomeView } from './components/HomeWelcomeView';
+import { CeladorFunctionsSection } from './components/CeladorFunctionsSection';
+import { OperatingRoomsSpecialtiesHub } from './components/OperatingRoomsSpecialtiesHub';
+import { VideoTutorialsViewer } from './components/VideoTutorialsViewer';
+import { ContactSection } from './components/ContactSection';
+import { CreditsSection } from './components/CreditsSection';
 import { HeroSection } from './components/HeroSection';
 import { SurgerySearch } from './components/SurgerySearch';
 import { PositionInteractiveViewer } from './components/PositionInteractiveViewer';
@@ -14,7 +20,6 @@ import { ShiftCalculator } from './components/ShiftCalculator';
 import { OperatingRoomsMap } from './components/OperatingRoomsMap';
 import { OfficialProtocolsViewer } from './components/OfficialProtocolsViewer';
 import { ProfessionalPortfolio } from './components/ProfessionalPortfolio';
-import { VideoTutorialsViewer } from './components/VideoTutorialsViewer';
 import { PortfolioRecord, SurgeryProtocol, Language } from './types/operatingRoom';
 import { TRANSLATIONS } from './i18n/translations';
 
@@ -74,7 +79,9 @@ const INITIAL_RECORDS: PortfolioRecord[] = [
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('preparacion_mesa');
+  const [activeTab, setActiveTab] = useState<string>('inicio');
+  const [selectedRoomParam, setSelectedRoomParam] = useState<string | null>(null);
+
   const [language, setLanguage] = useState<Language>(() => {
     return (localStorage.getItem('hun_language') as Language) || 'es';
   });
@@ -140,6 +147,16 @@ export default function App() {
     handleAddPortfolioRecord(newRecord);
   };
 
+  const handleNavigateFromHome = (tab: string, subParam?: string) => {
+    if (subParam) {
+      setSelectedRoomParam(subParam);
+    } else {
+      setSelectedRoomParam(null);
+    }
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const t = TRANSLATIONS[language];
 
   return (
@@ -149,7 +166,11 @@ export default function App() {
       {/* Top Header with Language switcher */}
       <Header
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={(tab) => {
+          setSelectedRoomParam(null);
+          setActiveTab(tab);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
         nightMode={nightMode}
         setNightMode={setNightMode}
         language={language}
@@ -158,35 +179,81 @@ export default function App() {
 
       {/* Main Viewport Content */}
       <main className="flex-1">
-        {/* Hero Banner shown on home tabs with operating room photo & room distribution */}
-        {(activeTab === 'buscador' || activeTab === 'preparacion_mesa') && (
-          <HeroSection
-            onSearchClick={() => {
-              setActiveTab('buscador');
-              setTimeout(() => {
-                const el = document.getElementById('surgery-search-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }, 50);
-            }}
-            onPreEntryClick={() => setActiveTab('preparacion_mesa')}
-            onUrologyDocClick={() => setActiveTab('urologia_doc')}
-            onVideosClick={() => setActiveTab('videotutoriales')}
-            nightMode={nightMode}
-            language={language}
-          />
-        )}
-
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8" id="surgery-search-section">
-          {activeTab === 'videotutoriales' && (
-            <VideoTutorialsViewer
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8" id="main-content-section">
+          {/* =================================================================== */}
+          {/* 1. PÁGINA DE INICIO (PORTAL DE BIENVENIDA) */}
+          {/* =================================================================== */}
+          {activeTab === 'inicio' && (
+            <HomeWelcomeView
+              onNavigate={handleNavigateFromHome}
               nightMode={nightMode}
               language={language}
-              onNavigateToPreEntry={() => setActiveTab('preparacion_mesa')}
-              onNavigateToUrology={() => setActiveTab('urologia_doc')}
-              onNavigateToPositions={() => setActiveTab('posiciones')}
             />
           )}
 
+          {/* =================================================================== */}
+          {/* 2. FUNCIONES DEL CELADOR (DENTRO & FUERA) */}
+          {/* =================================================================== */}
+          {activeTab === 'funciones' && (
+            <CeladorFunctionsSection
+              nightMode={nightMode}
+              language={language}
+              onNavigateToPreEntry={() => handleNavigateFromHome('preparacion_mesa')}
+              onNavigateToQuirofanos={() => handleNavigateFromHome('quirofanos')}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 3. QUIRÓFANOS Y ESPECIALIDADES QUIRÚRGICAS (Q1 a Q8 UNIFICADO) */}
+          {/* =================================================================== */}
+          {activeTab === 'quirofanos' && (
+            <OperatingRoomsSpecialtiesHub
+              nightMode={nightMode}
+              language={language}
+              initialRoomId={selectedRoomParam}
+              onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('preparacion_mesa')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videoteca')}
+              onAddToPortfolio={handleAddFromSurgery}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 4. VIDEOTECA INDEPENDIENTE (11 VÍDEOS OFICIALES) */}
+          {/* =================================================================== */}
+          {(activeTab === 'videoteca' || activeTab === 'videotutoriales') && (
+            <VideoTutorialsViewer
+              nightMode={nightMode}
+              language={language}
+              onNavigateToPreEntry={() => handleNavigateFromHome('preparacion_mesa')}
+              onNavigateToUrology={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPositions={() => handleNavigateFromHome('posiciones')}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 5. CONTACTO */}
+          {/* =================================================================== */}
+          {activeTab === 'contacto' && (
+            <ContactSection
+              nightMode={nightMode}
+              language={language}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 6. CRÉDITOS Y AUTORÍA */}
+          {/* =================================================================== */}
+          {activeTab === 'creditos' && (
+            <CreditsSection
+              nightMode={nightMode}
+              language={language}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* HERRAMIENTAS COMPLEMENTARIAS CONSERVADAS ÍNTEGRAMENTE */}
+          {/* =================================================================== */}
           {activeTab === 'preparacion_mesa' && (
             <TablePreEntryPreparation
               nightMode={nightMode}
@@ -195,7 +262,7 @@ export default function App() {
                 setActiveTab('buscador');
               }}
               onNavigateToVideos={(videoId) => {
-                setActiveTab('videotutoriales');
+                setActiveTab('videoteca');
               }}
             />
           )}
@@ -231,7 +298,7 @@ export default function App() {
             <ShiftCalculator 
               nightMode={nightMode}
               language={language}
-              onNavigateToProtocols={() => setActiveTab('protocolos')}
+              onNavigateToProtocols={() => setActiveTab('funciones')}
             />
           )}
 
@@ -240,7 +307,7 @@ export default function App() {
               nightMode={nightMode} 
               language={language}
               onSelectSpecialty={(specId) => {
-                setActiveTab('buscador');
+                setActiveTab('quirofanos');
               }}
             />
           )}
@@ -265,21 +332,21 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer with Discreet but Visible Attribution */}
       <footer className={`border-t py-6 text-xs transition-colors ${
-        nightMode ? 'bg-slate-900 border-slate-800 text-slate-500' : 'bg-white border-slate-200 text-slate-500'
+        nightMode ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-white border-slate-200 text-slate-600'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-700 dark:text-slate-300">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-bold text-slate-800 dark:text-slate-200">
               {t.hospitalName}
             </span>
             <span>·</span>
             <span>{t.pavilionName}</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span>{t.footerRights}</span>
+          <div className="flex items-center gap-2 font-medium text-slate-600 dark:text-slate-300">
+            <span>Diseño y desarrollo de la web: <strong className="text-slate-900 dark:text-white font-bold">David Tabernero Garin</strong></span>
           </div>
         </div>
       </footer>

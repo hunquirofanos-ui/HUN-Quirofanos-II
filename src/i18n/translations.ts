@@ -4,6 +4,13 @@ export interface Translations {
   appTitle: string;
   hospitalName: string;
   pavilionName: string;
+  navInicio: string;
+  navFunciones: string;
+  navQuirofanos: string;
+  navVideoteca: string;
+  navContacto: string;
+  navCreditos: string;
+  authorCredit: string;
   navSearch: string;
   navPreEntry: string;
   navPositions: string;
@@ -79,6 +86,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     appTitle: "HUN Quirófano Central II & Urgencias II",
     hospitalName: "Hospital Universitario de Navarra (HUN)",
     pavilionName: "Área General V · Quirófano Central II & Urgencias II",
+    navInicio: "Inicio",
+    navFunciones: "Funciones del Celador",
+    navQuirofanos: "Quirófanos y Especialidades",
+    navVideoteca: "Videoteca",
+    navContacto: "Contacto",
+    navCreditos: "Créditos",
+    authorCredit: "Diseño y desarrollo de la web: David Tabernero Garin",
     navSearch: "Buscador Quirúrgico",
     navPreEntry: "Mesa Pre-Entrada",
     navPositions: "Mesas & Posiciones",
@@ -152,6 +166,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     appTitle: "NUO Erdiko II Ebakigela & Larrialdiak II",
     hospitalName: "Nafarroako Unibertsitate Ospitalea (NUO)",
     pavilionName: "V. Eremu Orokorra · Erdiko II Ebakigela & Larrialdiak II",
+    navInicio: "Hasiera",
+    navFunciones: "Zeladoreen Funtzioak",
+    navQuirofanos: "Ebakigela eta Espezialitateak",
+    navVideoteca: "Bideoteka",
+    navContacto: "Kontaktua",
+    navCreditos: "Kredituak",
+    authorCredit: "Diseño y desarrollo de la web: David Tabernero Garin",
     navSearch: "Ebakuntza Bilatzailea",
     navPreEntry: "Aurre-Sarrerako Mahaia",
     navPositions: "Mahaiak & Posizioak",

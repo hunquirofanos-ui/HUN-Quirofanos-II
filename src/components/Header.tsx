@@ -15,7 +15,10 @@ import {
   ChevronRight,
   ExternalLink,
   Video,
-  Smartphone
+  Smartphone,
+  Home,
+  Mail,
+  Award
 } from 'lucide-react';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
@@ -67,56 +70,74 @@ export const Header: React.FC<HeaderProps> = ({
 
   const navItems = [
     { 
-      id: 'preparacion_mesa', 
-      label: t.navPreEntry, 
-      sublabel: language === 'es' ? 'Fichas HUN B: Urología, Trauma Q7-8 y Reglas Pre-Paso' : 'NUO B fitxak: Urologia, Q7-8 Trauma eta Arauak',
-      icon: Sliders,
-      badge: language === 'es' ? 'Oficial HUN' : 'NUO Ofiziala',
-      highlight: true 
+      id: 'inicio', 
+      label: t.navInicio, 
+      sublabel: language === 'es' ? 'Portal de bienvenida y accesos rápidos' : 'Ongi etorri ataria eta sarbide azkarrak',
+      icon: Home
     },
     { 
-      id: 'videotutoriales', 
-      label: language === 'es' ? 'Vídeos TruSystem' : 'TruSystem Bideoak', 
-      sublabel: language === 'es' ? '11 videotutoriales: carro tracción, hombro playa, perneras y mando' : '11 bideotutorial: trakzio-orga, sorbalda-mahaia, hanka-eusk. eta agintea',
+      id: 'funciones', 
+      label: t.navFunciones, 
+      sublabel: language === 'es' ? 'Celador de Dentro (13) y de Fuera (14)' : 'Barruko (13) eta Kanpoko (14) Zeladoreak',
+      icon: ShieldCheck,
+      badge: language === 'es' ? 'Dentro & Fuera' : 'Barruan & Kanpoan',
+      highlight: true
+    },
+    { 
+      id: 'quirofanos', 
+      label: t.navQuirofanos, 
+      sublabel: language === 'es' ? 'Q1 Urgencias, Q2 ORL, Q3-4 Oftalmo, Q5-6 Uro, Q7-8 Trauma' : 'Q1 Larrialdiak, Q2 ORL, Q3-4 Oftalmo, Q5-6 Uro, Q7-8 Trauma',
+      icon: Building2,
+      badge: 'Q1 – Q8',
+      highlight: true
+    },
+    { 
+      id: 'videoteca', 
+      label: t.navVideoteca, 
+      sublabel: language === 'es' ? '11 videotutoriales TruSystem (tracción, hombro, perneras)' : '11 TruSystem bideotutorial (trakzioa, sorbalda, hanka-eusk.)',
       icon: Video,
-      badge: '11 vídeos',
-      highlight: true 
+      badge: '11 vídeos'
     },
     { 
-      id: 'buscador', 
-      label: t.navSearch, 
-      sublabel: language === 'es' ? 'Búsqueda por cirugía, accesorio o técnica' : 'Bilaketa ebakuntza, osagarri edo teknikaren arabera',
-      icon: Search 
+      id: 'contacto', 
+      label: t.navContacto, 
+      sublabel: language === 'es' ? 'Formulario directo a hunquirofanos@gmail.com' : 'Inprimaki zuzena kontsultetarako',
+      icon: Mail
     },
     { 
-      id: 'urologia_doc', 
-      label: t.navUrologyDoc, 
-      sublabel: language === 'es' ? 'Guía íntegra con Figuras 1-20 y vídeo de Pilé' : 'Gida osoa FIG 1-20 irudiekin eta Pilé bideoarekin',
-      icon: FileText 
+      id: 'creditos', 
+      label: t.navCreditos, 
+      sublabel: 'David Tabernero Garin · HUN Área General V',
+      icon: Award
+    }
+  ];
+
+  const utilityItems = [
+    {
+      id: 'preparacion_mesa',
+      label: t.navPreEntry,
+      icon: Sliders,
+      badge: 'HUN'
     },
-    { 
-      id: 'posiciones', 
-      label: t.navPositions, 
-      sublabel: language === 'es' ? 'Atlas anatómico, preparación y desinfección' : 'Atlas anatomikoa, prestaketa eta desinfekzioa',
-      icon: Layers 
+    {
+      id: 'buscador',
+      label: t.navSearch,
+      icon: Search
     },
-    { 
-      id: 'bloque', 
-      label: t.navMap, 
-      sublabel: language === 'es' ? 'Distribución arquitectónica de los 8 quirófanos' : '8 ebakigelen banaketa arkitektonikoa',
-      icon: Building2 
+    {
+      id: 'urologia_doc',
+      label: t.navUrologyDoc,
+      icon: FileText
     },
-    { 
-      id: 'protocolos', 
-      label: t.navProtocols, 
-      sublabel: language === 'es' ? 'Funciones celador/a de dentro y de fuera' : 'Barruko eta kanpoko zeladoreen eginkizunak',
-      icon: ShieldCheck 
+    {
+      id: 'turnos',
+      label: language === 'es' ? 'Rueda Turnos' : 'Txandak',
+      icon: Layers
     },
-    { 
-      id: 'portafolio', 
-      label: t.navPortfolio, 
-      sublabel: language === 'es' ? 'Registro personal de actividad y enfermería' : 'Jarduera eta erizaintzaren erregistro pertsonala',
-      icon: Briefcase 
+    {
+      id: 'portafolio',
+      label: t.navPortfolio,
+      icon: Briefcase
     }
   ];
 
@@ -140,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Zone 1: Official HUN Logo */}
           <div className="flex items-center gap-3 shrink-0">
             <button 
-              onClick={() => handleSelectTab('preparacion_mesa')}
+              onClick={() => handleSelectTab('inicio')}
               className="text-left group flex items-center gap-2.5 py-1 transition-opacity hover:opacity-90"
               title="Hospital Universitario de Navarra - Quirófano Central II & Quirófano de Urgencias II"
             >
@@ -345,6 +366,34 @@ export const Header: React.FC<HeaderProps> = ({
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Utility Tools Strip in Mobile Menu */}
+              <div className="pt-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2 px-1">
+                  {language === 'es' ? 'Herramientas Complementarias' : 'Tresna Osagarriak'}
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  {utilityItems.map((u) => {
+                    const UIcon = u.icon;
+                    return (
+                      <button
+                        key={u.id}
+                        onClick={() => handleSelectTab(u.id)}
+                        className={`p-2.5 rounded-xl border text-left text-xs font-bold transition-all flex items-center gap-2 ${
+                          activeTab === u.id
+                            ? 'bg-blue-600 text-white border-blue-600'
+                            : nightMode
+                              ? 'bg-slate-950 border-slate-800 text-slate-300 hover:bg-slate-800'
+                              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        }`}
+                      >
+                        <UIcon className="w-4 h-4 shrink-0 text-blue-500" />
+                        <span className="truncate">{u.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Quick Actions & Official Protocol CTA inside Dropdown */}
