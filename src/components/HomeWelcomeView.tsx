@@ -13,7 +13,8 @@ import {
   Activity,
   Layers,
   Search,
-  CheckCircle2
+  CheckCircle2,
+  ArrowRightLeft
 } from 'lucide-react';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
@@ -45,6 +46,18 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
       cta: language === 'es' ? 'Ver funciones oficiales' : 'Ikusi funtzio ofizialak'
     },
     {
+      id: 'transfer',
+      title: language === 'es' ? 'Transfer · Preparación de Mesa' : 'Transferra · Mahaiaren Prestaketa',
+      badge: language === 'es' ? 'Pre-Entrada' : 'Aurre-Sarrera',
+      badgeColor: 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+      description: language === 'es'
+        ? 'Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente: tramos, cabeceros, reglas de oro y fichas por especialidad.'
+        : 'Mahai Kirurgikoaren Prestaketa Pazientea Pasa Aurretik: zatiak, burukoak, urrezko arauak eta espezialitateen fitxak.',
+      icon: ArrowRightLeft,
+      color: 'from-amber-500 to-orange-600',
+      cta: language === 'es' ? 'Consultar transfer' : 'Ikusi transferra'
+    },
+    {
       id: 'quirofanos',
       title: language === 'es' ? 'Quirófanos y Especialidades' : 'Ebakigela eta Espezialitateak',
       badge: 'Q1 a Q8',
@@ -67,18 +80,6 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
       icon: Video,
       color: 'from-red-500 to-rose-600',
       cta: language === 'es' ? 'Abrir videoteca' : 'Ireki bideoteka'
-    },
-    {
-      id: 'preparacion_mesa',
-      title: language === 'es' ? 'Preparación Mesa Pre-Entrada' : 'Aurre-Sarrerako Mahaia',
-      badge: language === 'es' ? 'Normativa HUN' : 'NUO Araudia',
-      badgeColor: 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border-amber-200 dark:border-amber-800',
-      description: language === 'es'
-        ? 'Fichas paso a paso para colocar la mesa quirúrgica ANTES de meter al paciente: tramos, cabeceros y reglas de oro.'
-        : 'Pausoz pausoko fitxak pazientea sartu AURRETIK mahaia prestatzeko: zatiak, burukoak eta urrezko arauak.',
-      icon: Sliders,
-      color: 'from-amber-500 to-orange-600',
-      cta: language === 'es' ? 'Consultar protocolo' : 'Ikusi protokoloa'
     },
     {
       id: 'contacto',
@@ -159,6 +160,14 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
                 <ShieldCheck className="w-4 h-4" />
                 <span>{language === 'es' ? 'Funciones del Celador' : 'Zeladoreen Funtzioak'}</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
+              </button>
+
+              <button
+                onClick={() => onNavigate('transfer')}
+                className="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-amber-900 dark:text-amber-200 bg-amber-100/90 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-all flex items-center gap-2 shadow-2xs"
+              >
+                <ArrowRightLeft className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+                <span>{language === 'es' ? 'Transfer' : 'Transferra'}</span>
               </button>
 
               <button

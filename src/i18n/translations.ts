@@ -6,6 +6,7 @@ export interface Translations {
   pavilionName: string;
   navInicio: string;
   navFunciones: string;
+  navTransfer: string;
   navQuirofanos: string;
   navVideoteca: string;
   navContacto: string;
@@ -88,6 +89,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     pavilionName: "Área General V · Quirófano Central II & Urgencias II",
     navInicio: "Inicio",
     navFunciones: "Funciones del Celador",
+    navTransfer: "Transfer",
     navQuirofanos: "Quirófanos y Especialidades",
     navVideoteca: "Videoteca",
     navContacto: "Contacto",
@@ -168,6 +170,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     pavilionName: "V. Eremu Orokorra · Erdiko II Ebakigela & Larrialdiak II",
     navInicio: "Hasiera",
     navFunciones: "Zeladoreen Funtzioak",
+    navTransfer: "Transferra",
     navQuirofanos: "Ebakigela eta Espezialitateak",
     navVideoteca: "Bideoteka",
     navContacto: "Kontaktua",

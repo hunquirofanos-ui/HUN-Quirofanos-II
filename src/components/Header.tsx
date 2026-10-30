@@ -18,7 +18,8 @@ import {
   Smartphone,
   Home,
   Mail,
-  Award
+  Award,
+  ArrowRightLeft
 } from 'lucide-react';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
@@ -80,7 +81,14 @@ export const Header: React.FC<HeaderProps> = ({
       label: t.navFunciones, 
       sublabel: language === 'es' ? 'Celador de Dentro (13) y de Fuera (14)' : 'Barruko (13) eta Kanpoko (14) Zeladoreak',
       icon: ShieldCheck,
-      badge: language === 'es' ? 'Dentro & Fuera' : 'Barruan & Kanpoan',
+      badge: language === 'es' ? 'Dentro & Fuera' : 'Barruan & Kanpoan'
+    },
+    { 
+      id: 'transfer', 
+      label: t.navTransfer, 
+      sublabel: language === 'es' ? 'Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente' : 'Mahai Kirurgikoaren Prestaketa Pazientea Pasa Aurretik',
+      icon: ArrowRightLeft,
+      badge: language === 'es' ? 'Pre-Entrada' : 'Aurre-Sarrera',
       highlight: true
     },
     { 

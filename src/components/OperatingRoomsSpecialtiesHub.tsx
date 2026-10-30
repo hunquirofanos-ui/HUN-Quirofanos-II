@@ -222,7 +222,7 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
                   className="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white transition-colors flex items-center gap-1.5 shadow-2xs"
                 >
                   <Sliders className="w-3.5 h-3.5" />
-                  <span>{language === 'es' ? 'Fichas Pre-Entrada' : 'Aurre-Sarrera'}</span>
+                  <span>{language === 'es' ? 'Transfer · Mesas' : 'Transferra'}</span>
                 </button>
               </div>
             </div>

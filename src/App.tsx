@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { HomeWelcomeView } from './components/HomeWelcomeView';
 import { CeladorFunctionsSection } from './components/CeladorFunctionsSection';
+import { TransferSection } from './components/TransferSection';
 import { OperatingRoomsSpecialtiesHub } from './components/OperatingRoomsSpecialtiesHub';
 import { VideoTutorialsViewer } from './components/VideoTutorialsViewer';
 import { ContactSection } from './components/ContactSection';
@@ -198,13 +199,29 @@ export default function App() {
             <CeladorFunctionsSection
               nightMode={nightMode}
               language={language}
-              onNavigateToPreEntry={() => handleNavigateFromHome('preparacion_mesa')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
               onNavigateToQuirofanos={() => handleNavigateFromHome('quirofanos')}
             />
           )}
 
           {/* =================================================================== */}
-          {/* 3. QUIRÓFANOS Y ESPECIALIDADES QUIRÚRGICAS (Q1 a Q8 UNIFICADO) */}
+          {/* 3. TRANSFER (PREPARACIÓN DE LA MESA ANTES DE ENTRAR Y PASAR AL PACIENTE) */}
+          {/* =================================================================== */}
+          {(activeTab === 'transfer' || activeTab === 'preparacion_mesa') && (
+            <TransferSection
+              nightMode={nightMode}
+              language={language}
+              onNavigateToSurgerySearch={(query) => {
+                handleNavigateFromHome('buscador');
+              }}
+              onNavigateToVideos={(videoId) => {
+                handleNavigateFromHome('videoteca');
+              }}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 4. QUIRÓFANOS Y ESPECIALIDADES QUIRÚRGICAS (Q1 a Q8 UNIFICADO) */}
           {/* =================================================================== */}
           {activeTab === 'quirofanos' && (
             <OperatingRoomsSpecialtiesHub
@@ -212,7 +229,7 @@ export default function App() {
               language={language}
               initialRoomId={selectedRoomParam}
               onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
-              onNavigateToPreEntry={() => handleNavigateFromHome('preparacion_mesa')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
               onNavigateToVideo={(vId) => handleNavigateFromHome('videoteca')}
               onAddToPortfolio={handleAddFromSurgery}
             />
@@ -254,18 +271,6 @@ export default function App() {
           {/* =================================================================== */}
           {/* HERRAMIENTAS COMPLEMENTARIAS CONSERVADAS ÍNTEGRAMENTE */}
           {/* =================================================================== */}
-          {activeTab === 'preparacion_mesa' && (
-            <TablePreEntryPreparation
-              nightMode={nightMode}
-              language={language}
-              onNavigateToSurgerySearch={(query) => {
-                setActiveTab('buscador');
-              }}
-              onNavigateToVideos={(videoId) => {
-                setActiveTab('videoteca');
-              }}
-            />
-          )}
 
           {activeTab === 'buscador' && (
             <SurgerySearch
