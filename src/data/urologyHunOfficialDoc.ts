@@ -44,7 +44,7 @@ export interface UrologyProtocolSection {
 const ASSETS_BASE = `${import.meta.env.BASE_URL}assets/aistudio/`;
 
 export const UROLOGY_PDF_URL = `${ASSETS_BASE}POSICIONES_QUIR_GICAS_QUIR_FANO_CENTRAL_HUN_B_UROLOG_A_4d3f2210.pdf`;
-export const UROLOGY_PILE_VIDEO_URL = "/assets/aistudio/Pil__d683c7fe.mp4";
+export const UROLOGY_PILE_VIDEO_URL = `${ASSETS_BASE}Pil__d683c7fe.mp4`;
 
 export interface VideoTutorialInfo {
   title: string;
