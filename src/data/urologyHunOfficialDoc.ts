@@ -41,7 +41,9 @@ export interface UrologyProtocolSection {
   safetyChecksEu: string[];
 }
 
-export const UROLOGY_PDF_URL = "/assets/aistudio/POSICIONES_QUIR_GICAS_QUIR_FANO_CENTRAL_HUN_B_UROLOG_A_4d3f2210.pdf";
+const ASSETS_BASE = `${import.meta.env.BASE_URL}assets/aistudio/`;
+
+export const UROLOGY_PDF_URL = `${ASSETS_BASE}POSICIONES_QUIR_GICAS_QUIR_FANO_CENTRAL_HUN_B_UROLOG_A_4d3f2210.pdf`;
 export const UROLOGY_PILE_VIDEO_URL = "/assets/aistudio/Pil__d683c7fe.mp4";
 
 export interface VideoTutorialInfo {
@@ -101,7 +103,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Tope articulado metálico desmontable con vástagos ajustables para soporte dorsal y lumbar.",
     descriptionEu: "Metalezko tope artikulatu desmuntagarria, bizkar eta gerriaren euskarrirako haga erregulagarriekin.",
     category: "topes",
-    imageSrc: "/assets/aistudio/fig1_cc169bba.jpg"
+    imageSrc: `${ASSETS_BASE}fig1_cc169bba.jpg`
   },
   {
     id: "FIG. 2",
@@ -111,7 +113,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Círculo / marca de referencia en la colchoneta de la mesa quirúrgica Trumpf.",
     descriptionEu: "Trumpf mahai kirurgikoko koltxonetako erreferentziazko biribila / marka.",
     category: "mesa",
-    imageSrc: "/assets/aistudio/fig2_4cdcd28b.png"
+    imageSrc: `${ASSETS_BASE}fig2_4cdcd28b.png`
   },
   {
     id: "FIG. 3",
@@ -121,7 +123,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Comprobación visual de que el ombligo coincide con el quiebro de la camilla antes de lateralizar.",
     descriptionEu: "Zilborra ohearen tolesturarekin bat datorrela egiaztatzea alboratu aurretik.",
     category: "mesa",
-    imageSrc: "/assets/aistudio/fig2_4cdcd28b.png"
+    imageSrc: `${ASSETS_BASE}fig2_4cdcd28b.png`
   },
   {
     id: "FIG. 4",
@@ -131,7 +133,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Volteo del paciente asistido por celadores y enfermería manteniendo eje cervical y vías seguras.",
     descriptionEu: "Pazientearen biraketa zeladore eta erizainek lagunduta, lepo-ardatza eta bideak ziur mantenduz.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig4_a948405c.jpg"
+    imageSrc: `${ASSETS_BASE}fig4_a948405c.jpg`
   },
   {
     id: "FIG. 5",
@@ -141,7 +143,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Almohadilla de gel cuadriculada para evitar roces, fricción o úlceras por presión entre rodillas y maléolos.",
     descriptionEu: "Koadrikulatutako gel-kuxina belaun eta orkatilen arteko marruskadura edo ultzerak saihesteko.",
     category: "proteccion",
-    imageSrc: "/assets/aistudio/fig5_2f745ccf.png"
+    imageSrc: `${ASSETS_BASE}fig5_2f745ccf.png`
   },
   {
     id: "FIG. 6",
@@ -151,7 +153,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Espuma alveolada que recubre los topes articulados para prevenir rojeces, cizallamiento y lesiones en piel.",
     descriptionEu: "Tope artikulatuak estaltzen dituen apar zulatua, gorritasunak eta azaleko lesioak eragozteko.",
     category: "proteccion",
-    imageSrc: "/assets/aistudio/fig5_2f745ccf.png"
+    imageSrc: `${ASSETS_BASE}fig5_2f745ccf.png`
   },
   {
     id: "FIG. 7",
@@ -161,7 +163,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Puesta de la mesa en posición pilé / partición abdominal pulsando el botón 'Flex' en pantalla.",
     descriptionEu: "Mahaia pilé / sabel-banaketa posizioan jartzea pantailako 'Flex' botoia sakatuta.",
     category: "mesa",
-    imageSrc: "/assets/aistudio/fig6_2a7075e5.png"
+    imageSrc: `${ASSETS_BASE}fig6_2a7075e5.png`
   },
   {
     id: "FIG. 7 BIS",
@@ -171,7 +173,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Confirmación del desplazamiento motorizado del pilé con el mando de la mesa.",
     descriptionEu: "Pilé-aren desplazamendu motorduna baieztatzea mahaiko kontrol-agintean.",
     category: "mesa",
-    imageSrc: "/assets/aistudio/fig6_2a7075e5.png"
+    imageSrc: `${ASSETS_BASE}fig6_2a7075e5.png`
   },
   {
     id: "FIG. 8",
@@ -181,7 +183,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Fijación rígida en la espalda con protectores tipo huevera; no molestan ni a cirujano ni a instrumentista.",
     descriptionEu: "Bizkarreko finkapen zurruna arrautzontzi babesleekin; ez diete eragozpenik sortzen zirujauari ez instrumentistari.",
     category: "topes",
-    imageSrc: "/assets/aistudio/fig7_b5a23c6a.jpg"
+    imageSrc: `${ASSETS_BASE}fig7_b5a23c6a.jpg`
   },
   {
     id: "FIG. 9",
@@ -191,7 +193,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Visión panorámica de los soportes metálicos y vástagos de fijación a lo largo del riel lateral.",
     descriptionEu: "Alboko errailean zeharreko metalezko euskarrien eta finkapen-hagentzako ikuspegi orokorra.",
     category: "topes",
-    imageSrc: "/assets/aistudio/fig8_a4c06b96.jpg"
+    imageSrc: `${ASSETS_BASE}fig8_a4c06b96.jpg`
   },
   {
     id: "FIG. 10",
@@ -201,7 +203,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Banda acolchada que rodea la mesa y fija la pelvis/trocánter una vez colocados los topes.",
     descriptionEu: "Mahaia inguratzen duen banda kuxindua, topeen ondoren pelbisa/trokanterra finkatzeko.",
     category: "proteccion",
-    imageSrc: "/assets/aistudio/fig9_3ddfbcfa.jpg"
+    imageSrc: `${ASSETS_BASE}fig9_3ddfbcfa.jpg`
   },
   {
     id: "FIG. 11",
@@ -211,7 +213,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Brazo superior en teja con protector de huevera (hombro a la misma altura que antebrazo, muñeca bien alineada). Brazo inferior en bracero normal con velcro. Vía aérea y venosas accesibles.",
     descriptionEu: "Goiko besoa teilan arrautzontzi babeslearekin (sorbalda eta besaurrea altuera berean, eskumuturra ondo lerrokatuta). Beheko besoa ohiko besokoan belkroarekin. Aire-bidea eta bide benosoak eskuragarri.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig10_93cadf43.jpg"
+    imageSrc: `${ASSETS_BASE}fig10_93cadf43.jpg`
   },
   {
     id: "FIG. 12",
@@ -221,7 +223,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Pieza negra con mordaza que abraza el riel de la mesa quirúrgica para insertar la pernera.",
     descriptionEu: "Mahai kirurgikoko erraila besarkatzen duen pintza itxurako pieza beltza, hanka-euskarria sartzeko.",
     category: "perneras",
-    imageSrc: "/assets/aistudio/fig13_c6703177.jpg"
+    imageSrc: `${ASSETS_BASE}fig13_c6703177.jpg`
   },
   {
     id: "FIG. 13",
@@ -231,7 +233,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Ubicación en mesas sin prolongador pélvico para inserción de la mordaza de la pernera.",
     descriptionEu: "Luzagailu pelbikorik gabeko mahaietako kokapena hanka-euskarriaren matxarda sartzeko.",
     category: "mesa",
-    imageSrc: "/assets/aistudio/fig14_758a5004.png"
+    imageSrc: `${ASSETS_BASE}fig14_758a5004.png`
   },
   {
     id: "FIG. 14",
@@ -241,7 +243,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Detalle del ensamble de la mordaza en el riel quirúrgico lateral.",
     descriptionEu: "Alboko errail kirurgikoan matxarda ahokatzeko xehetasuna.",
     category: "perneras",
-    imageSrc: "/assets/aistudio/fig14_758a5004.png"
+    imageSrc: `${ASSETS_BASE}fig14_758a5004.png`
   },
   {
     id: "FIG. 15",
@@ -251,7 +253,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Ajuste firme de la rosca negra manual. Atención a la orientación con el prolongador para que los gatillos no choquen.",
     descriptionEu: "Eskuzko torloju beltzaren estutze sendoa. Kontuz luzagailuarekin krisketek talka egin ez dezaten.",
     category: "perneras",
-    imageSrc: "/assets/aistudio/fig15_04bdb993.jpg"
+    imageSrc: `${ASSETS_BASE}fig15_04bdb993.jpg`
   },
   {
     id: "FIG. 16",
@@ -261,7 +263,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Ambas piernas elevadas con botas acolchadas amarillas, nalgas al borde y campo perineal despejado.",
     descriptionEu: "Bi hankak goratuta bota kuxindu horiekin, ipurmasailak ertzean eta perineoko eremua libre.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig16_c63d8a43.png"
+    imageSrc: `${ASSETS_BASE}fig16_c63d8a43.png`
   },
   {
     id: "FIG. 17",
@@ -271,7 +273,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Comprobación de que la cara interna del muslo no sufre hiperabducción ni tensión en nervio ciático poplíteo externo.",
     descriptionEu: "Izterraren barruko aldeak gehiegizko abdukziorik edo tentsiorik jasaten ez duela egiaztatzea.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig16_c63d8a43.png"
+    imageSrc: `${ASSETS_BASE}fig16_c63d8a43.png`
   },
   {
     id: "FIG. 18",
@@ -281,7 +283,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "La pierna no intervenida permanece elevada en pernera mientras la pierna afectada desciende para paso del ureteroscopio y arco de RX.",
     descriptionEu: "Ebakuntza jasaten ez duen hanka goratuta geratzen da eta afektatutako hanka jaisten da ureteroskopioa eta RX arkua sartzeko.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig17_ae2c1e5a.jpg"
+    imageSrc: `${ASSETS_BASE}fig17_ae2c1e5a.jpg`
   },
   {
     id: "FIG. 19",
@@ -291,7 +293,7 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Configuración similar a URS con elevación/rodillo bajo el flanco renal afectado para punción percutánea radioscópica.",
     descriptionEu: "URS-ren antzeko konfigurazioa, afektatutako giltzurrun-alboaren azpian arrabola jarriz ziztada perkutaneorako.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig18_ef1ccf1c.jpg"
+    imageSrc: `${ASSETS_BASE}fig18_ef1ccf1c.jpg`
   },
   {
     id: "FIG. 20",
@@ -301,32 +303,32 @@ export const UROLOGY_FIGURES: UrologyFigure[] = [
     description: "Topes articulados en hombros/cuello con almohadillas protectoras (hueveras), brazos metidos dentro con entremetida, vía aérea y vías centrales libres.",
     descriptionEu: "Tope artikulatuak sorbaldetan/lepoan kuxin babesleekin (arrautzontziak), besoak barrutik maindirearekin sartuta, aire-bidea eta bide zentralak libre.",
     category: "posicion",
-    imageSrc: "/assets/aistudio/fig19_895287fc.jpg"
+    imageSrc: `${ASSETS_BASE}fig19_895287fc.jpg`
   }
 ];
 
 export const UROLOGY_FIGURES_IMAGE_MAP: Record<string, { imageSrc: string; title: string; titleEu: string }> = {
-  "FIG. 1": { imageSrc: "/assets/aistudio/fig1_cc169bba.jpg", title: "Topes articulados con mordaza", titleEu: "Bizkarreko tope artikulatuak" },
-  "FIG. 2": { imageSrc: "/assets/aistudio/fig2_4cdcd28b.png", title: "Zona del ombligo en la mesa", titleEu: "Zilborraren kokapena mahaian" },
-  "FIG. 3": { imageSrc: "/assets/aistudio/fig2_4cdcd28b.png", title: "Alineación ombligo con partición de mesa", titleEu: "Zilborraren lerrokatzea" },
-  "FIG. 4": { imageSrc: "/assets/aistudio/fig4_a948405c.jpg", title: "Volteo coordinado a decúbito lateral", titleEu: "Albo-etzanerako urrats koordinatua" },
-  "FIG. 5": { imageSrc: "/assets/aistudio/fig5_2f745ccf.png", title: "Protector de gel ('chocolatina')", titleEu: "Gel babeslea ('txokolatina')" },
-  "FIG. 6": { imageSrc: "/assets/aistudio/fig5_2f745ccf.png", title: "Protector de huevera para topes", titleEu: "Arrautzontzi babeslea" },
-  "FIG. 7": { imageSrc: "/assets/aistudio/fig6_2a7075e5.png", title: "Mando Trumpf: Botón Flex (Pilé)", titleEu: "Trumpf agintea: Flex botoia" },
-  "FIG. 7 BIS": { imageSrc: "/assets/aistudio/fig6_2a7075e5.png", title: "Confirmación 'Posición Flex'", titleEu: "Flex posizioaren baieztapena" },
-  "FIG. 8": { imageSrc: "/assets/aistudio/fig7_b5a23c6a.jpg", title: "Topes en escápulas y lumbares con hueveras", titleEu: "Topak eskapuletan eta gerrialdean" },
-  "FIG. 9": { imageSrc: "/assets/aistudio/fig8_a4c06b96.jpg", title: "Zona donde se colocan los topes", titleEu: "Topak jartzen diren errailen gunea" },
-  "FIG. 10": { imageSrc: "/assets/aistudio/fig9_3ddfbcfa.jpg", title: "Cincha de seguridad ancha", titleEu: "Segurtasun-uhal zabala" },
-  "FIG. 11": { imageSrc: "/assets/aistudio/fig10_93cadf43.jpg", title: "Brazo en teja y cincha de seguridad fijada", titleEu: "Besoa teilan eta uhala finkatuta" },
-  "FIG. 12": { imageSrc: "/assets/aistudio/fig13_c6703177.jpg", title: "Pieza negra de enganche para perneras Allen", titleEu: "Hanka-euskarrientzako pieza beltza" },
-  "FIG. 13": { imageSrc: "/assets/aistudio/fig14_758a5004.png", title: "Zona de la mesa donde colocar pernera (2 círculos)", titleEu: "Hanka-euskarria jartzeko gunea" },
-  "FIG. 14": { imageSrc: "/assets/aistudio/fig14_758a5004.png", title: "Encaje de pieza en riel para pernera", titleEu: "Piezaren ahokatzea errailean" },
-  "FIG. 15": { imageSrc: "/assets/aistudio/fig15_04bdb993.jpg", title: "Rosca y gatillos para perneras", titleEu: "Torlojua eta gatilloak" },
-  "FIG. 16": { imageSrc: "/assets/aistudio/fig16_c63d8a43.png", title: "Litotomía completa (visión frontal)", titleEu: "Litotomia osoa (aurreko ikuspegia)" },
-  "FIG. 17": { imageSrc: "/assets/aistudio/fig16_c63d8a43.png", title: "Litotomía (visión lateral con muslo relajado)", titleEu: "Litotomia (alboko ikuspegia)" },
-  "FIG. 18": { imageSrc: "/assets/aistudio/fig17_ae2c1e5a.jpg", title: "Posición URS (pierna intervenida bajada)", titleEu: "URS posizioa (hanka beheratua)" },
-  "FIG. 19": { imageSrc: "/assets/aistudio/fig18_ef1ccf1c.jpg", title: "Posición NLP (URS lateralizada con rodillo)", titleEu: "NLP posizioa (arraboladuna)" },
-  "FIG. 20": { imageSrc: "/assets/aistudio/fig19_895287fc.jpg", title: "Trendelenburg con topes en hombros y cuello", titleEu: "Trendelenburg topak sorbaldetan" }
+  "FIG. 1": { imageSrc: `${ASSETS_BASE}fig1_cc169bba.jpg`, title: "Topes articulados con mordaza", titleEu: "Bizkarreko tope artikulatuak" },
+  "FIG. 2": { imageSrc: `${ASSETS_BASE}fig2_4cdcd28b.png`, title: "Zona del ombligo en la mesa", titleEu: "Zilborraren kokapena mahaian" },
+  "FIG. 3": { imageSrc: `${ASSETS_BASE}fig2_4cdcd28b.png`, title: "Alineación ombligo con partición de mesa", titleEu: "Zilborraren lerrokatzea" },
+  "FIG. 4": { imageSrc: `${ASSETS_BASE}fig4_a948405c.jpg`, title: "Volteo coordinado a decúbito lateral", titleEu: "Albo-etzanerako urrats koordinatua" },
+  "FIG. 5": { imageSrc: `${ASSETS_BASE}fig5_2f745ccf.png`, title: "Protector de gel ('chocolatina')", titleEu: "Gel babeslea ('txokolatina')" },
+  "FIG. 6": { imageSrc: `${ASSETS_BASE}fig5_2f745ccf.png`, title: "Protector de huevera para topes", titleEu: "Arrautzontzi babeslea" },
+  "FIG. 7": { imageSrc: `${ASSETS_BASE}fig6_2a7075e5.png`, title: "Mando Trumpf: Botón Flex (Pilé)", titleEu: "Trumpf agintea: Flex botoia" },
+  "FIG. 7 BIS": { imageSrc: `${ASSETS_BASE}fig6_2a7075e5.png`, title: "Confirmación 'Posición Flex'", titleEu: "Flex posizioaren baieztapena" },
+  "FIG. 8": { imageSrc: `${ASSETS_BASE}fig7_b5a23c6a.jpg`, title: "Topes en escápulas y lumbares con hueveras", titleEu: "Topak eskapuletan eta gerrialdean" },
+  "FIG. 9": { imageSrc: `${ASSETS_BASE}fig8_a4c06b96.jpg`, title: "Zona donde se colocan los topes", titleEu: "Topak jartzen diren errailen gunea" },
+  "FIG. 10": { imageSrc: `${ASSETS_BASE}fig9_3ddfbcfa.jpg`, title: "Cincha de seguridad ancha", titleEu: "Segurtasun-uhal zabala" },
+  "FIG. 11": { imageSrc: `${ASSETS_BASE}fig10_93cadf43.jpg`, title: "Brazo en teja y cincha de seguridad fijada", titleEu: "Besoa teilan eta uhala finkatuta" },
+  "FIG. 12": { imageSrc: `${ASSETS_BASE}fig13_c6703177.jpg`, title: "Pieza negra de enganche para perneras Allen", titleEu: "Hanka-euskarrientzako pieza beltza" },
+  "FIG. 13": { imageSrc: `${ASSETS_BASE}fig14_758a5004.png`, title: "Zona de la mesa donde colocar pernera (2 círculos)", titleEu: "Hanka-euskarria jartzeko gunea" },
+  "FIG. 14": { imageSrc: `${ASSETS_BASE}fig14_758a5004.png`, title: "Encaje de pieza en riel para pernera", titleEu: "Piezaren ahokatzea errailean" },
+  "FIG. 15": { imageSrc: `${ASSETS_BASE}fig15_04bdb993.jpg`, title: "Rosca y gatillos para perneras", titleEu: "Torlojua eta gatilloak" },
+  "FIG. 16": { imageSrc: `${ASSETS_BASE}fig16_c63d8a43.png`, title: "Litotomía completa (visión frontal)", titleEu: "Litotomia osoa (aurreko ikuspegia)" },
+  "FIG. 17": { imageSrc: `${ASSETS_BASE}fig16_c63d8a43.png`, title: "Litotomía (visión lateral con muslo relajado)", titleEu: "Litotomia (alboko ikuspegia)" },
+  "FIG. 18": { imageSrc: `${ASSETS_BASE}fig17_ae2c1e5a.jpg`, title: "Posición URS (pierna intervenida bajada)", titleEu: "URS posizioa (hanka beheratua)" },
+  "FIG. 19": { imageSrc: `${ASSETS_BASE}fig18_ef1ccf1c.jpg`, title: "Posición NLP (URS lateralizada con rodillo)", titleEu: "NLP posizioa (arraboladuna)" },
+  "FIG. 20": { imageSrc: `${ASSETS_BASE}fig19_895287fc.jpg`, title: "Trendelenburg con topes en hombros y cuello", titleEu: "Trendelenburg topak sorbaldetan" }
 };
 
 export const UROLOGY_SECTIONS: UrologyProtocolSection[] = [

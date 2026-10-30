@@ -110,7 +110,7 @@ export const InstallAppModal: React.FC<InstallAppModalProps> = ({
           {/* Logo badge and intro */}
           <div className="flex items-center gap-3 p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900">
             <img 
-              src="/assets/aistudio/Logotipo_hospitalario_con_quir_fanos_II_413ef642.png" 
+              src={`${import.meta.env.BASE_URL}assets/aistudio/Logotipo_hospitalario_con_quir_fanos_II_413ef642.png`} 
               alt="HUN Logo" 
               className="h-10 w-auto object-contain bg-white rounded p-0.5 shadow-2xs"
             />

@@ -519,10 +519,10 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
                 {[
-                  { id: 'FIG. 13-14', title: 'Prolongador y Pieza', sub: 'Zona 2 Círculos', src: '/assets/aistudio/fig14_758a5004.png' },
-                  { id: 'FIG. 15', title: 'Rosca y Gatillos', sub: 'Sujeción pernera', src: '/assets/aistudio/fig15_04bdb993.jpg' },
-                  { id: 'FIG. 16-17', title: 'Litotomía Allen', sub: 'Frontal y lateral', src: '/assets/aistudio/fig16_c63d8a43.png' },
-                  { id: 'FIG. 18', title: 'Posición URS', sub: 'Pierna bajada', src: '/assets/aistudio/fig17_ae2c1e5a.jpg' }
+                  { id: 'FIG. 13-14', title: 'Prolongador y Pieza', sub: 'Zona 2 Círculos', src: `${import.meta.env.BASE_URL}assets/aistudio/fig14_758a5004.png` },
+                  { id: 'FIG. 15', title: 'Rosca y Gatillos', sub: 'Sujeción pernera', src: `${import.meta.env.BASE_URL}assets/aistudio/fig15_04bdb993.jpg` },
+                  { id: 'FIG. 16-17', title: 'Litotomía Allen', sub: 'Frontal y lateral', src: `${import.meta.env.BASE_URL}assets/aistudio/fig16_c63d8a43.png` },
+                  { id: 'FIG. 18', title: 'Posición URS', sub: 'Pierna bajada', src: `${import.meta.env.BASE_URL}assets/aistudio/fig17_ae2c1e5a.jpg` }
                 ].map((item, i) => (
                   <div
                     key={i}

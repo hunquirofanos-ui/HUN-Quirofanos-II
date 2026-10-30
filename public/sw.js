@@ -1,8 +1,8 @@
-const CACHE_NAME = 'hun-quirofano-cache-v1';
+const CACHE_NAME = 'hun-quirofano-cache-v2';
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest'
+  './',
+  './index.html',
+  './manifest.webmanifest'
 ];
 
 self.addEventListener('install', (event) => {

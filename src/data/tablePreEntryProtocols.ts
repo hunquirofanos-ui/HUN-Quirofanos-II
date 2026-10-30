@@ -33,10 +33,12 @@ export interface GoldenRuleItem {
   severity: 'critical' | 'important';
 }
 
-export const PRE_ENTRY_TRAUMA_SHEET_IMG = "/assets/aistudio/IMG20251125101016_75cc8f18.jpg";
-export const PRE_ENTRY_URO_SHEET_IMG = "/assets/aistudio/IMG20251125101013_425cd304.jpg";
-export const PRE_ENTRY_RULES_SHEET_IMG = "/assets/aistudio/IMG20251125101020_a6f418c0.jpg";
-export const OFFICIAL_HUN_LOGO_IMG = "/assets/aistudio/Logotipo_hospitalario_con_quir_fanos_II_413ef642.png";
+const ASSETS_BASE = `${import.meta.env.BASE_URL}assets/aistudio/`;
+
+export const PRE_ENTRY_TRAUMA_SHEET_IMG = `${ASSETS_BASE}IMG20251125101016_75cc8f18.jpg`;
+export const PRE_ENTRY_URO_SHEET_IMG = `${ASSETS_BASE}IMG20251125101013_425cd304.jpg`;
+export const PRE_ENTRY_RULES_SHEET_IMG = `${ASSETS_BASE}IMG20251125101020_a6f418c0.jpg`;
+export const OFFICIAL_HUN_LOGO_IMG = `${ASSETS_BASE}Logotipo_hospitalario_con_quir_fanos_II_413ef642.png`;
 
 /**
  * REGLAS DE ORO PRE-PASO DEL PACIENTE (Ficha 2)
