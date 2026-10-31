@@ -8,6 +8,14 @@ export interface Translations {
   navFunciones: string;
   navTransfer: string;
   navQuirofanos: string;
+  navQ1: string;
+  navQ2: string;
+  navQ3Q4: string;
+  navQ5Q6: string;
+  navQ7Q8: string;
+  navVideos: string;
+  navContactoCreditos: string;
+  navOrlAparataje: string;
   navVideoteca: string;
   navContacto: string;
   navCreditos: string;
@@ -84,14 +92,22 @@ export interface Translations {
 
 export const TRANSLATIONS: Record<Language, Translations> = {
   es: {
-    appTitle: "HUN Quirófano Central II & Urgencias II",
+    appTitle: "CELADORES HUN – QUIRÓFANO CENTRAL II & QUIRÓFANO DE URGENCIAS II",
     hospitalName: "Hospital Universitario de Navarra (HUN)",
     pavilionName: "Área General V · Quirófano Central II & Urgencias II",
     navInicio: "Inicio",
-    navFunciones: "Funciones del Celador",
+    navFunciones: "Funciones de los Celadores",
     navTransfer: "Transfer",
     navQuirofanos: "Quirófanos y Especialidades",
-    navVideoteca: "Videoteca",
+    navQ1: "Q1 – Urgencias (24 h.)",
+    navQ2: "Q2 – Otorrinolaringología (ORL)",
+    navQ3Q4: "Q3 y Q4 – Oftalmología",
+    navQ5Q6: "Q5 y Q6 – Urología",
+    navQ7Q8: "Q7 y Q8 – Traumatología",
+    navVideos: "Vídeos",
+    navContactoCreditos: "Contacto y Créditos",
+    navOrlAparataje: "Aparataje Específico ORL",
+    navVideoteca: "Vídeos",
     navContacto: "Contacto",
     navCreditos: "Créditos",
     authorCredit: "Diseño y desarrollo de la web: David Tabernero Garin",
@@ -165,14 +181,22 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     footerRights: "Protocolo de Celadores y Colaboración con Enfermería · 8 Quirófanos Área General V"
   },
   eu: {
-    appTitle: "NUO Erdiko II Ebakigela & Larrialdiak II",
+    appTitle: "NUOko ZELADOREAK – ERDIKO II EBAKIGELA & LARRIALDIAK II",
     hospitalName: "Nafarroako Unibertsitate Ospitalea (NUO)",
     pavilionName: "V. Eremu Orokorra · Erdiko II Ebakigela & Larrialdiak II",
     navInicio: "Hasiera",
     navFunciones: "Zeladoreen Funtzioak",
     navTransfer: "Transferra",
     navQuirofanos: "Ebakigela eta Espezialitateak",
-    navVideoteca: "Bideoteka",
+    navQ1: "Q1 – Larrialdiak (24 o.)",
+    navQ2: "Q2 – Otorrinolaringologia (ORL)",
+    navQ3Q4: "Q3 eta Q4 – Oftalmologia",
+    navQ5Q6: "Q5 eta Q6 – Urologia",
+    navQ7Q8: "Q7 eta Q8 – Traumatologia",
+    navVideos: "Bideoak",
+    navContactoCreditos: "Kontaktua eta Kredituak",
+    navOrlAparataje: "ORLeko Tresneria Espezifikoa",
+    navVideoteca: "Bideoak",
     navContacto: "Kontaktua",
     navCreditos: "Kredituak",
     authorCredit: "Diseño y desarrollo de la web: David Tabernero Garin",

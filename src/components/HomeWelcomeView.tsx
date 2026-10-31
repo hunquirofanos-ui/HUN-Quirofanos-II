@@ -35,12 +35,12 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
   const quickSections = [
     {
       id: 'funciones',
-      title: language === 'es' ? 'Funciones del Celador' : 'Zeladoreen Funtzioak',
+      title: language === 'es' ? 'Funciones de los Celadores' : 'Zeladoreen Funtzioak',
       badge: language === 'es' ? 'Dentro & Fuera' : 'Barruan & Kanpoan',
       badgeColor: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
       description: language === 'es' 
-        ? 'Organización detallada: 13 funciones del Celador de Dentro y 14 del Celador de Fuera, con su metodología asistencial.' 
-        : 'Antolaketa zehatza: Barruko Zeladorearen 13 funtzio eta Kanpokoaren 14 funtzio, beren laguntza-metodologiarekin.',
+        ? 'Organización detallada: funciones del Celador de Dentro y del Celador de Fuera, circuitos y metodología asistencial.' 
+        : 'Antolaketa zehatza: Barruko Zeladorearen eta Kanpokoaren funtzioak, zirkuituak eta laguntza-metodologia.',
       icon: ShieldCheck,
       color: 'from-emerald-500 to-teal-600',
       cta: language === 'es' ? 'Ver funciones oficiales' : 'Ikusi funtzio ofizialak'
@@ -51,27 +51,39 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
       badge: language === 'es' ? 'Pre-Entrada' : 'Aurre-Sarrera',
       badgeColor: 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border-amber-200 dark:border-amber-800',
       description: language === 'es'
-        ? 'Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente: tramos, cabeceros, reglas de oro y fichas por especialidad.'
-        : 'Mahai Kirurgikoaren Prestaketa Pazientea Pasa Aurretik: zatiak, burukoak, urrezko arauak eta espezialitateen fitxak.',
+        ? 'Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente: tramos, cabeceros, reglas de oro y buscador interactivo.'
+        : 'Mahai Kirurgikoaren Prestaketa Pazientea Pasa Aurretik: zatiak, burukoak, urrezko arauak eta ebakuntzen bilatzailea.',
       icon: ArrowRightLeft,
       color: 'from-amber-500 to-orange-600',
       cta: language === 'es' ? 'Consultar transfer' : 'Ikusi transferra'
     },
     {
-      id: 'quirofanos',
-      title: language === 'es' ? 'Quirófanos y Especialidades' : 'Ebakigela eta Espezialitateak',
-      badge: 'Q1 a Q8',
-      badgeColor: 'bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border-blue-200 dark:border-blue-800',
+      id: 'q2',
+      title: language === 'es' ? 'Q2 ORL · Aparataje Específico' : 'Q2 ORL · Tresneria Espezifikoa',
+      badge: '8 Equipos HUN',
+      badgeColor: 'bg-sky-100 text-sky-800 dark:bg-sky-950/80 dark:text-sky-300 border-sky-200 dark:border-sky-800',
       description: language === 'es'
-        ? 'Acceso directo a Q1 Urgencias, Q2 ORL, Q3–Q4 Oftalmología, Q5–Q6 Urología y Q7–Q8 Traumatología con cirugías, mesas y accesorios.'
-        : 'Sarbide zuzena Q1 Larrialdiak, Q2 ORL, Q3-Q4 Oftalmologia, Q5-Q6 Urologia eta Q7-Q8 Traumatologiara.',
-      icon: Building2,
-      color: 'from-blue-600 to-indigo-700',
-      cta: language === 'es' ? 'Explorar quirófanos' : 'Arakatu ebakigelak'
+        ? 'Microscopio Zeiss, Torre Storz, Medtronic IPC, Sillón, Peso de bandeja, Neurosign V4, Silla motorizada y Láser DEKA.'
+        : 'Zeiss mikroskopioa, Storz dorrea, Medtronic IPC, Neurosign V4, aulkia eta DEKA laserra.',
+      icon: Stethoscope,
+      color: 'from-sky-600 to-cyan-700',
+      cta: language === 'es' ? 'Ver los 8 equipos' : 'Ikusi 8 ekipoak'
     },
     {
-      id: 'videoteca',
-      title: language === 'es' ? 'Videoteca Técnica' : 'Bideoteka Teknikoa',
+      id: 'q5_q6',
+      title: language === 'es' ? 'Q5–Q6 Urología · Guía HUN' : 'Q5-Q6 Urologia · NUO Gida',
+      badge: 'Figuras 1 a 20',
+      badgeColor: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950/80 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
+      description: language === 'es'
+        ? 'Protocolo completo de Urología HUN con 20 figuras fotográficas: nefrectomía con pilé, litotomía con perneras Allen y mueble interior.'
+        : 'Urologiako protokolo ofiziala 20 irudiekin: nefrektomia pilé-rekin, Allen hanka-euskarriak eta barruko altzaria.',
+      icon: Layers,
+      color: 'from-indigo-600 to-purple-700',
+      cta: language === 'es' ? 'Ver protocolo urología' : 'Ikusi urologia gida'
+    },
+    {
+      id: 'videos',
+      title: language === 'es' ? 'Videoteca Técnica Oficial' : 'Bideoteka Tekniko Ofiziala',
       badge: language === 'es' ? '11 Tutoriales' : '11 Tutoretza',
       badgeColor: 'bg-red-100 text-red-800 dark:bg-red-950/80 dark:text-red-300 border-red-200 dark:border-red-800',
       description: language === 'es'
@@ -82,37 +94,25 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
       cta: language === 'es' ? 'Abrir videoteca' : 'Ireki bideoteka'
     },
     {
-      id: 'contacto',
-      title: language === 'es' ? 'Contacto e Incidencias' : 'Kontaktua eta Gorabeherak',
-      badge: language === 'es' ? 'Canal Oficial' : 'Kanal Ofiziala',
+      id: 'contacto_creditos',
+      title: language === 'es' ? 'Contacto y Créditos' : 'Kontaktua eta Kredituak',
+      badge: 'hunquirofanos@gmail.com',
       badgeColor: 'bg-violet-100 text-violet-800 dark:bg-violet-950/80 dark:text-violet-300 border-violet-200 dark:border-violet-800',
       description: language === 'es'
-        ? 'Formulario directo para dudas sobre protocolos, sugerencias de mejora o notificación de incidencias en quirófano.'
-        : 'Inprimaki zuzena protokoloen inguruko zalantzetarako, hobekuntza iradokizunetarako edo abisurako.',
+        ? 'Canal directo de consultas y autoría: David Tabernero Garin, colaboración Urología Lain Nagore y fotos de David y Lain.'
+        : 'Harremanetarako kanala eta egiletza: David Tabernero Garin, Lain Nagore eta proiektuaren kredituak.',
       icon: Mail,
       color: 'from-violet-500 to-purple-600',
-      cta: language === 'es' ? 'Contactar' : 'Jarri harremanetan'
-    },
-    {
-      id: 'creditos',
-      title: language === 'es' ? 'Créditos y Autoría' : 'Kredituak eta Egiletza',
-      badge: 'David Tabernero Garin',
-      badgeColor: 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700',
-      description: language === 'es'
-        ? 'Información de diseño, desarrollo y coordinación con el personal del Hospital Universitario de Navarra.'
-        : 'Nafarroako Unibertsitate Ospitaleko langileekin egindako diseinu, garapen eta koordinazio informazioa.',
-      icon: Award,
-      color: 'from-slate-600 to-slate-800',
-      cta: language === 'es' ? 'Ver créditos' : 'Ikusi kredituak'
+      cta: language === 'es' ? 'Ver contacto y créditos' : 'Ikusi kontaktua eta kredituak'
     }
   ];
 
   const orRoomsList = [
-    { id: 'Q1', name: 'Q1 · Urgencias', spec: 'Urgencias 24h', color: 'border-red-400 bg-red-50/70 dark:bg-red-950/30 text-red-700 dark:text-red-300' },
-    { id: 'Q2', name: 'Q2 · Otorrino (ORL)', spec: 'Microcirugía', color: 'border-sky-400 bg-sky-50/70 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300' },
-    { id: 'Q3-Q4', name: 'Q3–Q4 · Oftalmología', spec: 'Cataratas & Polo Post.', color: 'border-blue-400 bg-blue-50/70 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300' },
-    { id: 'Q5-Q6', name: 'Q5–Q6 · Urología', spec: 'Pilé & Litotomía', color: 'border-indigo-400 bg-indigo-50/70 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300' },
-    { id: 'Q7-Q8', name: 'Q7–Q8 · Traumatología', spec: 'Tracción & Hombro', color: 'border-amber-400 bg-amber-50/70 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300' }
+    { id: 'q1', name: 'Q1 · Urgencias', spec: 'Urgencias 24h', color: 'border-red-400 bg-red-50/70 dark:bg-red-950/30 text-red-700 dark:text-red-300' },
+    { id: 'q2', name: 'Q2 · Otorrino (ORL)', spec: 'Microcirugía & 8 Equipos', color: 'border-sky-400 bg-sky-50/70 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300' },
+    { id: 'q3_q4', name: 'Q3–Q4 · Oftalmología', spec: 'Cataratas & Polo Post.', color: 'border-blue-400 bg-blue-50/70 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300' },
+    { id: 'q5_q6', name: 'Q5–Q6 · Urología', spec: 'Pilé & Litotomía Fig. 1-20', color: 'border-indigo-400 bg-indigo-50/70 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300' },
+    { id: 'q7_q8', name: 'Q7–Q8 · Traumatología', spec: 'Tracción & Hombro', color: 'border-amber-400 bg-amber-50/70 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300' }
   ];
 
   return (
@@ -235,7 +235,7 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
           {orRoomsList.map((item) => (
             <button
               key={item.id}
-              onClick={() => onNavigate('quirofanos', item.id)}
+              onClick={() => onNavigate(item.id)}
               className={`p-3.5 rounded-2xl border text-left transition-all hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between ${item.color}`}
             >
               <div>

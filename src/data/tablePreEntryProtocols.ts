@@ -57,14 +57,14 @@ export const PRE_ENTRY_GOLDEN_RULES: GoldenRuleItem[] = [
     severity: 'critical'
   },
   {
-    id: 'rule-otorrino-uzcanga',
+    id: 'rule-otorrino-criterio-cirujano',
     specialtyOrSurgery: 'Otorrino (ORL - Quirófano 2)',
     specialtyOrSurgeryEu: 'Otorrinoa (ORL - 2. Ebakigela)',
-    ruleInstruction: 'SI ESTÁ LA DRª UZCANGA : “CUERNOS”',
-    ruleInstructionEu: 'DRª UZCANGA BADAGO : “ADARRAK” (Cuernos)',
+    ruleInstruction: 'SEGÚN EL CRITERIO DEL CIRUJANO DE OTORRINOLARINGOLOGÍA : “CUERNOS”',
+    ruleInstructionEu: 'OTORRINOLARINGOLOGIAKO ZIRUJAUAREN IRIZPIDEAREN ARABERA : “ADARRAK” (Cuernos)',
     operatingRoom: 'Quirófano 2 (ORL)',
-    clinicalReason: 'Si la cirujana responsable es la Dra. Uzcanga, la mesa debe prepararse con el accesorio específico de cabecero tipo cuernos para adecuada fijación y extensión cervical en microcirugía de oído/laringe.',
-    clinicalReasonEu: 'Uzcanga doktoreak ebakuntza egiten badu, mahaia "adarrak" motako buru-euskarri bereziarekin prestatu behar da mikrokirurgian buru-finkapen zehatza lortzeko.',
+    clinicalReason: 'Según el criterio del cirujano de Otorrinolaringología, la mesa debe prepararse con el accesorio específico de cabecero tipo cuernos para adecuada fijación y extensión cervical en microcirugía de oído/laringe.',
+    clinicalReasonEu: 'Otorrinolaringologiako zirujauaren irizpidearen arabera, mahaia "adarrak" motako buru-euskarri bereziarekin prestatu behar da mikrokirurgian buru-finkapen zehatza lortzeko.',
     tag: 'Cabecero Cuernos ORL',
     severity: 'important'
   },

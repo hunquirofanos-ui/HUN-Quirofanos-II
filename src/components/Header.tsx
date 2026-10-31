@@ -19,7 +19,12 @@ import {
   Home,
   Mail,
   Award,
-  ArrowRightLeft
+  ArrowRightLeft,
+  Eye,
+  Flame,
+  Stethoscope,
+  Activity,
+  Zap
 } from 'lucide-react';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
@@ -73,50 +78,81 @@ export const Header: React.FC<HeaderProps> = ({
     { 
       id: 'inicio', 
       label: t.navInicio, 
+      shortLabel: t.navInicio,
       sublabel: language === 'es' ? 'Portal de bienvenida y accesos rápidos' : 'Ongi etorri ataria eta sarbide azkarrak',
       icon: Home
     },
     { 
       id: 'funciones', 
       label: t.navFunciones, 
-      sublabel: language === 'es' ? 'Celador de Dentro (13) y de Fuera (14)' : 'Barruko (13) eta Kanpoko (14) Zeladoreak',
+      shortLabel: language === 'es' ? 'Funciones' : 'Funtzioak',
+      sublabel: language === 'es' ? 'Celador de Dentro y Celador de Fuera' : 'Barruko eta Kanpoko Zeladoreak',
       icon: ShieldCheck,
       badge: language === 'es' ? 'Dentro & Fuera' : 'Barruan & Kanpoan'
     },
     { 
       id: 'transfer', 
       label: t.navTransfer, 
+      shortLabel: 'Transfer',
       sublabel: language === 'es' ? 'Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente' : 'Mahai Kirurgikoaren Prestaketa Pazientea Pasa Aurretik',
       icon: ArrowRightLeft,
       badge: language === 'es' ? 'Pre-Entrada' : 'Aurre-Sarrera',
       highlight: true
     },
     { 
-      id: 'quirofanos', 
-      label: t.navQuirofanos, 
-      sublabel: language === 'es' ? 'Q1 Urgencias, Q2 ORL, Q3-4 Oftalmo, Q5-6 Uro, Q7-8 Trauma' : 'Q1 Larrialdiak, Q2 ORL, Q3-4 Oftalmo, Q5-6 Uro, Q7-8 Trauma',
-      icon: Building2,
-      badge: 'Q1 – Q8',
-      highlight: true
+      id: 'q1', 
+      label: t.navQ1, 
+      shortLabel: 'Q1 · Urgencias',
+      sublabel: language === 'es' ? '24 Horas · Guardia permanente de urgencias' : '24 Ordu · Larrialdietako guardia iraunkorra',
+      icon: Flame,
+      badge: '24 H.'
     },
     { 
-      id: 'videoteca', 
-      label: t.navVideoteca, 
+      id: 'q2', 
+      label: t.navQ2, 
+      shortLabel: 'Q2 · ORL',
+      sublabel: language === 'es' ? 'Microcirugía Otológica, CENS y 8 Equipos' : 'Belarriko Mikrokirurgia, CENS eta 8 Ekipo',
+      icon: Stethoscope,
+      badge: '8 Equipos'
+    },
+    { 
+      id: 'q3_q4', 
+      label: t.navQ3Q4, 
+      shortLabel: 'Q3–Q4 · Oftalmo',
+      sublabel: language === 'es' ? 'Alta Resolución · Cataratas y Polo Posterior' : 'Ebazpen Handia · Kataratak',
+      icon: Eye,
+      badge: 'Q3–Q4'
+    },
+    { 
+      id: 'q5_q6', 
+      label: t.navQ5Q6, 
+      shortLabel: 'Q5–Q6 · Uro',
+      sublabel: language === 'es' ? 'Cirugía Laparoscópica, Pilé y Guía HUN Fig. 1-20' : 'Kirurgia Laparoskopikoa, Pilé eta NUO Gida',
+      icon: Layers,
+      badge: 'Fig. 1–20'
+    },
+    { 
+      id: 'q7_q8', 
+      label: t.navQ7Q8, 
+      shortLabel: 'Q7–Q8 · Trauma',
+      sublabel: language === 'es' ? 'Tracción Esquelética, Prótesis y Hombro' : 'Hezurdura-trakzioa, Protesiak eta Sorbalda',
+      icon: Activity,
+      badge: 'Q7–Q8'
+    },
+    { 
+      id: 'videos', 
+      label: t.navVideos, 
+      shortLabel: t.navVideos,
       sublabel: language === 'es' ? '11 videotutoriales TruSystem (tracción, hombro, perneras)' : '11 TruSystem bideotutorial (trakzioa, sorbalda, hanka-eusk.)',
       icon: Video,
-      badge: '11 vídeos'
+      badge: '11 Vídeos'
     },
     { 
-      id: 'contacto', 
-      label: t.navContacto, 
-      sublabel: language === 'es' ? 'Formulario directo a hunquirofanos@gmail.com' : 'Inprimaki zuzena kontsultetarako',
+      id: 'contacto_creditos', 
+      label: t.navContactoCreditos, 
+      shortLabel: language === 'es' ? 'Contacto & Créditos' : 'Kontaktua & Kredituak',
+      sublabel: language === 'es' ? 'hunquirofanos@gmail.com · David Tabernero y Lain Nagore' : 'hunquirofanos@gmail.com · Kredituak eta Egiletza',
       icon: Mail
-    },
-    { 
-      id: 'creditos', 
-      label: t.navCreditos, 
-      sublabel: 'David Tabernero Garin · HUN Área General V',
-      icon: Award
     }
   ];
 
@@ -184,26 +220,31 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Zone 2: Desktop Navigation Links (xl+) */}
-          <nav className="hidden xl:flex items-center gap-4 2xl:gap-5 text-sm font-medium">
+          {/* Zone 2: Desktop Navigation Links (10 Ordered Items) */}
+          <nav className="hidden xl:flex items-center gap-1 2xl:gap-2 text-[12px] 2xl:text-xs font-semibold">
             {navItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => handleSelectTab(item.id)}
-                  className={`relative py-1.5 whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                  title={item.label}
+                  className={`relative py-1.5 px-2 2xl:px-2.5 rounded-lg whitespace-nowrap transition-all flex items-center gap-1 ${
                     isActive
-                      ? nightMode ? 'text-blue-400 font-bold' : 'text-blue-700 font-bold'
-                      : nightMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-900'
+                      ? nightMode 
+                        ? 'text-blue-300 bg-blue-950/70 shadow-2xs font-bold' 
+                        : 'text-blue-700 bg-blue-50/90 shadow-2xs font-bold'
+                      : nightMode 
+                        ? 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60' 
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
                 >
                   {item.highlight && (
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                   )}
-                  <span>{item.label}</span>
+                  <span>{item.shortLabel || item.label}</span>
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full" />
+                    <span className="absolute bottom-0 left-1.5 right-1.5 h-0.5 bg-blue-600 rounded-full" />
                   )}
                 </button>
               );
@@ -280,14 +321,14 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               key={item.id}
               onClick={() => handleSelectTab(item.id)}
-              className={`px-2.5 py-1 text-xs font-medium rounded-md whitespace-nowrap transition-colors flex items-center gap-1 ${
+              className={`px-2.5 py-1 text-xs font-medium rounded-md whitespace-nowrap transition-colors flex items-center gap-1 shrink-0 ${
                 activeTab === item.id
                   ? 'bg-blue-600 text-white font-semibold shadow-2xs'
                   : nightMode ? 'text-slate-300 bg-slate-800/80' : 'text-slate-700 bg-slate-100'
               }`}
             >
               {item.highlight && <span className="w-1.5 h-1.5 rounded-full bg-blue-300 animate-pulse" />}
-              <span>{item.label}</span>
+              <span>{item.shortLabel || item.label}</span>
             </button>
           ))}
         </div>

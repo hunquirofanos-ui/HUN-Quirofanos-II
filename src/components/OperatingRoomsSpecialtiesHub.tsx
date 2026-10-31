@@ -25,6 +25,7 @@ import { OPERATING_TABLE_VIDEOS } from '../data/operatingTableVideos';
 import { HUN_OR_DISTRIBUTION } from '../data/hunOfficialProtocols';
 import { Language, SurgeryProtocol } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
+import { OrlEquipmentSection } from './OrlEquipmentSection';
 
 interface OperatingRoomsSpecialtiesHubProps {
   nightMode: boolean;
@@ -46,9 +47,25 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
   onAddToPortfolio
 }) => {
   const t = TRANSLATIONS[language];
-  const [selectedHubId, setSelectedHubId] = useState<string | null>(initialRoomId || null);
+  const [selectedHubId, setSelectedHubId] = useState<string | null>(() => {
+    if (initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT') return 'Q2';
+    return initialRoomId || null;
+  });
+  const [showOrlEquipment, setShowOrlEquipment] = useState<boolean>(() => {
+    return initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT';
+  });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [expandedSurgeryId, setExpandedSurgeryId] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT') {
+      setSelectedHubId('Q2');
+      setShowOrlEquipment(true);
+    } else if (initialRoomId) {
+      setSelectedHubId(initialRoomId);
+      setShowOrlEquipment(false);
+    }
+  }, [initialRoomId]);
 
   // Grouped Room-Specialty definitions for the unified 5 cards
   const OR_HUBS = [
@@ -319,6 +336,19 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
             </button>
 
             <div className="flex items-center gap-2">
+              {activeHub.id === 'Q2' && (
+                <button
+                  onClick={() => setShowOrlEquipment(!showOrlEquipment)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs ${
+                    showOrlEquipment
+                      ? 'bg-sky-800 text-white'
+                      : 'bg-sky-600 hover:bg-sky-700 text-white'
+                  }`}
+                >
+                  <Stethoscope className="w-3.5 h-3.5" />
+                  <span>{showOrlEquipment ? (language === 'es' ? '← Volver a Q2 General' : '← Itzuli Q2 Orokorrera') : (language === 'es' ? 'Aparataje ORL (8 Equipos)' : 'ORL Tresneria (8 Ekipo)')}</span>
+                </button>
+              )}
               {activeHub.id === 'Q5-Q6' && (
                 <button
                   onClick={onNavigateToUrologyDoc}
@@ -340,59 +370,107 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
             </div>
           </div>
 
-          {/* Banner of Selected Hub */}
-          <div className={`p-6 sm:p-8 rounded-3xl border transition-colors ${
-            nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
-          }`}>
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <span className={`text-2xl sm:text-3xl font-black font-mono px-3.5 py-1.5 rounded-2xl text-white bg-gradient-to-r ${activeHub.color} shadow-sm`}>
-                    {activeHub.roomLabel}
-                  </span>
-                  <div>
-                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
-                      {activeHub.specialtyLabel}
-                    </h1>
-                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                      {activeHub.operatingRoomsText} · Hospital Universitario de Navarra
+          {/* Render dedicated ORL Equipment Section if active in Q2 */}
+          {activeHub.id === 'Q2' && showOrlEquipment ? (
+            <OrlEquipmentSection
+              nightMode={nightMode}
+              language={language}
+              onBackToOrl={() => setShowOrlEquipment(false)}
+            />
+          ) : (
+            <>
+              {/* Banner of Selected Hub */}
+              <div className={`p-6 sm:p-8 rounded-3xl border transition-colors ${
+                nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+              }`}>
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <span className={`text-2xl sm:text-3xl font-black font-mono px-3.5 py-1.5 rounded-2xl text-white bg-gradient-to-r ${activeHub.color} shadow-sm`}>
+                        {activeHub.roomLabel}
+                      </span>
+                      <div>
+                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                          {activeHub.specialtyLabel}
+                        </h1>
+                        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                          {activeHub.operatingRoomsText} · Hospital Universitario de Navarra
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+                      {activeHub.description}
+                    </p>
+                  </div>
+
+                  {/* Destination badge */}
+                  <div className={`p-4 rounded-2xl border max-w-sm shrink-0 ${
+                    activeHub.id === 'Q5-Q6'
+                      ? 'bg-purple-50 dark:bg-purple-950/40 border-purple-300 dark:border-purple-800'
+                      : 'bg-blue-50 dark:bg-blue-950/40 border-blue-300 dark:border-blue-800'
+                  }`}>
+                    <span className="text-[10px] font-black uppercase tracking-wider block text-slate-700 dark:text-slate-300">
+                      {language === 'es' ? 'Norma de Destino de Accesorios' : 'Osagarrien Kokapen Araua'}
                     </span>
+                    <p className="text-xs font-semibold text-slate-900 dark:text-white mt-1 leading-snug">
+                      {activeHub.accessoriesRule}
+                    </p>
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
-                  {activeHub.description}
-                </p>
+                {/* Quick Summary of celador duty in this OR */}
+                <div className={`mt-6 p-4 rounded-2xl border text-xs leading-relaxed flex items-start gap-3 ${
+                  nightMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                }`}>
+                  <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-slate-900 dark:text-white block mb-0.5">
+                      {language === 'es' ? 'Cometido Específico del Celador en este Bloque:' : 'Zeladorearen Eginkizun Zehatza Eremu Honetan:'}
+                    </span>
+                    {activeHub.celadorDutySummary}
+                  </div>
+                </div>
               </div>
 
-              {/* Destination badge */}
-              <div className={`p-4 rounded-2xl border max-w-sm shrink-0 ${
-                activeHub.id === 'Q5-Q6'
-                  ? 'bg-purple-50 dark:bg-purple-950/40 border-purple-300 dark:border-purple-800'
-                  : 'bg-blue-50 dark:bg-blue-950/40 border-blue-300 dark:border-blue-800'
-              }`}>
-                <span className="text-[10px] font-black uppercase tracking-wider block text-slate-700 dark:text-slate-300">
-                  {language === 'es' ? 'Norma de Destino de Accesorios' : 'Osagarrien Kokapen Araua'}
-                </span>
-                <p className="text-xs font-semibold text-slate-900 dark:text-white mt-1 leading-snug">
-                  {activeHub.accessoriesRule}
-                </p>
-              </div>
-            </div>
+              {/* Prominent Access Card for Aparataje Específico de ORL in Q2 */}
+              {activeHub.id === 'Q2' && (
+                <div 
+                  onClick={() => setShowOrlEquipment(true)}
+                  className="p-5 sm:p-6 rounded-3xl border-2 border-sky-400 dark:border-sky-600 bg-gradient-to-r from-sky-500/10 via-sky-500/5 to-cyan-500/10 hover:border-sky-500 cursor-pointer transition-all shadow-sm group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-cyan-600 text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                      <Stethoscope className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-900/60">
+                          {language === 'es' ? 'Sección Destacada · 8 Equipos' : 'Atal Nabarmendua · 8 Ekipo'}
+                        </span>
+                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 font-mono">
+                          HUN Q2 ORL
+                        </span>
+                      </div>
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-1">
+                        {language === 'es' ? 'Aparataje Específico de ORL' : 'ORLeko Tresneria Espezifikoa'}
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 max-w-2xl leading-relaxed">
+                        {language === 'es'
+                          ? 'Microscopio Zeiss, Torre Storz, Medtronic IPC, Sillón, Peso de bandeja, Neurosign V4, Silla motorizada y Láser DEKA (con maletín).'
+                          : 'Zeiss mikroskopioa, Storz dorrea, Medtronic IPC, Neurosign V4, aulkia eta DEKA laserra (maletatxo metalikoarekin).'}
+                      </p>
+                    </div>
+                  </div>
 
-            {/* Quick Summary of celador duty in this OR */}
-            <div className={`mt-6 p-4 rounded-2xl border text-xs leading-relaxed flex items-start gap-3 ${
-              nightMode ? 'bg-slate-950 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
-            }`}>
-              <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold text-slate-900 dark:text-white block mb-0.5">
-                  {language === 'es' ? 'Cometido Específico del Celador en este Bloque:' : 'Zeladorearen Eginkizun Zehatza Eremu Honetan:'}
-                </span>
-                {activeHub.celadorDutySummary}
-              </div>
-            </div>
-          </div>
+                  <div className="flex items-center gap-2 self-stretch sm:self-auto shrink-0 justify-end">
+                    <span className="px-4 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white group-hover:bg-sky-700 transition-colors shadow-2xs flex items-center gap-1.5 w-full sm:w-auto justify-center">
+                      <span>{language === 'es' ? 'Consultar los 8 Equipos' : '8 Ekipoak Kontsultatu'}</span>
+                      <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
+                    </span>
+                  </div>
+                </div>
+              )}
 
           {/* Related Video Tutorial Cards (if available for this room) */}
           {activeHubVideos.length > 0 && (
@@ -588,6 +666,8 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
               })}
             </div>
           </div>
+            </>
+          )}
         </div>
       )}
     </div>

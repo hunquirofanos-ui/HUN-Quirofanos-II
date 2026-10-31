@@ -10,6 +10,7 @@ import { CeladorFunctionsSection } from './components/CeladorFunctionsSection';
 import { TransferSection } from './components/TransferSection';
 import { OperatingRoomsSpecialtiesHub } from './components/OperatingRoomsSpecialtiesHub';
 import { VideoTutorialsViewer } from './components/VideoTutorialsViewer';
+import { ContactCreditsSection } from './components/ContactCreditsSection';
 import { ContactSection } from './components/ContactSection';
 import { CreditsSection } from './components/CreditsSection';
 import { HeroSection } from './components/HeroSection';
@@ -182,7 +183,7 @@ export default function App() {
       <main className="flex-1">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8" id="main-content-section">
           {/* =================================================================== */}
-          {/* 1. PÁGINA DE INICIO (PORTAL DE BIENVENIDA) */}
+          {/* 1. INICIO (PORTAL DE BIENVENIDA) */}
           {/* =================================================================== */}
           {activeTab === 'inicio' && (
             <HomeWelcomeView
@@ -193,7 +194,7 @@ export default function App() {
           )}
 
           {/* =================================================================== */}
-          {/* 2. FUNCIONES DEL CELADOR (DENTRO & FUERA) */}
+          {/* 2. FUNCIONES DE LOS CELADORES (DENTRO & FUERA) */}
           {/* =================================================================== */}
           {activeTab === 'funciones' && (
             <CeladorFunctionsSection
@@ -215,14 +216,87 @@ export default function App() {
                 handleNavigateFromHome('buscador');
               }}
               onNavigateToVideos={(videoId) => {
-                handleNavigateFromHome('videoteca');
+                handleNavigateFromHome('videos');
               }}
             />
           )}
 
           {/* =================================================================== */}
-          {/* 4. QUIRÓFANOS Y ESPECIALIDADES QUIRÚRGICAS (Q1 a Q8 UNIFICADO) */}
+          {/* 4. Q1 – URGENCIAS (24 H.) */}
           {/* =================================================================== */}
+          {activeTab === 'q1' && (
+            <OperatingRoomsSpecialtiesHub
+              nightMode={nightMode}
+              language={language}
+              initialRoomId="Q1"
+              onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}
+              onAddToPortfolio={handleAddFromSurgery}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 5. Q2 – OTORRINOLARINGOLOGÍA (ORL) Y APARATAJE ESPECÍFICO */}
+          {/* =================================================================== */}
+          {(activeTab === 'q2' || activeTab === 'orl_aparataje') && (
+            <OperatingRoomsSpecialtiesHub
+              nightMode={nightMode}
+              language={language}
+              initialRoomId={activeTab === 'orl_aparataje' ? 'orl_aparataje' : 'Q2'}
+              onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}
+              onAddToPortfolio={handleAddFromSurgery}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 6. Q3 Y Q4 – OFTALMOLOGÍA */}
+          {/* =================================================================== */}
+          {activeTab === 'q3_q4' && (
+            <OperatingRoomsSpecialtiesHub
+              nightMode={nightMode}
+              language={language}
+              initialRoomId="Q3-Q4"
+              onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}
+              onAddToPortfolio={handleAddFromSurgery}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 7. Q5 Y Q6 – UROLOGÍA */}
+          {/* =================================================================== */}
+          {activeTab === 'q5_q6' && (
+            <OperatingRoomsSpecialtiesHub
+              nightMode={nightMode}
+              language={language}
+              initialRoomId="Q5-Q6"
+              onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}
+              onAddToPortfolio={handleAddFromSurgery}
+            />
+          )}
+
+          {/* =================================================================== */}
+          {/* 8. Q7 Y Q8 – TRAUMATOLOGÍA */}
+          {/* =================================================================== */}
+          {activeTab === 'q7_q8' && (
+            <OperatingRoomsSpecialtiesHub
+              nightMode={nightMode}
+              language={language}
+              initialRoomId="Q7-Q8"
+              onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}
+              onAddToPortfolio={handleAddFromSurgery}
+            />
+          )}
+
+          {/* HUB COMPLETO DE QUIRÓFANOS (Acceso genérico o por parámetro) */}
           {activeTab === 'quirofanos' && (
             <OperatingRoomsSpecialtiesHub
               nightMode={nightMode}
@@ -230,39 +304,29 @@ export default function App() {
               initialRoomId={selectedRoomParam}
               onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
               onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
-              onNavigateToVideo={(vId) => handleNavigateFromHome('videoteca')}
+              onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}
               onAddToPortfolio={handleAddFromSurgery}
             />
           )}
 
           {/* =================================================================== */}
-          {/* 4. VIDEOTECA INDEPENDIENTE (11 VÍDEOS OFICIALES) */}
+          {/* 9. VÍDEOS (VIDEOTECA INDEPENDIENTE CON LOS 11 VÍDEOS OFICIALES) */}
           {/* =================================================================== */}
-          {(activeTab === 'videoteca' || activeTab === 'videotutoriales') && (
+          {(activeTab === 'videos' || activeTab === 'videoteca' || activeTab === 'videotutoriales') && (
             <VideoTutorialsViewer
               nightMode={nightMode}
               language={language}
-              onNavigateToPreEntry={() => handleNavigateFromHome('preparacion_mesa')}
+              onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
               onNavigateToUrology={() => handleNavigateFromHome('urologia_doc')}
               onNavigateToPositions={() => handleNavigateFromHome('posiciones')}
             />
           )}
 
           {/* =================================================================== */}
-          {/* 5. CONTACTO */}
+          {/* 10. CONTACTO Y CRÉDITOS (APARTADO UNIFICADO) */}
           {/* =================================================================== */}
-          {activeTab === 'contacto' && (
-            <ContactSection
-              nightMode={nightMode}
-              language={language}
-            />
-          )}
-
-          {/* =================================================================== */}
-          {/* 6. CRÉDITOS Y AUTORÍA */}
-          {/* =================================================================== */}
-          {activeTab === 'creditos' && (
-            <CreditsSection
+          {(activeTab === 'contacto_creditos' || activeTab === 'contacto' || activeTab === 'creditos') && (
+            <ContactCreditsSection
               nightMode={nightMode}
               language={language}
             />

@@ -650,7 +650,7 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
                 Ficha 2: Reglas de Oro Pre-Paso
               </h4>
               <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 line-clamp-2">
-                Apendicitis orinar, Uzcanga cuernos, Stryker/Middar, Pañal edad.
+                Apendicitis orinar, Criterio cirujano ORL cuernos, Stryker/Middar, Pañal edad.
               </p>
             </div>
 

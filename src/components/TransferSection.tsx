@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Sliders, 
   ArrowRightLeft, 
@@ -7,10 +7,13 @@ import {
   AlertTriangle, 
   Users, 
   Activity,
-  Maximize2
+  Maximize2,
+  Search,
+  FileSpreadsheet
 } from 'lucide-react';
 import { TablePreEntryPreparation } from './TablePreEntryPreparation';
-import { Language } from '../types/operatingRoom';
+import { SurgerySearch } from './SurgerySearch';
+import { Language, SurgeryProtocol } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
 
 interface TransferSectionProps {
@@ -18,15 +21,18 @@ interface TransferSectionProps {
   language: Language;
   onNavigateToSurgerySearch?: (query?: string) => void;
   onNavigateToVideos?: (videoId?: string) => void;
+  onAddToPortfolio?: (surgery: SurgeryProtocol) => void;
 }
 
 export const TransferSection: React.FC<TransferSectionProps> = ({
   nightMode,
   language,
   onNavigateToSurgerySearch,
-  onNavigateToVideos
+  onNavigateToVideos,
+  onAddToPortfolio
 }) => {
   const t = TRANSLATIONS[language];
+  const [activeSubTab, setActiveSubTab] = useState<'mesa' | 'buscador'>('mesa');
 
   return (
     <div className="space-y-6 pb-10">
@@ -78,13 +84,52 @@ export const TransferSection: React.FC<TransferSectionProps> = ({
         </div>
       </section>
 
-      {/* Full Integrated Section: Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente */}
-      <TablePreEntryPreparation
-        nightMode={nightMode}
-        language={language}
-        onNavigateToSurgerySearch={onNavigateToSurgerySearch}
-        onNavigateToVideos={onNavigateToVideos}
-      />
+      {/* Subtab Switcher: Mesa Preparation vs Surgery Search */}
+      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-2">
+        <button
+          onClick={() => setActiveSubTab('mesa')}
+          className={`py-2.5 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            activeSubTab === 'mesa'
+              ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <Sliders className="w-4 h-4" />
+          <span>{language === 'es' ? 'Preparación de la Mesa Antes de Entrar y Pasar al Paciente' : 'Mahai Kirurgikoaren Prestaketa Pazientea Pasa Aurretik'}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSubTab('buscador')}
+          className={`py-2.5 px-4 text-xs sm:text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            activeSubTab === 'buscador'
+              ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <Search className="w-4 h-4" />
+          <span>{language === 'es' ? 'Buscador Interactivo de Intervenciones' : 'Ebakuntzen Bilatzaile Interaktiboa'}</span>
+        </button>
+      </div>
+
+      {/* TAB 1: Full Original Section "Preparación de la Mesa Quirúrgica Antes de Entrar y Pasar al Paciente" */}
+      {activeSubTab === 'mesa' && (
+        <TablePreEntryPreparation
+          nightMode={nightMode}
+          language={language}
+          onNavigateToSurgerySearch={(query) => setActiveSubTab('buscador')}
+          onNavigateToVideos={onNavigateToVideos}
+        />
+      )}
+
+      {/* TAB 2: Interactive Surgery Search inside Transfer */}
+      {activeSubTab === 'buscador' && (
+        <SurgerySearch
+          nightMode={nightMode}
+          language={language}
+          onAddToPortfolio={onAddToPortfolio || (() => {})}
+          onNavigateToPositions={() => setActiveSubTab('mesa')}
+        />
+      )}
     </div>
   );
 };
