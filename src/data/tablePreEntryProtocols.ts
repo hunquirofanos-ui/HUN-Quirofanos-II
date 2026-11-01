@@ -37,8 +37,11 @@ const ASSETS_BASE = `${import.meta.env.BASE_URL}assets/aistudio/`;
 
 export const PRE_ENTRY_TRAUMA_SHEET_IMG = `${ASSETS_BASE}IMG20251125101016_75cc8f18.jpg`;
 export const PRE_ENTRY_URO_SHEET_IMG = `${ASSETS_BASE}IMG20251125101013_425cd304.jpg`;
-export const PRE_ENTRY_RULES_SHEET_IMG = `${ASSETS_BASE}IMG20251125101020_a6f418c0.jpg`;
+export const PRE_ENTRY_RULES_SHEET_IMG = `${ASSETS_BASE}IMG20251125101020_modificado.jpg`;
+export const PRE_ENTRY_URO_Q5Q6_MESAS_IMG = `${ASSETS_BASE}IMG20251125101010_20c7027f.jpg`;
+export const PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG = `${ASSETS_BASE}IMG20251125101101_f90b49b9.jpg`;
 export const OFFICIAL_HUN_LOGO_IMG = `${ASSETS_BASE}Logotipo_hospitalario_con_quir_fanos_II_413ef642.png`;
+
 
 /**
  * REGLAS DE ORO PRE-PASO DEL PACIENTE (Ficha 2)
@@ -60,11 +63,11 @@ export const PRE_ENTRY_GOLDEN_RULES: GoldenRuleItem[] = [
     id: 'rule-otorrino-criterio-cirujano',
     specialtyOrSurgery: 'Otorrino (ORL - Quirófano 2)',
     specialtyOrSurgeryEu: 'Otorrinoa (ORL - 2. Ebakigela)',
-    ruleInstruction: 'SEGÚN EL CRITERIO DEL CIRUJANO DE OTORRINOLARINGOLOGÍA : “CUERNOS”',
-    ruleInstructionEu: 'OTORRINOLARINGOLOGIAKO ZIRUJAUAREN IRIZPIDEAREN ARABERA : “ADARRAK” (Cuernos)',
+    ruleInstruction: '“CUERNOS”',
+    ruleInstructionEu: '“ADARRAK (CUERNOS)”',
     operatingRoom: 'Quirófano 2 (ORL)',
-    clinicalReason: 'Según el criterio del cirujano de Otorrinolaringología, la mesa debe prepararse con el accesorio específico de cabecero tipo cuernos para adecuada fijación y extensión cervical en microcirugía de oído/laringe.',
-    clinicalReasonEu: 'Otorrinolaringologiako zirujauaren irizpidearen arabera, mahaia "adarrak" motako buru-euskarri bereziarekin prestatu behar da mikrokirurgian buru-finkapen zehatza lortzeko.',
+    clinicalReason: 'En Otorrinolaringología (ORL / Q2), la mesa quirúrgica debe prepararse con el accesorio específico de cabecero tipo cuernos para adecuada fijación y extensión cervical en microcirugía.',
+    clinicalReasonEu: 'Otorrinolaringologian (ORL / Q2), mahaia "adarrak" motako buru-euskarri bereziarekin prestatu behar da mikrokirurgian buru-finkapen zehatza lortzeko.',
     tag: 'Cabecero Cuernos ORL',
     severity: 'important'
   },
@@ -222,6 +225,121 @@ export const TRAUMA_TABLE_PREPARATION_SECTIONS = [
       { name: 'FX RADIO DISTAL', nameEu: 'Erradio Distaleko Fraktura', desc: 'Colles / placa volar' },
       { name: 'FX MANO', nameEu: 'Esku Fraktura', desc: 'Metacarpianos y falanges' },
       { name: 'BICEPS', nameEu: 'Bizepsa', desc: 'Reinserción tendinosa bíceps distal' }
+    ]
+  }
+];
+
+/**
+ * AVISO MANDATORIO DE SEGURIDAD - PROLONGADOR PÉLVICO (Ficha Oficial HUN)
+ */
+export const PELVIC_EXTENDER_WARNING = {
+  title: '¡ATENCIÓN! PROLONGADOR PÉLVICO',
+  titleEu: 'KONTUZ! LUZATZAILE PELBIKOA',
+  warningEs: 'CUANDO SE COLOCA EL PROLONGADOR PÉLVICO, NO SE PUEDEN MOVER LAS PERNERAS POR SEPARADO CON EL MANDO. SOLO ES POSIBLE HACERLO MANUALMENTE.',
+  warningEu: 'LUZATZAILE PELBIKOA JARTZEN DENEAN, EZIN DIRA HANKA-EUSKARRIAK AGINTEAREKIN BANAN-BANAN MUGITU. ESKUZ BAKARRIK EGIN DAITEKE.',
+  operatingRooms: 'Quirófano 5 y Quirófano 6 (Urología HUN)',
+  severity: 'critical' as const
+};
+
+export interface UroQ5Q6Procedure {
+  name: string;
+  nameEu: string;
+  notes?: string;
+  notesEu?: string;
+  isCorrection?: boolean;
+}
+
+export interface UroQ5Q6TableCategory {
+  id: 'prolongacion-dorsal' | 'camilla-normal';
+  title: string;
+  titleEu: string;
+  subtitle: string;
+  subtitleEu: string;
+  badge: string;
+  procedures: UroQ5Q6Procedure[];
+}
+
+/**
+ * MESAS QUIRÚRGICAS Q5-Q6 (Urología HUN)
+ * Transcripción exhaustiva y fidedigna del documento oficial con anotaciones y flechas manuscritas.
+ */
+export const URO_Q5Q6_TABLE_DATA: UroQ5Q6TableCategory[] = [
+  {
+    id: 'prolongacion-dorsal',
+    title: 'PROLONGACIÓN DORSAL',
+    titleEu: 'BIZKARRALDEKO LUZAGAILUA / PROLONGACIÓN DORSAL',
+    subtitle: 'Intervenciones que requieren módulo de prolongación dorsal acoplado a la mesa',
+    subtitleEu: 'Bizkarraldeko luzagailua mahaian muntatzea eskatzen duten ebakuntzak',
+    badge: '19 Cirugías',
+    procedures: [
+      { name: 'ORQUIECTOMÍA + PRÓTESIS', nameEu: 'Orkiektomia + Protesia' },
+      { name: 'NEO RENAL', nameEu: 'Neo Renala (Giltzurruneko Neoplasia)' },
+      { name: 'DIVERTICULECTOMÍA', nameEu: 'Dibertikulektomia' },
+      { name: 'T. RENAL NLP (Laparoscopia)', nameEu: 'Giltzurruneko Tratamendua NLP (Laparoskopia)' },
+      { 
+        name: 'NEFRECTOMÍA (Riñones: Laparoscopia o Laparotomía)', 
+        nameEu: 'Nefrektomia (Giltzurrunak: Laparoskopia edo Laparotomia)',
+        notes: 'En riñones, tanto abordaje laparoscópico como laparotomía se realizan con prolongación dorsal.',
+        notesEu: 'Giltzurrunetan, bai laparoskopia bidez bai laparotomiaz, bizkarraldeko luzagailuarekin egiten dira.'
+      },
+      { name: 'PIELOPLASTIA', nameEu: 'Pieloplastia' },
+      { name: 'SUPRARRENALECTOMÍA', nameEu: 'Giltzurrungaineko Guruinaren Ebakuntza (Suprarrenalektomia)' },
+      { name: 'CISTECTOMÍA', nameEu: 'Zistektomia' },
+      { 
+        name: 'REIMPLANTACIÓN URETERAL', 
+        nameEu: 'Uretereko Birlandaketa',
+        notes: 'Corrección oficial manuscrita en documento: de uretral a ureteral.',
+        notesEu: 'Eskuz zuzendua agirian: uretrala beharrean ureterala.',
+        isCorrection: true
+      },
+      { name: 'ADENOMECTOMÍA PRÓSTATA', nameEu: 'Prostatako Adenomektomia' },
+      { name: 'PROSTATECTOMÍA RADICAL POR LAPAROSCOPIA (PRL)', nameEu: 'Prostatektomia Erradikal Laparoskopikoa (PRL)' },
+      { name: 'NEFRECTOMÍA PARCIAL POR LAPAROSCOPIA', nameEu: 'Nefrektomia Partzial Laparoskopikoa' },
+      { name: 'PIELOLITOTOMÍA LAPAROSCÓPICA', nameEu: 'Pielolitotomia Laparoskopikoa' },
+      { name: 'LINFADENECTOMÍA RETROPERITONEAL', nameEu: 'Linfadenektomia Erretroperitoneala' },
+      { name: 'MASA RETROPERITONEAL', nameEu: 'Masa Erretroperitoneala' },
+      { name: 'URETERECTOMÍA PARCIAL', nameEu: 'Ureterektomia Partziala' },
+      { name: 'LAPAROTOMÍA', nameEu: 'Laparotomia' },
+      { 
+        name: 'PRÓTESIS DE PENE', 
+        nameEu: 'Zakileko Protesia',
+        notes: '¡ANOTACIÓN MANUSCRITA IMPORTANTE! Tachado de camilla normal y trasladado expresamente a Prolongación Dorsal por protocolo quirúrgico.',
+        notesEu: 'ESKUZKO OHARRA: Camilla normaletik kenduta eta berariaz Bizkarraldeko Luzagailura pasatuta.',
+        isCorrection: true
+      },
+      { 
+        name: 'LINFADENECTOMÍA PELVIANA BILATERAL', 
+        nameEu: 'Aldebiko Pelbiseko Linfadenektomia',
+        notes: '¡ANOTACIÓN MANUSCRITA IMPORTANTE! Añadido expresamente a la derecha en Prolongación Dorsal.',
+        notesEu: 'ESKUZKO OHARRA: Berariaz gehitua eskuineko zutabean Bizkarraldeko Luzagailuarekin.',
+        isCorrection: true
+      }
+    ]
+  },
+  {
+    id: 'camilla-normal',
+    title: 'CAMILLA NORMAL',
+    titleEu: 'OHIKO MAHAIA / CAMILLA NORMAL',
+    subtitle: 'Intervenciones en mesa quirúrgica plana estándar sin prolongación dorsal',
+    subtitleEu: 'Ohiko mahai estandarra luzagailu dorsalik gabe',
+    badge: '12 Cirugías',
+    procedures: [
+      { name: 'HERNIA', nameEu: 'Hernia' },
+      { name: 'RTU (Resección Transuretral)', nameEu: 'RTU (Maskuri/Prostatako Transuretrala)' },
+      { name: 'CISTOSCOPIA (Citoscopia)', nameEu: 'Zistoskopia' },
+      { name: 'URETROPLASTIA', nameEu: 'Uretroplastia' },
+      { name: 'BOTOX', nameEu: 'Botox (Infiltrazio Besikala)' },
+      { name: 'ESFÍNTER AMS', nameEu: 'AMS Esfinter Artifiziala' },
+      { name: 'URETROTOMÍA = SASCHE', nameEu: 'Uretrotomia = Sachse' },
+      { 
+        name: 'MALLAS INCONTINENCIA: REMEX, TVT, SOLIX, ADVANCE', 
+        nameEu: 'Inkontinentzia Sareak: REMEX, TVT, SOLIX, ADVANCE',
+        notes: 'Comprende mallas suburetrales y cabestrillos de continencia femenina y masculina.'
+      },
+      { name: 'LITOTRICIA ENDOSCÓPICA VESICAL', nameEu: 'Maskuriko Litotrizia Endoskopikoa' },
+      { name: 'BMNS', nameEu: 'BMNS' },
+      { name: 'CISTOCELE', nameEu: 'Zistozele (Zoru Pelbikoaren Jaitsiera)' },
+      { name: 'HOLEP (Enucleación Prostática con Láser Holmium)', nameEu: 'HOLEP (Láser Holmium Prostatako Enukleazioa)' }
     ]
   }
 ];

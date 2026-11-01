@@ -15,9 +15,16 @@ import {
   Plug,
   Briefcase,
   Layers,
-  ArrowRight
+  ArrowRight,
+  FileText
 } from 'lucide-react';
-import { ORL_EQUIPMENT_LIST, ORL_GENERAL_RULES, OrlEquipmentItem } from '../data/orlEquipmentData';
+import { 
+  ORL_EQUIPMENT_LIST, 
+  ORL_GENERAL_RULES, 
+  ORL_PANORAMIC_PHOTO, 
+  ORL_GUIDE_PDF, 
+  OrlEquipmentItem 
+} from '../data/orlEquipmentData';
 import { Language } from '../types/operatingRoom';
 
 interface OrlEquipmentSectionProps {
@@ -71,8 +78,72 @@ export const OrlEquipmentSection: React.FC<OrlEquipmentSectionProps> = ({
                 <span>{language === 'es' ? '← Volver a Q2 ORL' : '← Itzuli Q2 ORLera'}</span>
               </button>
             )}
+            <a
+              href={`${import.meta.env.BASE_URL}${ORL_GUIDE_PDF}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="Guia_Aparataje_ORL_HUN_Actualizada.pdf"
+              className="px-3.5 py-2 rounded-xl text-xs font-bold bg-sky-600 hover:bg-sky-700 text-white transition-all shadow-2xs flex items-center gap-1.5"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>{language === 'es' ? 'Descargar Guía Actualizada (PDF)' : 'Gida Eguneratua (PDF)'}</span>
+            </a>
             <span className="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-900 text-sky-700 dark:text-sky-300 font-bold text-xs">
-              {language === 'es' ? '8 Equipos Identificados' : 'Identifikatutako 8 Ekipo'}
+              {language === 'es' ? '8 Equipos' : '8 Ekipo'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Panoramic View of Quirófano 2 ORL */}
+      <div className={`p-4 sm:p-6 rounded-3xl border transition-all ${
+        nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+      }`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse" />
+              <h2 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
+                {language === 'es' ? 'Vista Panorámica del Quirófano 2 de Otorrinolaringología (HUN)' : '2. Ebakigelaren Ikuspegi Panoramikoa (ORL - NUO)'}
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              {language === 'es'
+                ? 'Disposición espacial de la mesa quirúrgica Trumpf, microscopio ZEISS, torre KARL STORZ, consolas Medtronic IPC, Neurosign V4, silla motorizada y láser DEKA.'
+                : 'Trumpf mahaiaren, ZEISS mikroskopioaren, KARL STORZ dorrearen eta gainerako aparatuen kokapen espaziala.'}
+            </p>
+          </div>
+          <span className="text-[11px] font-bold text-sky-600 dark:text-sky-400 self-start sm:self-auto flex items-center gap-1">
+            <Maximize2 className="w-3 h-3" />
+            <span>{language === 'es' ? 'Click en la foto para ampliar' : 'Klik egin handitzeko'}</span>
+          </span>
+        </div>
+
+        <div 
+          onClick={() => setSelectedPhotoModal({
+            src: `${import.meta.env.BASE_URL}${ORL_PANORAMIC_PHOTO}`,
+            alt: 'Vista general del quirófano 2 de Otorrinolaringología (HUN)',
+            name: 'Vista Panorámica del Quirófano 2 (ORL) · Hospital Universitario de Navarra'
+          })}
+          className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-950 group cursor-pointer aspect-video sm:aspect-[21/9] flex items-center justify-center shadow-xs"
+        >
+          <img 
+            src={`${import.meta.env.BASE_URL}${ORL_PANORAMIC_PHOTO}`}
+            alt="Vista general Quirófano 2 ORL HUN"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-102"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity flex items-end justify-between p-3.5 sm:p-5">
+            <div className="text-white">
+              <span className="text-xs sm:text-sm font-bold block">
+                {language === 'es' ? 'Quirófano 2 (ORL) · Sala Quirúrgica y Equipamiento Completo' : '2. Ebakigela (ORL) · Ebakuntza Gela eta Ekipamendua'}
+              </span>
+              <span className="text-[11px] text-slate-300">
+                Hospital Universitario de Navarra · Área General V
+              </span>
+            </div>
+            <span className="px-3 py-1.5 rounded-xl bg-white/20 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
+              <Maximize2 className="w-3.5 h-3.5" />
+              <span>{language === 'es' ? 'Ver en Grande' : 'Handitu'}</span>
             </span>
           </div>
         </div>
@@ -235,6 +306,42 @@ export const OrlEquipmentSection: React.FC<OrlEquipmentSectionProps> = ({
                       ? `Fotografía original de Quirófano 2: ${item.name}` 
                       : `2. Ebakigelako jatorrizko argazkia: ${item.nameEu || item.name}`}
                   </p>
+
+                  {/* Secondary detail photo (e.g. KARL STORZ top metallic piece) */}
+                  {item.secondaryPhoto && (
+                    <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1.5">
+                      <div
+                        onClick={() => setSelectedPhotoModal({
+                          src: `${import.meta.env.BASE_URL}${item.secondaryPhoto}`,
+                          alt: item.secondaryPhotoCaption || item.name,
+                          name: `${item.name} - Detalle Superior`
+                        })}
+                        className="relative rounded-xl overflow-hidden border border-sky-300 dark:border-sky-800 bg-slate-950 group cursor-pointer aspect-video flex items-center justify-center shadow-xs"
+                      >
+                        <img
+                          src={`${import.meta.env.BASE_URL}${item.secondaryPhoto}`}
+                          alt="Detalle superior"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-2">
+                          <span className="text-white text-[11px] font-bold flex items-center gap-1">
+                            <Maximize2 className="w-3 h-3" />
+                            <span>{language === 'es' ? 'Ver detalle ampliado' : 'Xehetasuna handitu'}</span>
+                          </span>
+                          <span className="text-[9px] text-sky-200 bg-sky-950/80 px-1.5 py-0.5 rounded font-bold">
+                            Detalle Superior
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-sky-900 dark:text-sky-200 leading-tight p-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/50 border border-sky-200 dark:border-sky-900 font-medium">
+                        <strong className="block text-sky-950 dark:text-sky-100 mb-0.5 font-bold">
+                          {language === 'es' ? 'Detalle de la parte superior:' : 'Goiko parteko xehetasuna:'}
+                        </strong>
+                        {language === 'es' ? item.secondaryPhotoCaption : item.secondaryPhotoCaptionEu}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Information Column */}

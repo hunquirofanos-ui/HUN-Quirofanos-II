@@ -48,7 +48,7 @@ export const TransferSection: React.FC<TransferSectionProps> = ({
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              {language === 'es' ? 'Apartado 3 · Transfer' : '3. Atala · Transferra'}
+              {language === 'es' ? 'Transfer' : 'Transferra'}
             </h1>
 
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">

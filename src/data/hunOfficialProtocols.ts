@@ -407,3 +407,87 @@ export const METODOLOGIA_CELADORES_DENTRO: OfficialMethodologyStep[] = [
     collaborationWith: ["Todo el equipo del Bloque Quirúrgico"]
   }
 ];
+
+/**
+ * PROTOCOLO OFICIAL: CELADOR DE QUIRÓFANO Y LA UNIDAD DEL DOLOR
+ * Requisitos de aparataje específico y preparación de mesa / paciente (Ficha oficial)
+ */
+export const UNIDAD_DEL_DOLOR_PROTOCOL = {
+  title: "Quirófano con la Unidad del Dolor",
+  titleEu: "Ebakigela Minaren Unitatearekin",
+  badge: "Procedimientos Infiltrativos y Radiofrecuencia",
+  badgeEu: "Infiltrazio eta Erradiofrekuentzia Prozedurak",
+  officialPhoto: "assets/aistudio/IMG202511251010021.jpg",
+  description: "Protocolo oficial obligatorio para el celador/a de quirófano en las intervenciones programadas o de apoyo con la Unidad del Dolor del Hospital Universitario de Navarra.",
+  descriptionEu: "Nafarroako Unibertsitate Ospitaleko Minaren Unitatearekin programatutako esku-hartzeetarako ebakigelako zeladorearen nahitaezko protokolo ofiziala.",
+  aparataje: [
+    {
+      id: "rx-maternal",
+      item: "Aparato de RX (Rayos X)",
+      itemEu: "X Izpien Aparatua (RX)",
+      source: "Traer del Quirófano Maternal",
+      sourceEu: "Amatasun Ebakigelatik ekarri",
+      action: "Traer aparato de RX del Quirófano Maternal",
+      actionEu: "Amatasun Ebakigelatik X izpien aparatua ekarri",
+      description: "Desplazamiento seguro del arco fluoroscópico desde el área maternal hasta el quirófano asignado con frenos y cables asegurados."
+    },
+    {
+      id: "ecografo-dolor",
+      item: "Ecógrafo",
+      itemEu: "Ekografoa",
+      source: "Traer de la Unidad del Dolor",
+      sourceEu: "Minaren Unitatetik ekarri",
+      action: "Traer Ecógrafo de la Unidad del Dolor",
+      actionEu: "Minaren Unitatetik Ekografoa ekarri",
+      description: "Traslado del equipo ecográfico específico de la Unidad del Dolor comprobando sondas lineales/convexas y cableado."
+    },
+    {
+      id: "radiofrecuencia-dolor",
+      item: "Aparato de Radiofrecuencia",
+      itemEu: "Erradiofrekuentzia Aparatua",
+      source: "Traer de la Unidad del Dolor",
+      sourceEu: "Minaren Unitatetik ekarri",
+      action: "Traer Aparato de Radiofrecuencia de la Unidad del Dolor",
+      actionEu: "Minaren Unitatetik Erradiofrekuentzia Aparatua ekarri",
+      description: "Generador de radiofrecuencia para termocoagulación de ramas mediales y neuromodulación del dolor crónico."
+    }
+  ],
+  mesaYPaciente: [
+    {
+      step: 1,
+      rule: "Meter Base de Mesa de Quirófano",
+      ruleEu: "Ebakigela Mahaiaren Oinarria sartu",
+      detail: "Introducir la base de la mesa quirúrgica en el quirófano y dejarla firmemente encajada en la columna motorizada.",
+      detailEu: "Ebakigela mahaiaren oinarria ebakigelara sartu eta zutabe motorizatuan tinko ahokatu."
+    },
+    {
+      step: 2,
+      rule: "Preparar Mesa de Quirófano con Prolongador Dorsal",
+      ruleEu: "Ebakigela Mahaia Bizkarraldeko Luzagailuarekin prestatu",
+      detail: "Instalar el accesorio prolongador dorsal radiotransparente para facilitar la visión radiológica en toda la columna.",
+      detailEu: "Bizkarraldeko luzagailu erradiotransparentea instalatu bizkarrezurreko erradiografia-irudiak oztoporik gabe ikusteko."
+    },
+    {
+      step: 3,
+      rule: "Pasar Paciente Boca Abajo",
+      ruleEu: "Pazientea Ahoz Behera pasatu (Dekubitu Pronoa)",
+      detail: "Transferir al paciente situándolo en decúbito prono (boca abajo) con alineación anatómica estricta y protección facial.",
+      detailEu: "Pazientearen transferra egin ahoz behera (dekubitu pronoan) jarriz, lerrokadura anatomikoa eta aurpegiko babesa zainduz."
+    },
+    {
+      step: 4,
+      rule: "Solo una sábana por encima",
+      ruleEu: "Maindire bakarra gainean",
+      detail: "Cubrir al paciente únicamente con una sábana para no interferir ni generar artefactos en la escopia radiológica.",
+      detailEu: "Pazientea maindire bakar batekin estali, X izpien eskopian interferentziarik edo itzalik ez sortzeko."
+    },
+    {
+      step: 5,
+      rule: "Dentro de Quirófano poner un rulo en los pies",
+      ruleEu: "Ebakigela barruan rulo bat jarri oinetan",
+      detail: "Una vez dentro del quirófano, colocar un rulo de apoyo bajo los empeines para relajar la columna lumbar y prevenir hiperextensión.",
+      detailEu: "Ebakigela barruan, oinbularren azpian rulo bat kokatu gerrialdea erlaxatzeko eta hiperextentsioa saihesteko."
+    }
+  ]
+};
+

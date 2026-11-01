@@ -127,20 +127,20 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100/90 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                 <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                <span>{language === 'es' ? 'Portal Oficial de Celadores de Quirófano' : 'Ebakigelako Zeladoreen Atari Ofiziala'}</span>
+                <span>{language === 'es' ? 'Portal de Celadores de Quirófano' : 'Ebakigelako Zeladoreen Ataria'}</span>
               </div>
 
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-                  HUN QUIRÓFANOS II
+                  PROTOCOLOS DE CELADORES DEL QUIRÓFANO CENTRAL II & QUIRÓFANO DE URGENCIAS II
                 </h1>
                 <p className="text-sm sm:text-base font-semibold text-blue-700 dark:text-blue-400 mt-1">
                   {language === 'es' 
-                    ? 'Protocolos de Celadores para el Quirófano Central II & Quirófano de Urgencias II' 
-                    : 'Zeladoreentzako Protokoloak Erdiko II Ebakigelan & Larrialdietako II Ebakigelan'}
+                    ? 'Hospital Universitario de Navarra · Área General V' 
+                    : 'Nafarroako Unibertsitate Ospitalea · V. Eremu Orokorra'}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                  Hospital Universitario de Navarra · Área General V
+                  HUN · Guía Asistencial, Quirófanos y Videoteca Oficial
                 </p>
               </div>
 

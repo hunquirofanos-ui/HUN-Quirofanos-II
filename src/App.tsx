@@ -319,6 +319,7 @@ export default function App() {
               onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
               onNavigateToUrology={() => handleNavigateFromHome('urologia_doc')}
               onNavigateToPositions={() => handleNavigateFromHome('posiciones')}
+              onNavigateToTrauma={() => handleNavigateFromHome('q7_q8')}
             />
           )}
 

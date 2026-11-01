@@ -26,6 +26,7 @@ interface VideoTutorialsViewerProps {
   onNavigateToPreEntry?: () => void;
   onNavigateToUrology?: () => void;
   onNavigateToPositions?: () => void;
+  onNavigateToTrauma?: () => void;
 }
 
 export const VideoTutorialsViewer: React.FC<VideoTutorialsViewerProps> = ({
@@ -34,7 +35,8 @@ export const VideoTutorialsViewer: React.FC<VideoTutorialsViewerProps> = ({
   initialVideoId,
   onNavigateToPreEntry,
   onNavigateToUrology,
-  onNavigateToPositions
+  onNavigateToPositions,
+  onNavigateToTrauma
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'trauma' | 'urologia' | 'mesa_trusystem' | 'transfer'>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,7 +45,7 @@ export const VideoTutorialsViewer: React.FC<VideoTutorialsViewerProps> = ({
       const found = OPERATING_TABLE_VIDEOS.find(v => v.id === initialVideoId);
       if (found) return found;
     }
-    return OPERATING_TABLE_VIDEOS[0];
+    return OPERATING_TABLE_VIDEOS.find(v => v.id === 'carro-traccion-conexion') || OPERATING_TABLE_VIDEOS[0];
   });
   const [isFullscreenModal, setIsFullscreenModal] = useState(false);
 
@@ -66,6 +68,36 @@ export const VideoTutorialsViewer: React.FC<VideoTutorialsViewerProps> = ({
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
+      {/* Notice about Cirugía de Hombro Protocol relocation to Q7-Q8 Trauma */}
+      <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 transition-colors ${
+        nightMode ? 'bg-amber-950/30 border-amber-800/60 text-amber-200' : 'bg-amber-50/80 border-amber-200 text-amber-950 shadow-2xs'
+      }`}>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <Sliders className="w-4 h-4" />
+          </div>
+          <div className="text-xs">
+            <span className="font-extrabold uppercase tracking-wide block text-amber-900 dark:text-amber-200">
+              {language === 'es' ? 'Protocolo de Cirugía de Hombro (Mesa de Playa)' : 'Sorbalda Kirurgiaren Protokoloa (Hondartza Aulkia)'}
+            </span>
+            <p className="text-amber-800 dark:text-amber-300 mt-0.5 leading-relaxed">
+              {language === 'es'
+                ? 'El protocolo técnico completo de Cirugía de Hombro en Silla de Playa (Beach Chair) con sus pasos de montaje y advertencias críticas de seguridad se presenta en la sección Q7–Q8 Traumatología.'
+                : 'Sorbalda Kirurgiako hondartza-aulkiaren muntai-protokolo osoa eta segurtasun-oharrak Q7–Q8 Traumatologia atalean aurkezten dira.'}
+            </p>
+          </div>
+        </div>
+        {onNavigateToTrauma && (
+          <button
+            onClick={onNavigateToTrauma}
+            className="px-4 py-2 rounded-xl text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white transition-all shrink-0 flex items-center gap-1.5 shadow-2xs self-stretch sm:self-auto justify-center"
+          >
+            <span>{language === 'es' ? 'Ver en Q7–Q8 Trauma' : 'Q7-Q8an Ikusi'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+
       {/* Header Banner */}
       <div className={`p-4 sm:p-6 rounded-2xl border transition-colors ${
         nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
@@ -83,8 +115,8 @@ export const VideoTutorialsViewer: React.FC<VideoTutorialsViewerProps> = ({
             </h1>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-3xl leading-relaxed">
               {language === 'es' 
-                ? '11 vídeos didácticos oficiales para celadores/as y enfermería de quirófano: montaje de mesa de hombro (silla de playa), conexión/desconexión y desbloqueo del carro de tracción, perneras de 4 piezas, postura de Pilé en urología, memorias de mando y transferencias seguras.' 
-                : '11 bideo didaktiko ofizial zeladore eta erizaintzarentzat: sorbalda-mahaia (hondartza aulkia), trakzio-orgaren konexioa/deskonexioa eta desblokeatzea, 4 ataleko hanka-euskarriak, Pilé posizioa urologian, aginte memoriak eta transfer seguruak.'}
+                ? 'Vídeos didácticos oficiales facilitados por Palex Medical para celadores/as y enfermería de quirófano: conexión/desconexión y desbloqueo del carro de tracción, perneras de 4 piezas, postura de Pilé en urología, memorias de mando y transferencias seguras.' 
+                : 'Palex Medical-ek emandako bideo didaktiko ofizialak zeladore eta erizaintzarentzat: trakzio-orgaren konexioa/deskonexioa eta desblokeatzea, 4 ataleko hanka-euskarriak, Pilé posizioa urologian, aginte memoriak eta transfer seguruak.'}
             </p>
           </div>
 

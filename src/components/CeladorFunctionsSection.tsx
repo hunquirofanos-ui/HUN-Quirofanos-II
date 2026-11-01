@@ -13,14 +13,21 @@ import {
   Activity, 
   Clock, 
   Building2,
-  FolderOpen
+  FolderOpen,
+  HeartPulse,
+  Radio,
+  Maximize2,
+  X,
+  Image as ImageIcon,
+  Sparkles
 } from 'lucide-react';
 import { 
   FUNCIONES_CELADORES_FUERA, 
   METODOLOGIA_CELADORES_FUERA, 
   FUNCIONES_CELADORES_DENTRO, 
   METODOLOGIA_CELADORES_DENTRO,
-  HUN_TEAM_PHILOSOPHY
+  HUN_TEAM_PHILOSOPHY,
+  UNIDAD_DEL_DOLOR_PROTOCOL
 } from '../data/hunOfficialProtocols';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
@@ -39,9 +46,15 @@ export const CeladorFunctionsSection: React.FC<CeladorFunctionsSectionProps> = (
   onNavigateToQuirofanos
 }) => {
   const t = TRANSLATIONS[language];
-  const [activeTab, setActiveTab] = useState<'dentro' | 'fuera'>('dentro');
+  const [activeTab, setActiveTab] = useState<'dentro' | 'fuera' | 'dolor'>('dentro');
   const [subView, setSubView] = useState<'funciones' | 'metodologia'>('funciones');
   const [searchFilter, setSearchFilter] = useState<string>('');
+  const [selectedSheetModal, setSelectedSheetModal] = useState<string | null>(null);
+  const [checkedDolorItems, setCheckedDolorItems] = useState<Record<string, boolean>>({});
+
+  const toggleDolorCheck = (key: string) => {
+    setCheckedDolorItems(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const filteredFuncionesDentro = FUNCIONES_CELADORES_DENTRO.filter(f =>
     f.title.toLowerCase().includes(searchFilter.toLowerCase()) ||
@@ -103,6 +116,18 @@ export const CeladorFunctionsSection: React.FC<CeladorFunctionsSectionProps> = (
             >
               <Truck className="w-4 h-4" />
               <span>{language === 'es' ? 'Celador de Fuera (14)' : 'Kanpoko Zeladorea (14)'}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('dolor')}
+              className={`px-4 sm:px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
+                activeTab === 'dolor'
+                  ? 'bg-purple-600 text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <HeartPulse className="w-4 h-4" />
+              <span>{language === 'es' ? 'Unidad del Dolor' : 'Minaren Unitatea'}</span>
             </button>
           </div>
         </div>
@@ -221,6 +246,47 @@ export const CeladorFunctionsSection: React.FC<CeladorFunctionsSectionProps> = (
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 font-semibold text-slate-700 dark:text-slate-300 border border-blue-200 dark:border-blue-900">
                 ✓ Devolución según normativa de quirófano
+              </span>
+            </div>
+          </div>
+
+          {/* FEATURED SPECIAL PROTOCOL CARD: QUIRÓFANO CON LA UNIDAD DEL DOLOR */}
+          <div 
+            onClick={() => setActiveTab('dolor')}
+            className={`p-5 rounded-2xl border-2 transition-all cursor-pointer group shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4 ${
+              nightMode 
+                ? 'bg-purple-950/20 border-purple-800/80 hover:border-purple-600' 
+                : 'bg-gradient-to-r from-purple-50 via-white to-pink-50 border-purple-300 hover:border-purple-500'
+            }`}
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                <HeartPulse className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300">
+                    {language === 'es' ? 'Protocolo Especial HUN' : 'NUO Protokolo Berezia'}
+                  </span>
+                  <span className="text-[11px] font-bold text-slate-500 font-mono">
+                    RX + Ecógrafo + Radiofrecuencia
+                  </span>
+                </div>
+                <h3 className="text-base font-black text-slate-900 dark:text-white">
+                  {language === 'es' ? 'Celador de Quirófano y la Unidad del Dolor' : 'Ebakigelako Zeladorea eta Minaren Unitatea'}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+                  {language === 'es'
+                    ? 'Traslado de RX Maternal, Ecógrafo y Radiofrecuencia. Base de mesa con prolongador dorsal, paciente boca abajo, solo una sábana por encima y rulo en los pies.'
+                    : 'Amatasunetik RX aparatua, Ekografoa eta Erradiofrekuentzia ekartzea. Bizkarraldeko luzagailua, pazientea ahoz behera eta ruloa oinetan.'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 self-stretch md:self-auto shrink-0 justify-end">
+              <span className="px-3.5 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white group-hover:bg-purple-700 transition-colors shadow-2xs flex items-center gap-1.5 w-full md:w-auto justify-center">
+                <span>{language === 'es' ? 'Ver Protocolo y Ficha Oficial' : 'Ikusi Protokoloa eta Fitxa'}</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
           </div>
@@ -506,6 +572,260 @@ export const CeladorFunctionsSection: React.FC<CeladorFunctionsSectionProps> = (
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 2.3 CELADOR DE QUIRÓFANO Y LA UNIDAD DEL DOLOR (APARTADO INDEPENDIENTE)  */}
+      {/* ========================================================================= */}
+      {activeTab === 'dolor' && (
+        <div className="space-y-6 animate-in fade-in duration-200">
+          {/* Header Banner */}
+          <div className={`p-6 sm:p-8 rounded-3xl border transition-colors ${
+            nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+          }`}>
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100/90 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                  <HeartPulse className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                  <span>{language === 'es' ? 'Protocolo Oficial HUN · Unidad del Dolor' : 'NUO Protokolo Ofiziala · Minaren Unitatea'}</span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                  {language === 'es' ? 'Quirófano con la Unidad del Dolor' : 'Ebakigela Minaren Unitatearekin'}
+                </h2>
+
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+                  {language === 'es'
+                    ? 'Normativa operativa y técnica obligatoria para los celadores/as de quirófano en los procedimientos de la Unidad del Dolor: aparataje electromédico a transportar desde otras dependencias, configuración de mesa con prolongador dorsal y posicionamiento ergonómico del paciente en decúbito prono.'
+                    : 'Ebakigelako zeladoreen derrigorrezko araudia Minaren Unitateko prozeduretan: beste zerbitzuetatik ekarri beharreko tresneria, bizkarraldeko luzagailua duen mahaiaren prestaketa eta pazientearen kokapen ergonomikoa.'}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 self-start lg:self-auto shrink-0">
+                <button
+                  onClick={() => setSelectedSheetModal(`${import.meta.env.BASE_URL}${UNIDAD_DEL_DOLOR_PROTOCOL.officialPhoto}`)}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white transition-colors flex items-center gap-2 shadow-2xs"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                  <span>{language === 'es' ? 'Ver Ficha Original HUN' : 'Ikusi NUO Fitxa Ofiziala'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Two-Column Grid: Left Document Photo Showcase | Right Step-by-Step Interactive Guide */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* Left: Document Photo Card */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className={`p-4 sm:p-5 rounded-3xl border transition-all ${
+                nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+              }`}>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">
+                      {language === 'es' ? 'Ficha Oficial del Quirófano' : 'Ebakigelako Fitxa Ofiziala'}
+                    </h3>
+                  </div>
+                  <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">
+                    {language === 'es' ? 'Click para ampliar' : 'Klik egin handitzeko'}
+                  </span>
+                </div>
+
+                <div 
+                  onClick={() => setSelectedSheetModal(`${import.meta.env.BASE_URL}${UNIDAD_DEL_DOLOR_PROTOCOL.officialPhoto}`)}
+                  className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 dark:border-slate-800 group cursor-pointer shadow-md"
+                >
+                  <img 
+                    src={`${import.meta.env.BASE_URL}${UNIDAD_DEL_DOLOR_PROTOCOL.officialPhoto}`}
+                    alt="Protocolo Quirófano con la Unidad del Dolor"
+                    className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end justify-between p-3.5">
+                    <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <Maximize2 className="w-3.5 h-3.5 text-purple-400" />
+                      <span>{language === 'es' ? 'Documento original HUN' : 'Jatorrizko NUO agiria'}</span>
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-300 bg-black/60 px-2 py-0.5 rounded-md">
+                      HD 1400×1050
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/60 text-[11px] text-purple-900 dark:text-purple-200 leading-relaxed">
+                  <span className="font-bold block mb-0.5">
+                    {language === 'es' ? 'Transcripción Auténtica:' : 'Benetako Transkripzioa:'}
+                  </span>
+                  {language === 'es'
+                    ? 'Documento clínico colocado en quirófano para guiar la recepción de casos de dolor crónico, bloqueos guiados por escopia y radiofrecuencia.'
+                    : 'Ebakigelan jarritako agiri klinikoa mina arintzeko prozedurak eta erradiofrekuentzia bideratzeko.'}
+                </div>
+              </div>
+            </div>
+
+            {/* Right: The Two Blocks of the Protocol */}
+            <div className="lg:col-span-7 space-y-5">
+              {/* BLOCK 1: MATERIAL Y APARATAJE ESPECÍFICO */}
+              <div className={`p-5 sm:p-6 rounded-3xl border transition-all ${
+                nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+              }`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 flex items-center justify-center shrink-0 border border-purple-200 dark:border-purple-800">
+                    <Radio className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400">
+                      {language === 'es' ? 'Bloque 1 · Transporte Logístico' : '1. Blokea · Garraio Logistikoa'}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                      {language === 'es' ? 'Aparataje Específico a Traer a Quirófano' : 'Ebakigelara Ekarri Beharreko Tresneria'}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {UNIDAD_DEL_DOLOR_PROTOCOL.aparataje.map((eq, idx) => (
+                    <div 
+                      key={eq.id}
+                      onClick={() => toggleDolorCheck(`eq-${eq.id}`)}
+                      className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-start gap-3.5 ${
+                        checkedDolorItems[`eq-${eq.id}`]
+                          ? 'bg-purple-50/60 dark:bg-purple-950/30 border-purple-300 dark:border-purple-800'
+                          : nightMode
+                            ? 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                            : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 border transition-colors ${
+                        checkedDolorItems[`eq-${eq.id}`]
+                          ? 'bg-purple-600 border-purple-600 text-white'
+                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-transparent'
+                      }`}>
+                        <CheckCircle2 className="w-4 h-4" />
+                      </div>
+
+                      <div className="space-y-1 flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h4 className={`text-xs sm:text-sm font-extrabold ${
+                            checkedDolorItems[`eq-${eq.id}`]
+                              ? 'text-purple-900 dark:text-purple-200 line-through'
+                              : 'text-slate-900 dark:text-white'
+                          }`}>
+                            {language === 'es' ? eq.action : eq.actionEu}
+                          </h4>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                            {language === 'es' ? eq.source : eq.sourceEu}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                          {eq.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* BLOCK 2: ACONDICIONAMIENTO DE MESA Y PACIENTE */}
+              <div className={`p-5 sm:p-6 rounded-3xl border transition-all ${
+                nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+              }`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0 border border-blue-200 dark:border-blue-800">
+                    <Sliders className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400">
+                      {language === 'es' ? 'Bloque 2 · Mesa y Posicionamiento' : '2. Blokea · Mahaia eta Posizioa'}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                      {language === 'es' ? 'Acondicionamiento de Mesa de Quirófano y Paciente' : 'Ebakigela Mahaiaren eta Pazientearen Prestaketa'}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {UNIDAD_DEL_DOLOR_PROTOCOL.mesaYPaciente.map((step) => (
+                    <div 
+                      key={step.step}
+                      onClick={() => toggleDolorCheck(`step-${step.step}`)}
+                      className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-start gap-3.5 ${
+                        checkedDolorItems[`step-${step.step}`]
+                          ? 'bg-blue-50/60 dark:bg-blue-950/30 border-blue-300 dark:border-blue-800'
+                          : nightMode
+                            ? 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                            : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 border transition-colors ${
+                        checkedDolorItems[`step-${step.step}`]
+                          ? 'bg-blue-600 border-blue-600 text-white'
+                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-transparent'
+                      }`}>
+                        <CheckCircle2 className="w-4 h-4" />
+                      </div>
+
+                      <div className="space-y-1 flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-extrabold text-[10px] flex items-center justify-center shrink-0">
+                            {step.step}
+                          </span>
+                          <h4 className={`text-xs sm:text-sm font-extrabold ${
+                            checkedDolorItems[`step-${step.step}`]
+                              ? 'text-blue-900 dark:text-blue-200 line-through'
+                              : 'text-slate-900 dark:text-white'
+                          }`}>
+                            {language === 'es' ? step.rule : step.ruleEu}
+                          </h4>
+                        </div>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 pl-7 leading-relaxed">
+                          {language === 'es' ? step.detail : step.detailEu}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Modal for Official Sheet Photo */}
+      {selectedSheetModal && (
+        <div 
+          onClick={() => setSelectedSheetModal(null)}
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-xs flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl max-h-[94vh] flex flex-col rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl"
+          >
+            <div className="p-3.5 border-b border-slate-800 flex items-center justify-between text-white bg-slate-950">
+              <div className="min-w-0 pr-3">
+                <span className="text-xs sm:text-sm font-bold block truncate">
+                  {language === 'es' ? 'Protocolo Oficial HUN: Quirófano con la Unidad del Dolor' : 'NUO Protokolo Ofiziala: Ebakigela Minaren Unitatearekin'}
+                </span>
+                <span className="text-[11px] text-slate-400 block truncate">
+                  {language === 'es' ? 'Aparataje específico, base de mesa con prolongador dorsal, decúbito prono y rulo en pies' : 'Tresneria espezifikoa, bizkarraldeko luzagailua, dekubitu pronoa eta ruloa'}
+                </span>
+              </div>
+              <button 
+                onClick={() => setSelectedSheetModal(null)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 shrink-0 min-h-[36px] min-w-[36px] flex items-center justify-center"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="overflow-auto p-3 bg-black flex items-center justify-center min-h-[50vh]">
+              <img 
+                src={selectedSheetModal} 
+                alt="Documento oficial Unidad del Dolor" 
+                className="max-h-[82vh] w-auto max-w-full object-contain rounded-lg"
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>

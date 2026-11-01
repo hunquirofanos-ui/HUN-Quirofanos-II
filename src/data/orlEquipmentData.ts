@@ -4,6 +4,9 @@ export interface OrlEquipmentItem {
   name: string;
   nameEu?: string;
   originalPhoto: string;
+  secondaryPhoto?: string;
+  secondaryPhotoCaption?: string;
+  secondaryPhotoCaptionEu?: string;
   badge: string;
   location: string;
   mainFunction: string;
@@ -15,6 +18,9 @@ export interface OrlEquipmentItem {
   precautionsAndWarnings: string[];
   precautionsAndWarningsEu?: string[];
 }
+
+export const ORL_PANORAMIC_PHOTO = 'assets/aistudio/d53425f52b9445a5a2f4f424e2976e1fd92bc1ea99825c73608e07e8701a6c3b_9c3f34db.png';
+export const ORL_GUIDE_PDF = 'assets/aistudio/Guia_aparataje_ORL_HUN_actualizada.pdf';
 
 export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
   {
@@ -38,26 +44,38 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
       'Aurpegiko nerbioaren kirurgia eta inplante koklearrak.'
     ],
     celadorDuties: [
-      'Desplazamiento sumamente pausado y con el brazo articulado bloqueado y plegado.',
-      'Posicionamiento lateral a la cabecera de la mesa quirúrgica según lateralidad quirúrgica.',
-      'Bloquear los frenos de la base inmediatamente tras ubicarlo en la posición indicada por el cirujano.',
-      'Tendido de cables por el suelo perimetral evitando zonas de paso o estrangulamientos.',
+      'Traslado OBLIGATORIO siempre entre DOS personas: una dirige la base con visibilidad directa y otra estabiliza el brazo y guía el equipo.',
+      'El brazo superior debe estar SIEMPRE PLEGADO para atravesar las puertas del quirófano y los pasillos.',
+      'Para plegar el brazo superior: el microscopio DEBE ESTAR ENCHUFADO a la corriente y utilizarse exclusivamente el panel de control motorizado.',
+      'Precauciones críticas durante el traslado: avanzar a ritmo sumamente pausado, vigilar de continuo el paso por marcos de puertas y esquinas, y evitar golpes, tirones o sacudidas.',
+      'Posicionamiento lateral a la cabecera de la mesa quirúrgica según lateralidad quirúrgica indicada por el cirujano.',
+      'Bloquear los frenos de la base inmediatamente tras ubicarlo en la posición indicada.',
+      'Tendido seguro de cables por el suelo perimetral evitando zonas de paso o estrangulamientos.',
       'Colocar la funda protectora antipolvo al finalizar la jornada quirúrgica y devolver al área asignada.'
     ],
     celadorDutiesEu: [
-      'Mugimendu oso pausatua, besoa blokeatuta eta tolestuta dagoela.',
+      'Garraioa DERRIGORREZKOA beti BI pertsonen artean: batek oinarria zuzentzen du eta besteak besoa egonkortzen du.',
+      'Goiko besoa BETI TOLESTUTA egon behar da ateak eta pasilloak zeharkatzeko.',
+      'Besoa tolesteko: mikroskopioak KONEKTATUTA egon behar du eta aginte-panela erabili behar da.',
+      'Garraio-prekauzioak: oso pausatuta joan, ate-ertzak eta kantoietako igarobideak etengabe zaindu, kolpeak eta tirakadak saihestu.',
       'Mahaiaren alboan kokatzea zirujauak adierazitako belarriaren edo lepoaren aldean.',
       'Oinarriko balaztak berehala blokeatzea behin lekuan dagoenean.',
       'Kableak zoruan segurtasunez bideratzea zapaldu ez daitezen.',
       'Hauts-babeslekoa jartzea jardunaldia amaitzean eta dagokion lekuan gordetzea.'
     ],
     precautionsAndWarnings: [
-      'NUNCA forzar el brazo articulado si los bloqueos mecánicos o electromagnéticos están activados.',
+      'NUNCA forzar el brazo superior articulado de forma manual si los bloqueos mecánicos o electromagnéticos están activados.',
+      'Para plegar o desplegar el brazo es obligatorio que esté enchufado y accionar el panel de control.',
+      'Si el panel de control no responde o no pliega el brazo, avisar de inmediato al personal de Enfermería o al Servicio de Electromedicina (no manipular a la fuerza).',
+      'Extremar precauciones al atravesar puertas: vigilar que el brazo no golpee los marcos de las puertas para evitar averías o descalibración de las lentes.',
       'No tocar bajo ningún concepto las lentes ópticas con manos desnudas o productos abrasivos.',
       'Comprobar holgura suficiente en los cables antes de iniciar el movimiento del cabecero de la mesa.'
     ],
     precautionsAndWarningsEu: [
-      'INOIZ ez behartu beso giltzatua blokeoak aktibatuta badaude.',
+      'INOIZ ez behartu goiko beso giltzatua eskuz blokeoak aktibatuta badaude.',
+      'Besoa tolesteko edo mugitzeko ezinbestekoa da konektatuta egotea eta kontrol-panela erabiltzea.',
+      'Panelak erantzuten ez badu, abisatu berehala Erizaintzari edo Elektromedizinari (ez behartu eskuz).',
+      'Ateetatik igarotzean arreta handitu: besoa tolestuta egon arren ertzak jo ez ditzan.',
       'Ez ukitu leiar optikoak esku hutsez edo produktu urratzaileekin.',
       'Egiaztatu kableen tentsioa mahaia mugitu aurretik.'
     ]
@@ -68,6 +86,9 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
     name: 'Torre de Vídeo-Endoscopia KARL STORZ',
     nameEu: 'KARL STORZ Bideo-Endoskopia Dorrea',
     originalPhoto: 'assets/aistudio/IMG20261030075236_cb3396df.jpg',
+    secondaryPhoto: 'assets/aistudio/IMG20261030075409_ac5f971b.jpg',
+    secondaryPhotoCaption: 'Fotografía de detalle de la parte superior de la torre KARL STORZ: identificación de la pieza metálica situada en esa zona superior. Pendiente de confirmar su denominación técnica exacta.',
+    secondaryPhotoCaptionEu: 'KARL STORZ dorrearen goiko aldeko xehetasuna: goiko eremuko pieza metalikoa. Bere izen tekniko zehatza baieztatzeko zain.',
     badge: 'CENS & Rinología Endoscópica',
     location: 'Quirófano 2 (ORL)',
     mainFunction: 'Captura y visualización en pantalla de alta definición de la cavidad endonasal y senos paranasales con fuente de luz fría LED y sistema de grabación.',
@@ -83,22 +104,26 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
       'Septoplastiak eta hanka-turbinektomiak.'
     ],
     celadorDuties: [
+      'Incorporada una fotografía adicional de detalle de la parte superior, con identificación de la pieza metálica situada en esa zona (pendiente de confirmar su denominación técnica exacta).',
       'Colocar la torre en el lado contralateral a la posición de trabajo del cirujano principal para visión directa frontal.',
       'Conectar el cable de alimentación a toma hospitalaria de grado médico en quirófano.',
       'Proteger la fibra óptica: evitar radios de curvatura cerrados (ángulo recto) y no dejarla en el suelo donde pueda ser pisada.',
       'Limpieza de chasis y pantallas con toallitas de desinfección específicas del HUN tras la cirugía.'
     ],
     celadorDutiesEu: [
+      'Goiko aldeko argazki gehigarria barneratuta (pieza metalikoaren identifikazioarekin, izen tekniko zehatza baieztatzearen zain).',
       'Dorrea zirujauaren aurkako aldean jartzea zuzenean pantaila ikus dezan.',
       'Ospitaleko sare elektriko segurura konektatzea.',
       'Zuntz optikoa babestea: ez tolestu angelu zuzenean eta ez utzi lurrean gurpilek zapaldu dezaten.',
       'Xasia eta pantailak NUOko toallatxo desinfektatzaileekin garbitzea amaieran.'
     ],
     precautionsAndWarnings: [
+      'Pieza metálica superior: identificada en la zona alta de la torre (fotografía de detalle incorporada); pendiente de confirmar su denominación técnica exacta.',
       'Las fibras ópticas son de cuarzo extremadamente frágil: el doblado excesivo provoca rotura interna irreversible.',
       'Comprobar frenos de las 4 ruedas antes de que el equipo quirúrgico conecte las cámaras esterilizadas.'
     ],
     precautionsAndWarningsEu: [
+      'Goiko pieza metalikoa: dorrearen goialdean kokatua; izen tekniko zehatza baieztatzeko zain.',
       'Zuntz optikoak oso hauskorrak dira: gehiegi tolestuz gero barneko haustura eragiten da.',
       'Egiaztatu 4 gurpilen balaztak ekipo esterila konektatu aurretik.'
     ]

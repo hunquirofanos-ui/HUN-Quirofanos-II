@@ -23,6 +23,10 @@ import {
   PRE_ENTRY_TRAUMA_SHEET_IMG,
   PRE_ENTRY_URO_SHEET_IMG,
   PRE_ENTRY_RULES_SHEET_IMG,
+  PRE_ENTRY_URO_Q5Q6_MESAS_IMG,
+  PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG,
+  PELVIC_EXTENDER_WARNING,
+  URO_Q5Q6_TABLE_DATA,
   OFFICIAL_HUN_LOGO_IMG,
   GoldenRuleItem
 } from '../data/tablePreEntryProtocols';
@@ -82,7 +86,7 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
     }).filter(Boolean) as typeof TRAUMA_TABLE_PREPARATION_SECTIONS;
   }, [searchQuery]);
 
-  // Filtered urology procedures
+  // Filtered urology procedures (Pelvic extension)
   const filteredUro = useMemo(() => {
     if (!searchQuery.trim()) return UROLOGIA_PROLONGACION_PELVICA_LIST;
     const q = searchQuery.toLowerCase();
@@ -93,7 +97,27 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
     );
   }, [searchQuery]);
 
-  const totalResults = filteredRules.length + filteredTrauma.reduce((acc, s) => acc + s.procedures.length, 0) + filteredUro.length;
+  // Filtered Q5-Q6 urology operating table categories (Dorsal vs Camilla Normal)
+  const filteredUroQ5Q6 = useMemo(() => {
+    if (!searchQuery.trim()) return URO_Q5Q6_TABLE_DATA;
+    const q = searchQuery.toLowerCase();
+    return URO_Q5Q6_TABLE_DATA.map(cat => {
+      const matchCat = cat.title.toLowerCase().includes(q) || cat.subtitle.toLowerCase().includes(q);
+      const matchingProcs = cat.procedures.filter(p => 
+        p.name.toLowerCase().includes(q) || 
+        p.nameEu.toLowerCase().includes(q) ||
+        (p.notes && p.notes.toLowerCase().includes(q))
+      );
+      if (matchCat) return cat;
+      if (matchingProcs.length > 0) return { ...cat, procedures: matchingProcs };
+      return null;
+    }).filter(Boolean) as typeof URO_Q5Q6_TABLE_DATA;
+  }, [searchQuery]);
+
+  const totalResults = filteredRules.length + 
+    filteredTrauma.reduce((acc, s) => acc + s.procedures.length, 0) + 
+    filteredUro.length +
+    filteredUroQ5Q6.reduce((acc, c) => acc + c.procedures.length, 0);
 
   return (
     <div className="space-y-4 sm:space-y-6 animate-in fade-in duration-200">
@@ -132,11 +156,11 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
               </button>
             )}
             <button
-              onClick={() => setSelectedSheetModal(PRE_ENTRY_TRAUMA_SHEET_IMG)}
+              onClick={() => setActiveTab('fichas')}
               className="w-full sm:w-auto justify-center px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 shadow-2xs"
             >
               <ImageIcon className="w-4 h-4 text-blue-600 shrink-0" />
-              <span>{language === 'es' ? 'Fichas Originales (3)' : 'Jatorrizko Fitxak (3)'}</span>
+              <span>{language === 'es' ? 'Fichas Originales (5)' : 'Jatorrizko Fitxak (5)'}</span>
             </button>
           </div>
         </div>
@@ -224,11 +248,11 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
-              <span>{language === 'es' ? 'Urología Prolongación' : 'Urologia Luzapena'}</span>
+              <span>{language === 'es' ? 'Urología (Q5-Q6)' : 'Urologia (Q5-Q6)'}</span>
               <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
                 activeTab === 'urologia' ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
               }`}>
-                {filteredUro.length}
+                {filteredUro.length + filteredUroQ5Q6.reduce((acc, c) => acc + c.procedures.length, 0)}
               </span>
             </button>
             <button
@@ -243,7 +267,7 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
               <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
                 activeTab === 'fichas' ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
               }`}>
-                3
+                5
               </span>
             </button>
           </div>
@@ -449,9 +473,163 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
         </div>
       )}
 
-      {/* SECTION 3: UROLOGÍA PROLONGACIÓN PÉLVICA */}
+      {/* SECTION 3: UROLOGÍA (Q5 - Q6) */}
       {(activeTab === 'todos' || activeTab === 'urologia') && (
-        <div className="space-y-3 sm:space-y-4 pt-1 sm:pt-2">
+        <div className="space-y-4 pt-1 sm:pt-2">
+          {/* CRITICAL WARNING CARD: PROLONGADOR PÉLVICO (FOTO 2 / FICHA 5) */}
+          <div className="p-4 sm:p-5 rounded-2xl border-2 border-amber-400 dark:border-amber-500 bg-amber-50 dark:bg-amber-950/40 shadow-sm transition-all">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+              <div className="flex items-start gap-3.5 min-w-0 flex-1">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+                  <AlertTriangle className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
+                <div className="space-y-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-amber-200">
+                      {language === 'es' ? 'AVISO OFICIAL HUN · QUIRÓFANOS 5 Y 6' : 'NUO OHAR OFIZIALA · 5 ETA 6 EBAKIGELAK'}
+                    </span>
+                    <span className="text-[10px] text-amber-700 dark:text-amber-300 font-semibold">
+                      {language === 'es' ? 'Mando Eléctrico vs Manejo Manual' : 'Aginte Elektrikoa vs Eskuzko Maneiua'}
+                    </span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-black text-amber-950 dark:text-amber-100 leading-snug">
+                    {language === 'es' ? PELVIC_EXTENDER_WARNING.title : PELVIC_EXTENDER_WARNING.titleEu}
+                  </h3>
+                  <p className="text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-200 leading-relaxed bg-amber-100/70 dark:bg-amber-900/50 p-2.5 rounded-xl border border-amber-300 dark:border-amber-800">
+                    «{language === 'es' ? PELVIC_EXTENDER_WARNING.warningEs : PELVIC_EXTENDER_WARNING.warningEu}»
+                  </p>
+                  <p className="text-[11px] sm:text-xs text-amber-800/90 dark:text-amber-300/90 mt-1 leading-relaxed">
+                    {language === 'es' 
+                      ? 'Indicación operativa para celadores: cuando esté acoplado el prolongador pélvico a la mesa quirúrgica, la regulación diferencial y la apertura de cada pernera debe realizarse siempre de forma manual mediante los bloqueos y palancas mecánicas de las mismas.'
+                      : 'Zeladoreentzako ohar operatiboa: luzagailu pelbikoa mahaian jarrita dagoenean, hanka-euskarrien posizioa eta zabalera eskuz doitu behar da palanka mekanikoak erabiliz.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Photo thumbnail clickable */}
+              <div 
+                onClick={() => setSelectedSheetModal(PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG)}
+                className="lg:w-48 shrink-0 flex flex-col items-center justify-center p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-800 cursor-pointer hover:ring-2 hover:ring-amber-500 transition-all group"
+              >
+                <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-slate-950 relative">
+                  <img 
+                    src={PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG} 
+                    alt="Cartel Oficial Aviso Prolongador Pélvico HUN"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform" 
+                  />
+                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-white bg-black/70 px-2 py-1 rounded flex items-center gap-1">
+                      <ExternalLink className="w-3 h-3" />
+                      {language === 'es' ? 'Ver Cartel' : 'Kartela Ikusi'}
+                    </span>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-amber-800 dark:text-amber-300 mt-1.5 flex items-center gap-1 text-center">
+                  <ImageIcon className="w-3 h-3 shrink-0" />
+                  <span>{language === 'es' ? 'Foto Cartel Original' : 'Jatorrizko Kartela'}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* MESAS QUIRÚRGICAS Q5-Q6: PROLONGACIÓN DORSAL vs CAMILLA NORMAL (FOTO 1 / FICHA 4) */}
+          <div className="p-3.5 sm:p-5 rounded-2xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50/40 dark:bg-indigo-950/20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-200/80 dark:border-indigo-900/60 pb-3">
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block">
+                  HUN · Área General V · Quirófano 5 y Quirófano 6 (Urología)
+                </span>
+                <h2 className="text-base sm:text-xl font-extrabold text-indigo-950 dark:text-indigo-200 mt-0.5 leading-snug">
+                  {language === 'es' ? 'Mesas Quirúrgicas Q5–Q6: Prolongación Dorsal vs Camilla Normal' : 'Q5-Q6 Mahai Kirurgikoak: Bizkarraldeko Luzagailua vs Mahai Arrunta'}
+                </h2>
+                <p className="text-[11px] sm:text-xs text-indigo-900/80 dark:text-indigo-300 mt-1 leading-relaxed">
+                  {language === 'es'
+                    ? 'Transcripción oficial completa del documento de quirófano con las notas manuscritas (prótesis de pene en dorsal, linfadenectomía pelviana bilateral y reimplantación ureteral).'
+                    : 'Ebakigelako dokumentu ofizialaren transkripzio osoa eskuzko oharrekin (zakil-protesia dorsalean, aldebiko linfadenektomia eta uretereko birlandaketa).'}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={() => setSelectedSheetModal(PRE_ENTRY_URO_Q5Q6_MESAS_IMG)}
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1.5 shadow-2xs transition-colors"
+                >
+                  <ImageIcon className="w-3.5 h-3.5" />
+                  <span>{language === 'es' ? 'Ver Ficha Escrita HUN' : 'Ikusi NUOko Agiria'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Categories comparison grid */}
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {filteredUroQ5Q6.map((category) => {
+                const isDorsal = category.id === 'prolongacion-dorsal';
+                return (
+                  <div
+                    key={category.id}
+                    className={`rounded-2xl border p-3.5 sm:p-4.5 transition-all flex flex-col ${
+                      isDorsal
+                        ? 'bg-white dark:bg-slate-900 border-purple-200 dark:border-purple-900/60 shadow-xs'
+                        : 'bg-white dark:bg-slate-900 border-blue-200 dark:border-blue-900/60 shadow-xs'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2 pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className={`w-2.5 h-2.5 rounded-full ${isDorsal ? 'bg-purple-600' : 'bg-blue-600'}`} />
+                          <h3 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
+                            {language === 'es' ? category.title : category.titleEu}
+                          </h3>
+                        </div>
+                        <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                          {language === 'es' ? category.subtitle : category.subtitleEu}
+                        </p>
+                      </div>
+                      <span className={`text-[10px] sm:text-xs font-extrabold px-2.5 py-0.5 rounded-full shrink-0 ${
+                        isDorsal
+                          ? 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border border-purple-300 dark:border-purple-800'
+                          : 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-300 dark:border-blue-800'
+                      }`}>
+                        {category.procedures.length} {language === 'es' ? 'Cirugías' : 'Kirurgia'}
+                      </span>
+                    </div>
+
+                    {/* Procedures list */}
+                    <div className="mt-3 space-y-2 flex-1">
+                      {category.procedures.map((proc, pIdx) => (
+                        <div
+                          key={pIdx}
+                          className={`p-2.5 rounded-xl border text-xs transition-colors ${
+                            proc.isCorrection
+                              ? 'bg-amber-50/80 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800'
+                              : 'bg-slate-50 dark:bg-slate-950/50 border-slate-200 dark:border-slate-800'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <span className="font-bold text-slate-900 dark:text-white leading-snug">
+                              {language === 'es' ? proc.name : proc.nameEu}
+                            </span>
+                            {proc.isCorrection && (
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-200 shrink-0">
+                                {language === 'es' ? 'Anotación Manuscrita' : 'Eskuzko Oharra'}
+                              </span>
+                            )}
+                          </div>
+                          {proc.notes && (
+                            <p className="text-[10px] sm:text-[11px] text-amber-900 dark:text-amber-300 mt-1 font-medium leading-relaxed bg-white/70 dark:bg-slate-900/70 p-1.5 rounded-lg border border-amber-200 dark:border-amber-900/60">
+                              ℹ️ {language === 'es' ? proc.notes : (proc.notesEu || proc.notes)}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* PROLONGACIÓN PÉLVICA (FICHA 1 OFICIAL) */}
           <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/30">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 border-b border-blue-200/80 dark:border-blue-900/60 pb-2.5 sm:pb-3">
               <div className="min-w-0">
@@ -582,7 +760,7 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
         </div>
       )}
 
-      {/* SECTION 4: VISUALIZADOR DE LAS FICHAS ORIGINALES */}
+      {/* SECTION 4: VISUALIZADOR DE LAS FICHAS ORIGINALES (5 FICHAS OFICIALES) */}
       {(activeTab === 'todos' || activeTab === 'fichas') && (
         <div className="space-y-3 sm:space-y-4 pt-1 sm:pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 px-1">
@@ -593,11 +771,11 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
               </h2>
             </div>
             <span className="text-[11px] sm:text-xs text-slate-500 pl-4 sm:pl-0 shrink-0">
-              3 {language === 'es' ? 'hojas clínicas oficiales' : 'orri kliniko ofizial'}
+              5 {language === 'es' ? 'hojas clínicas oficiales y carteles' : 'orri kliniko eta kartel ofizial'}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
             {/* Sheet 1: Prolongación Pélvica */}
             <div 
               onClick={() => setSelectedSheetModal(PRE_ENTRY_URO_SHEET_IMG)}
@@ -650,7 +828,7 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
                 Ficha 2: Reglas de Oro Pre-Paso
               </h4>
               <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 line-clamp-2">
-                Apendicitis orinar, Criterio cirujano ORL cuernos, Stryker/Middar, Pañal edad.
+                Apendicitis orinar, ORL cuernos, Oftalmo Stryker/Middar, Trauma pañal edad, Urología empapador.
               </p>
             </div>
 
@@ -679,6 +857,72 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
               </h4>
               <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 line-clamp-2">
                 Mesa Normal, Pelvistato, Pélvico, Silla Playa, Prolongador Dorsal.
+              </p>
+            </div>
+
+            {/* Sheet 4: Mesas Quirúrgicas Q5-Q6 Urología */}
+            <div 
+              onClick={() => setSelectedSheetModal(PRE_ENTRY_URO_Q5Q6_MESAS_IMG)}
+              className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer hover:border-indigo-400 group ${
+                nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-2xs'
+              }`}
+            >
+              <div className="aspect-[4/3] sm:aspect-[3/4] w-full rounded-lg sm:rounded-xl overflow-hidden bg-slate-950 relative border border-slate-200 dark:border-slate-800">
+                <img 
+                  src={PRE_ENTRY_URO_Q5Q6_MESAS_IMG} 
+                  alt="Ficha 4: Mesas Quirúrgicas Q5-Q6 Urología HUN"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5 sm:p-3">
+                  <span className="text-[11px] sm:text-xs font-bold text-white flex items-center gap-1.5">
+                    <ExternalLink className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                    <span>{language === 'es' ? 'Tocar para ampliar Ficha 4' : 'Ukitu 4. Fitxa handitzeko'}</span>
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 mt-2">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">
+                  HUN Q5-Q6
+                </span>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-snug truncate">
+                  Ficha 4: Mesas Quirúrgicas Q5–Q6
+                </h4>
+              </div>
+              <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 line-clamp-2">
+                Prolongación Dorsal vs Camilla Normal con correcciones manuscritas (prótesis pene, etc.)
+              </p>
+            </div>
+
+            {/* Sheet 5: Aviso Prolongador Pélvico y Mando de Perneras */}
+            <div 
+              onClick={() => setSelectedSheetModal(PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG)}
+              className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border transition-all cursor-pointer hover:border-amber-400 group ${
+                nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-2xs'
+              }`}
+            >
+              <div className="aspect-[4/3] sm:aspect-[3/4] w-full rounded-lg sm:rounded-xl overflow-hidden bg-slate-950 relative border border-slate-200 dark:border-slate-800">
+                <img 
+                  src={PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG} 
+                  alt="Ficha 5: Cartel Aviso Perneras Prolongador Pélvico HUN"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-2.5 sm:p-3">
+                  <span className="text-[11px] sm:text-xs font-bold text-white flex items-center gap-1.5">
+                    <ExternalLink className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>{language === 'es' ? 'Tocar para ampliar Ficha 5' : 'Ukitu 5. Fitxa handitzeko'}</span>
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 mt-2">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                  AVISO CRÍTICO
+                </span>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-snug truncate">
+                  Ficha 5: Mando y Perneras
+                </h4>
+              </div>
+              <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 line-clamp-2">
+                Cartel oficial: con prolongador pélvico no mover perneras con mando, solo manual.
               </p>
             </div>
           </div>

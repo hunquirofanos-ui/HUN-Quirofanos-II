@@ -18,7 +18,10 @@ import {
   Clock,
   Flame,
   Activity,
-  Play
+  Play,
+  Maximize2,
+  X,
+  Image as ImageIcon
 } from 'lucide-react';
 import { SPECIALTIES, SURGERY_PROTOCOLS } from '../data/operatingRoomData';
 import { OPERATING_TABLE_VIDEOS } from '../data/operatingTableVideos';
@@ -56,6 +59,7 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
   });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [expandedSurgeryId, setExpandedSurgeryId] = useState<string | null>(null);
+  const [selectedPhotoModal, setSelectedPhotoModal] = useState<{ src: string; title: string; subtitle?: string } | null>(null);
 
   React.useEffect(() => {
     if (initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT') {
@@ -433,44 +437,179 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
                 </div>
               </div>
 
-              {/* Prominent Access Card for Aparataje Específico de ORL in Q2 */}
+              {/* PRESENTATION CARD: QUIRÓFANO 2 (ORL) CON FOTOGRAFÍA PANORÁMICA DE LA SALA */}
               {activeHub.id === 'Q2' && (
-                <div 
-                  onClick={() => setShowOrlEquipment(true)}
-                  className="p-5 sm:p-6 rounded-3xl border-2 border-sky-400 dark:border-sky-600 bg-gradient-to-r from-sky-500/10 via-sky-500/5 to-cyan-500/10 hover:border-sky-500 cursor-pointer transition-all shadow-sm group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-cyan-600 text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                      <Stethoscope className="w-7 h-7" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-900/60">
-                          {language === 'es' ? 'Sección Destacada · 8 Equipos' : 'Atal Nabarmendua · 8 Ekipo'}
-                        </span>
-                        <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 font-mono">
-                          HUN Q2 ORL
-                        </span>
+                <div className={`p-5 sm:p-7 rounded-3xl border transition-all ${
+                  nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+                }`}>
+                  <div className="flex flex-col lg:flex-row items-stretch gap-6">
+                    {/* Left: Panoramic Photo of Q2 */}
+                    <div 
+                      onClick={() => setSelectedPhotoModal({
+                        src: `${import.meta.env.BASE_URL}assets/aistudio/ee926c55b711c8b2b1fd7f640aff27bd7789544b76f87c5f9b257fedd74a2574_4267f004.png`,
+                        title: language === 'es' ? 'Presentación de Quirófano 2 (ORL) · Hospital Universitario de Navarra' : '2. Ebakigelaren Aurkezpena (ORL) · Nafarroako Unibertsitate Ospitalea',
+                        subtitle: language === 'es' ? 'Disposición espacial de la mesa Trumpf, microscopio ZEISS, torre STORZ, consolas Medtronic IPC, Neurosign V4, silla motorizada y láser DEKA.' : 'Trumpf mahaiaren, ZEISS mikroskopioaren, KARL STORZ dorrearen eta gainerako aparatuen kokapen espaziala.'
+                      })}
+                      className="lg:w-7/12 relative aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 dark:border-slate-800 group cursor-pointer shadow-md shrink-0"
+                    >
+                      <img 
+                        src={`${import.meta.env.BASE_URL}assets/aistudio/ee926c55b711c8b2b1fd7f640aff27bd7789544b76f87c5f9b257fedd74a2574_4267f004.png`}
+                        alt="Presentación Quirófano 2 ORL HUN"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex flex-col justify-end p-4">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-white bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1.5">
+                            <Maximize2 className="w-3.5 h-3.5 text-sky-400" />
+                            <span>{language === 'es' ? 'Tocar para ampliar foto' : 'Ukitu argazkia handitzeko'}</span>
+                          </span>
+                          <span className="text-[10px] font-bold text-sky-300 bg-sky-950/80 px-2 py-0.5 rounded-md border border-sky-800">
+                            HUN Q2 ORL
+                          </span>
+                        </div>
                       </div>
-                      <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-1">
-                        {language === 'es' ? 'Aparataje Específico de ORL' : 'ORLeko Tresneria Espezifikoa'}
-                      </h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 max-w-2xl leading-relaxed">
-                        {language === 'es'
-                          ? 'Microscopio Zeiss, Torre Storz, Medtronic IPC, Sillón, Peso de bandeja, Neurosign V4, Silla motorizada y Láser DEKA (con maletín).'
-                          : 'Zeiss mikroskopioa, Storz dorrea, Medtronic IPC, Neurosign V4, aulkia eta DEKA laserra (maletatxo metalikoarekin).'}
-                      </p>
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-2 self-stretch sm:self-auto shrink-0 justify-end">
-                    <span className="px-4 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white group-hover:bg-sky-700 transition-colors shadow-2xs flex items-center gap-1.5 w-full sm:w-auto justify-center">
-                      <span>{language === 'es' ? 'Consultar los 8 Equipos' : '8 Ekipoak Kontsultatu'}</span>
-                      <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
-                    </span>
+                    {/* Right: Technical Description & Direct Access */}
+                    <div className="lg:w-5/12 flex flex-col justify-between space-y-4">
+                      <div className="space-y-3">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-100 dark:bg-sky-950/80 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+                          <Stethoscope className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+                          <span>{language === 'es' ? 'Presentación Oficial de Quirófano 2' : '2. Ebakigelaren Aurkezpen Ofiziala'}</span>
+                        </div>
+
+                        <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-snug">
+                          {language === 'es' ? 'Sala Quirúrgica y Disposición de ORL' : 'ORL Ebakuntza Gela eta Antolaketa'}
+                        </h3>
+
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                          {language === 'es'
+                            ? 'Fotografía panorámica oficial que muestra la ubicación exacta de los puestos quirúrgicos: columna central Trumpf, microscopio quirúrgico ZEISS al fondo izquierdo, torre laparoscópica KARL STORZ, carro de anestesia GE, consolas de microdesbridador Medtronic IPC, monitor Neurosign V4 y carro con láser DEKA SmartXide 2.'
+                            : 'Argazki panoramiko ofiziala: Trumpf erdiko zutabea, ZEISS mikroskopioa ezkerrean, KARL STORZ laparoskopia dorrea, GE anestesia-karroa, Medtronic IPC kontsolak, Neurosign V4 monitorea eta DEKA laserra.'}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 pt-2">
+                        <button
+                          onClick={() => setShowOrlEquipment(true)}
+                          className="w-full py-3 px-4 rounded-xl text-xs font-extrabold bg-sky-600 hover:bg-sky-700 text-white transition-all shadow-sm flex items-center justify-center gap-2 group"
+                        >
+                          <Stethoscope className="w-4 h-4" />
+                          <span>{language === 'es' ? 'Abrir Catálogo de Aparataje Específico (8 Equipos)' : 'ORLeko 8 Ekipoen Katalogoa Ireki'}</span>
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        <p className="text-[11px] text-center text-slate-500">
+                          {language === 'es' ? 'Incluye fotos individuales, traslados de celadores y precauciones' : 'Argazki indibidualak, garraio-oharrak eta neurriak barne'}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
+
+          {/* SPECIAL BANNER: PROTOCOLO CIRUGÍA DE HOMBRO EN SILLA DE PLAYA (Q7–Q8 TRAUMA) */}
+          {activeHub.id === 'Q7-Q8' && (
+            <div className={`p-5 sm:p-7 rounded-3xl border transition-all ${
+              nightMode 
+                ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/40 border-amber-800/80' 
+                : 'bg-gradient-to-br from-amber-50/70 via-white to-orange-50/60 border-amber-300 shadow-sm'
+            }`}>
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-amber-200/80 dark:border-amber-900/60">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                    <Sliders className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
+                    <span>{language === 'es' ? 'Protocolo Destacado · Quirófanos 7 y 8' : 'Protokolo Nabarmena · 7 eta 8 Ebakigelak'}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
+                    {language === 'es' 
+                      ? 'Cirugía de Hombro · Preparación de Mesa de Playa (Silla de Playa - TruSystem 7500)' 
+                      : 'Sorbalda Kirurgia · Hondartza Aulkiaren Prestaketa (TruSystem 7500)'}
+                  </h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+                    {language === 'es'
+                      ? 'Procedimiento oficial del bloque quirúrgico HUN para intervenciones de artroscopia de hombro y manguito rotador. Montaje del módulo de hombro, desacople del casco, anclaje de espalda y fijación cefálica.'
+                      : 'NUO ebakuntza-blokeko protokolo ofiziala sorbalda-artroskopia eta mahuka-konponketarako. Sorbalda-moduluaren muntaia, kaskoa askatzea eta buru-finkapena.'}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="px-3 py-1.5 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 font-bold text-xs border border-amber-300 dark:border-amber-800">
+                    06:48 · Vídeo Oficial
+                  </span>
+                </div>
+              </div>
+
+              {/* CRITICAL SAFETY WARNING (MANDATORY HUN RULE) - Muted, professional tone */}
+              <div className="mt-4 p-4 rounded-2xl bg-slate-800/90 dark:bg-slate-900 border border-slate-700/80 text-slate-200 shadow-sm flex items-start gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0 text-amber-400">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-bold tracking-wider uppercase text-amber-300">
+                    {language === 'es' ? '¡PASO CRÍTICO MANDATORIO DE SEGURIDAD!' : 'URRATS KRITIKO DERRIGORREZKOA!'}
+                  </h4>
+                  <p className="text-xs leading-relaxed font-normal text-slate-300">
+                    {language === 'es'
+                      ? 'Al finalizar la cirugía y ANTES de pulsar el cero en el mando de la mesa para bajar al paciente a plano, es OBLIGATORIO aflojar el casco y retirar el soporte de mentón. Al hacer el cero, la cabeza desciende directamente a la colchoneta; no soltarlo lesionaría las vértebras cervicales.'
+                      : 'Kirurgia amaitzean eta agintean zeroa sakatu AURRETIK pazientea posizio horizontalera jaisteko, DERRIGORREZKOA da kaskoa askatzea eta kokotseko euskarria kentzea. Zeroa egitean burua koltxonetara jaisten da; askatu ezean zerbikalak kalte ditzake.'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Two Column Layout: Embedded Video Player + Step by Step Guide */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5 items-start">
+                {/* Left: Video Player */}
+                <div className="lg:col-span-7 space-y-2">
+                  <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-md border border-slate-800">
+                    <video
+                      src={`${import.meta.env.BASE_URL}assets/aistudio/Mesa_de_Playa_0672cadf.mp4`}
+                      controls
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-contain bg-black"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 px-1 font-medium">
+                    <span>{language === 'es' ? 'Vídeo oficial facilitado por Palex Medical' : 'Palex Medical-ek emandako bideo ofiziala'}</span>
+                    <span>TruSystem 7500 · Quirófano 7 y 8</span>
+                  </div>
+                </div>
+
+                {/* Right: Step by Step Practical Instructions */}
+                <div className="lg:col-span-5 space-y-3 text-xs">
+                  <h4 className="font-extrabold uppercase tracking-wide text-amber-900 dark:text-amber-300 text-[11px] flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
+                    <span>{language === 'es' ? 'Pasos de Montaje de la Silla de Playa:' : 'Hondartza Aulkiaren Muntaketa Urratsak:'}</span>
+                  </h4>
+
+                  <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
+                    {[
+                      { es: 'Retirar la placa de cabeza estándar de la mesa quirúrgica.', eu: 'Kendu mahaiaren buru-plaka estandarra.' },
+                      { es: 'Acercar el carrito de hombro. El sistema viene sujeto por gravedad en la pieza central.', eu: 'Hurbildu sorbalda-orga. Erdiko piezan grabitatez eusten da.' },
+                      { es: 'Paso 1: Desconectar el casco aflojando la palomilla y deslizando hacia arriba.', eu: '1. urratsa: Aska kaskoa tximeleta-torlojua askatuz eta gorantz irristatuz.' },
+                      { es: 'Paso 2: Encajar los ganchos de la sección de espalda desde la parte frontal de la mesa.', eu: '2. urratsa: Lotu bizkarraldeko kakoak aurrealdeko zatitik.' },
+                      { es: 'Reconectar el casco deslizándolo hasta escuchar el clic sonoro y apretar palomilla.', eu: 'Berriz sartu kaskoa klika entzun arte eta estutu tximeleta-torlojua.' },
+                      { es: 'Ajustar almohadillas acolchadas de frente y mentón según la estatura del paciente.', eu: 'Egokitu bekokiko eta kokotseko kuxin bigunak pazientearen arabera.' },
+                      { es: 'Colocar soporte de brazo (dispositivo Sure-Lok con una sola palanca o rótula 3D).', eu: 'Jarri beso-euskarria (Sure-Lok edo 3D errotula).' },
+                      { es: 'Destino final: tras desinfección, los accesorios se guardan en el mueble del antequirófano Q7-8.', eu: 'Osagarriak garbitu ondoren Q7-8ko aurre-ebakigelako altzarian gordetzen dira.' }
+                    ].map((step, sIdx) => (
+                      <div 
+                        key={sIdx}
+                        className={`p-2.5 rounded-xl border flex items-start gap-2.5 ${
+                          nightMode ? 'bg-slate-950/70 border-slate-800 text-slate-200' : 'bg-white border-amber-200/70 text-slate-800 shadow-2xs'
+                        }`}
+                      >
+                        <span className="w-4 h-4 rounded-full bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-amber-200 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                          {sIdx + 1}
+                        </span>
+                        <span className="leading-snug">{language === 'es' ? step.es : step.eu}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Related Video Tutorial Cards (if available for this room) */}
           {activeHubVideos.length > 0 && (
@@ -668,6 +807,45 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
           </div>
             </>
           )}
+        </div>
+      )}
+
+      {/* Lightbox Modal for Photo View */}
+      {selectedPhotoModal && (
+        <div 
+          onClick={() => setSelectedPhotoModal(null)}
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-xs flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl max-h-[94vh] flex flex-col rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl"
+          >
+            <div className="p-3.5 border-b border-slate-800 flex items-center justify-between text-white bg-slate-950">
+              <div className="min-w-0 pr-3">
+                <span className="text-xs sm:text-sm font-bold block truncate">
+                  {selectedPhotoModal.title}
+                </span>
+                {selectedPhotoModal.subtitle && (
+                  <span className="text-[11px] text-slate-400 block truncate">
+                    {selectedPhotoModal.subtitle}
+                  </span>
+                )}
+              </div>
+              <button 
+                onClick={() => setSelectedPhotoModal(null)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 shrink-0 min-h-[36px] min-w-[36px] flex items-center justify-center"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="overflow-auto p-2 bg-black flex items-center justify-center min-h-[50vh]">
+              <img 
+                src={selectedPhotoModal.src} 
+                alt={selectedPhotoModal.title} 
+                className="max-h-[80vh] w-auto max-w-full object-contain rounded-lg"
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -154,7 +154,7 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
 
           <div className="flex items-center gap-2 self-start sm:self-auto">
             <span className="px-3 py-1.5 rounded-xl bg-violet-50 dark:bg-violet-950/60 border border-violet-200 dark:border-violet-900 text-violet-700 dark:text-violet-300 font-bold text-xs">
-              hunquirofanos@gmail.com
+              {language === 'es' ? 'Canal Asistencial Interno' : 'Barne Kanal Asistentziala'}
             </span>
           </div>
         </div>
@@ -173,8 +173,8 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {language === 'es' 
-                ? 'Los mensajes se reciben en hunquirofanos@gmail.com para su revisión por los responsables del proyecto.'
-                : 'Mezuak hunquirofanos@gmail.com helbidera bidaltzen dira proiektuaren arduradunek azter ditzaten.'}
+                ? 'Los mensajes se reciben directamente por la coordinación del proyecto para su revisión técnica y respuesta.'
+                : 'Mezuak proiektuaren koordinazioak jasotzen ditu zuzenean azterketa teknikorako eta erantzuteko.'}
             </p>
           </div>
 
@@ -188,8 +188,8 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
                 {language === 'es'
-                  ? 'Hemos recibido tu consulta técnica o sugerencia en hunquirofanos@gmail.com. El equipo revisará la información para seguir mejorando la aplicación.'
-                  : 'Zure kontsulta jaso dugu hunquirofanos@gmail.com helbidean. Lantaldeak aztertuko du aplikazioa hobetzen jarraitzeko.'}
+                  ? 'Hemos recibido tu consulta técnica o sugerencia. El equipo revisará la información para seguir mejorando la aplicación.'
+                  : 'Zure kontsulta edo iradokizuna jaso dugu. Lantaldeak informazioa aztertuko du aplikazioa hobetzen jarraitzeko.'}
               </p>
               <div className="pt-4">
                 <button
@@ -319,8 +319,8 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
                   {language === 'es' 
-                    ? 'Destino directo: hunquirofanos@gmail.com' 
-                    : 'Helbide zuzena: hunquirofanos@gmail.com'}
+                    ? 'Envío confidencial y directo al equipo de coordinación asistencial' 
+                    : 'Bidalketa konfidentziala eta zuzena koordinazio-taldeari'}
                 </span>
 
                 <button
@@ -394,10 +394,10 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
           </div>
         </div>
 
-        {/* 3 Explicit Credits Blocks as Requested */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* 4 Explicit Credits Blocks */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Credit 1: Design & Development */}
-          <div className={`p-5 rounded-2xl border transition-all ${
+          <div className={`p-4 sm:p-5 rounded-2xl border transition-all ${
             nightMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white border-blue-100 shadow-2xs'
           }`}>
             <div className="flex items-center gap-3 mb-3">
@@ -421,7 +421,7 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
           </div>
 
           {/* Credit 2: Urology Report Collaboration */}
-          <div className={`p-5 rounded-2xl border transition-all ${
+          <div className={`p-4 sm:p-5 rounded-2xl border transition-all ${
             nightMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white border-blue-100 shadow-2xs'
           }`}>
             <div className="flex items-center gap-3 mb-3">
@@ -445,7 +445,7 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
           </div>
 
           {/* Credit 3: Photography */}
-          <div className={`p-5 rounded-2xl border transition-all ${
+          <div className={`p-4 sm:p-5 rounded-2xl border transition-all ${
             nightMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white border-blue-100 shadow-2xs'
           }`}>
             <div className="flex items-center gap-3 mb-3">
@@ -457,7 +457,7 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
                   {language === 'es' ? 'Fotografías del Proyecto' : 'Proiektuaren Argazkiak'}
                 </span>
                 <h3 className="text-sm font-extrabold text-slate-900 dark:text-white leading-tight">
-                  David y Lain Nagore
+                  David Tabernero Garin y Lain Nagore
                 </h3>
               </div>
             </div>
@@ -465,6 +465,30 @@ export const ContactCreditsSection: React.FC<ContactCreditsSectionProps> = ({
               {language === 'es'
                 ? 'Fotografía técnica original en bloque quirúrgico: figuras de urología, pre-entrada de transfer y los 8 equipos específicos de ORL.'
                 : 'Ebakuntza-blokeko benetako argazki teknikoak: urologia, transferreko mahai-prestaketa eta ORLeko 8 ekipo espezifikoak.'}
+            </p>
+          </div>
+
+          {/* Credit 4: Technical Videos by Palex Medical */}
+          <div className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+            nightMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white border-blue-100 shadow-2xs'
+          }`}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                <FileCheck2 className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400 block">
+                  {language === 'es' ? 'Vídeos Técnicos y Tutoriales' : 'Bideo Teknikoak eta Tutorialak'}
+                </span>
+                <h3 className="text-sm font-extrabold text-slate-900 dark:text-white leading-tight">
+                  Palex Medical
+                </h3>
+              </div>
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              {language === 'es'
+                ? 'Material audiovisual instructivo y vídeos técnicos de manejo de mesas quirúrgicas (TruSystem 7500, carro de tracción, perneras y accesorios) proporcionados por la empresa Palex Medical.'
+                : 'Mahai kirurgikoen maneiurako material audiobisual didaktikoa eta bideo teknikoak Palex Medical enpresak emanak.'}
             </p>
           </div>
         </div>
