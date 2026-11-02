@@ -218,6 +218,9 @@ export default function App() {
               onNavigateToVideos={(videoId) => {
                 handleNavigateFromHome('videos');
               }}
+              onNavigateToOrlEquipment={() => {
+                handleNavigateFromHome('orl_aparataje');
+              }}
             />
           )}
 
