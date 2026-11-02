@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   ShieldCheck, 
   Building2, 
@@ -14,10 +14,13 @@ import {
   Layers,
   Search,
   CheckCircle2,
-  ArrowRightLeft
+  ArrowRightLeft,
+  X,
+  Compass
 } from 'lucide-react';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
+import { executeGlobalSearch, GlobalSearchResult } from '../data/globalSearchData';
 
 interface HomeWelcomeViewProps {
   onNavigate: (tab: string, subParam?: string) => void;
@@ -31,6 +34,29 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
   language
 }) => {
   const t = TRANSLATIONS[language];
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('all');
+
+  const groupedSearchResults = useMemo(() => {
+    return executeGlobalSearch(searchQuery);
+  }, [searchQuery]);
+
+  const totalResultsCount = useMemo(() => {
+    return Object.values(groupedSearchResults).reduce((acc, list) => acc + list.length, 0);
+  }, [groupedSearchResults]);
+
+  const searchSuggestions = [
+    { label: 'Roser (ORL)', query: 'Roser' },
+    { label: 'Microscopio ZEISS', query: 'Microscopio' },
+    { label: 'Láser DEKA', query: 'DEKA' },
+    { label: 'Nefrectomía Pilé', query: 'Pilé' },
+    { label: 'Pelvistato (Trauma)', query: 'Pelvistato' },
+    { label: 'Perneras Allen', query: 'Allen' },
+    { label: 'Apendicitis Q1', query: 'Apendicitis' },
+    { label: 'Unidad del Dolor', query: 'Unidad del Dolor' },
+    { label: 'Celador Dentro', query: 'dentro' },
+    { label: 'Silla de Playa', query: 'Playa' }
+  ];
 
   const quickSections = [
     {
@@ -125,9 +151,16 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
           {/* Left Text Column */}
           <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100/90 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                <span>{language === 'es' ? 'Portal de Celadores de Quirófano' : 'Ebakigelako Zeladoreen Ataria'}</span>
+              <div className="flex flex-wrap items-center gap-3">
+                <img 
+                  src={`${import.meta.env.BASE_URL}assets/aistudio/Se_al_Hospitalaria_de_Quir_fanos_35bec465.png`}
+                  alt="Hospital Universitario de Navarra - Quirófano Central II & Quirófano de Urgencias II"
+                  className="h-14 sm:h-16 md:h-20 w-auto object-contain bg-white rounded-2xl p-1 shadow-md border border-slate-200 dark:border-slate-700 hover:scale-102 transition-transform"
+                />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100/90 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                  <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                  <span>{language === 'es' ? 'Portal de Celadores de Quirófano' : 'Ebakigelako Zeladoreen Ataria'}</span>
+                </div>
               </div>
 
               <div>
@@ -208,6 +241,181 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
             </div>
           </div>
         </div>
+      </section>
+
+      {/* =================================================================== */}
+      {/* 2. BUSCADOR GENERAL DE LA APLICACIÓN */}
+      {/* =================================================================== */}
+      <section className={`p-5 sm:p-7 rounded-3xl border transition-all ${
+        nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-blue-200/80 shadow-sm'
+      }`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-xs">
+                <Search className="w-4 h-4" />
+              </div>
+              <h2 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
+                {language === 'es' ? 'Buscador General de la Aplicación' : 'Aplikazioaren Bilatzaile Orokorra'}
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              {language === 'es'
+                ? 'Busca en toda la web: especialidades, cirugías, posiciones («Roser», litotomía...), mesas, accesorios («Pilé», perneras...), aparataje («Microscopio», «Láser»...), funciones de celadores, vídeos y documentos.'
+                : 'Bilatu web osoan: espezialitateak, ebakuntzak, posizioak («Roser»...), mahaiak, tresnak («Pilé»...), aparatuak eta zeladorearen zereginak.'}
+            </p>
+          </div>
+
+          {searchQuery && (
+            <span className="text-xs font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-900 self-start sm:self-auto">
+              {totalResultsCount} {language === 'es' ? 'resultados' : 'emaitza'}
+            </span>
+          )}
+        </div>
+
+        {/* Search Input */}
+        <div className="relative">
+          <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-blue-600 dark:text-blue-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={language === 'es' 
+              ? 'Buscar intervención, posición (ej. Roser), mesa, accesorio (ej. Pilé), equipo (ej. Microscopio)...' 
+              : 'Bilatu ebakuntza, posizioa (adib. Roser), mahaia, tresneria (adib. Pilé, Mikroskopioa)...'}
+            className={`w-full pl-11 pr-10 py-3.5 rounded-2xl text-xs sm:text-sm font-medium border transition-all outline-none focus:ring-2 focus:ring-blue-500 ${
+              nightMode
+                ? 'bg-slate-950 border-slate-700 text-white placeholder-slate-500'
+                : 'bg-slate-50/70 border-slate-300 text-slate-900 placeholder-slate-400 focus:bg-white'
+            }`}
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
+              title="Borrar búsqueda"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Quick Suggestion Chips */}
+        <div className="mt-3 flex flex-wrap items-center gap-1.5 text-[11px]">
+          <span className="text-slate-400 font-semibold mr-1 flex items-center gap-1">
+            <Compass className="w-3 h-3" />
+            <span>{language === 'es' ? 'Sugerencias rápidas:' : 'Iradokizun azkarrak:'}</span>
+          </span>
+          {searchSuggestions.map((sug, sIdx) => (
+            <button
+              key={sIdx}
+              onClick={() => setSearchQuery(sug.query)}
+              className={`px-2.5 py-1 rounded-lg font-medium transition-all hover:scale-103 ${
+                searchQuery.toLowerCase() === sug.query.toLowerCase()
+                  ? 'bg-blue-600 text-white font-bold shadow-2xs'
+                  : nightMode
+                    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    : 'bg-slate-100 text-slate-700 hover:bg-blue-100 hover:text-blue-800'
+              }`}
+            >
+              {sug.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Search Results Area */}
+        {searchQuery.trim() !== '' && (
+          <div className="mt-5 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
+            {totalResultsCount === 0 ? (
+              <div className="text-center py-8 text-xs text-slate-500 space-y-2">
+                <p className="font-semibold text-sm text-slate-700 dark:text-slate-300">
+                  {language === 'es' ? `No se encontraron resultados para "${searchQuery}"` : `Ez da emaitzarik aurkitu "${searchQuery}" bilaketarako`}
+                </p>
+                <p className="text-xs">
+                  {language === 'es' 
+                    ? 'Prueba con términos como «Roser», «Microscopio», «Láser», «Pilé», «Pelvistato», «Allen» o «Apendicitis».' 
+                    : 'Probatu «Roser», «Mikroskopioa», «Pilé» edo «Apendizitis» bezalako hitzekin.'}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Category Filter Tabs */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
+                  <button
+                    onClick={() => setSelectedCategoryFilter('all')}
+                    className={`px-3 py-1 rounded-lg font-bold transition-all whitespace-nowrap shrink-0 ${
+                      selectedCategoryFilter === 'all'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                    }`}
+                  >
+                    {language === 'es' ? 'Todos' : 'Guztiak'} ({totalResultsCount})
+                  </button>
+
+                  {Object.keys(groupedSearchResults).map((catKey) => {
+                    const count = groupedSearchResults[catKey].length;
+                    const catLabel = groupedSearchResults[catKey][0]?.categoryLabel || catKey;
+                    return (
+                      <button
+                        key={catKey}
+                        onClick={() => setSelectedCategoryFilter(catKey)}
+                        className={`px-2.5 py-1 rounded-lg font-bold transition-all whitespace-nowrap shrink-0 ${
+                          selectedCategoryFilter === catKey
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'
+                        }`}
+                      >
+                        {catLabel} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Results Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {Object.keys(groupedSearchResults)
+                    .filter(cat => selectedCategoryFilter === 'all' || selectedCategoryFilter === cat)
+                    .flatMap(cat => groupedSearchResults[cat])
+                    .map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => onNavigate(item.targetTab, item.targetSubParam)}
+                        className={`p-3.5 sm:p-4 rounded-2xl border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-blue-400 flex flex-col justify-between ${
+                          nightMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-2xs'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+                              {language === 'es' ? item.categoryLabel : item.categoryLabelEu}
+                            </span>
+                            {item.operatingRoom && (
+                              <span className="text-[10px] font-semibold text-slate-500">
+                                {item.operatingRoom}
+                              </span>
+                            )}
+                          </div>
+
+                          <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white leading-snug">
+                            {language === 'es' ? item.title : (item.titleEu || item.title)}
+                          </h3>
+
+                          <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed line-clamp-3">
+                            {language === 'es' ? item.description : (item.descriptionEu || item.description)}
+                          </p>
+                        </div>
+
+                        <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
+                          <span>{language === 'es' ? 'Ir al apartado' : 'Atalera joan'}</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Quick Access to the 5 Operating Room Specialties */}

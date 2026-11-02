@@ -40,7 +40,7 @@ export const PRE_ENTRY_URO_SHEET_IMG = `${ASSETS_BASE}IMG20251125101013_425cd304
 export const PRE_ENTRY_RULES_SHEET_IMG = `${ASSETS_BASE}IMG20251125101020_modificado.jpg`;
 export const PRE_ENTRY_URO_Q5Q6_MESAS_IMG = `${ASSETS_BASE}IMG20251125101010_20c7027f.jpg`;
 export const PRE_ENTRY_PROLONGADOR_PELVICO_AVISO_IMG = `${ASSETS_BASE}IMG20251125101101_f90b49b9.jpg`;
-export const OFFICIAL_HUN_LOGO_IMG = `${ASSETS_BASE}Logotipo_hospitalario_con_quir_fanos_II_413ef642.png`;
+export const OFFICIAL_HUN_LOGO_IMG = `${ASSETS_BASE}Se_al_Hospitalaria_de_Quir_fanos_35bec465.png`;
 
 
 /**

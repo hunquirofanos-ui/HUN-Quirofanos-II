@@ -19,7 +19,7 @@ export interface OrlEquipmentItem {
   precautionsAndWarningsEu?: string[];
 }
 
-export const ORL_PANORAMIC_PHOTO = 'assets/aistudio/d53425f52b9445a5a2f4f424e2976e1fd92bc1ea99825c73608e07e8701a6c3b_9c3f34db.png';
+export const ORL_PANORAMIC_PHOTO = 'assets/aistudio/ee926c55b711c8b2b1fd7f640aff27bd7789544b76f87c5f9b257fedd74a2574_4267f004.png';
 export const ORL_GUIDE_PDF = 'assets/aistudio/Guia_aparataje_ORL_HUN_actualizada.pdf';
 
 export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [

@@ -10,6 +10,9 @@ import {
   ExternalLink,
   Sparkles,
   ArrowRight,
+  ArrowLeft,
+  ChevronDown,
+  ChevronUp,
   ShieldAlert,
   Info,
   X,
@@ -73,6 +76,55 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
   const [selectedSheetModal, setSelectedSheetModal] = useState<string | null>(null);
   const [selectedVideoModal, setSelectedVideoModal] = useState<{ title: string; url: string; warning?: string } | null>(null);
   const [selectedProcedure, setSelectedProcedure] = useState<SearchableTransferProcedure | null>(null);
+  const [expandedAccordionId, setExpandedAccordionId] = useState<string | null>(null);
+
+  const getCeladorTransferDuties = (proc: SearchableTransferProcedure, lang: Language): string[] => {
+    const common = lang === 'es' ? [
+      'Nivelación milimétrica: regular la mesa de quirófano a la misma altura de la cama antes del contacto.',
+      'Frenos bloqueados: asegurar las 4 ruedas de la cama y verificar el bloqueo de la columna de la mesa.',
+      'Tabla de transfer y sábana de tiro: deslizamiento suave y uniforme con la ayuda de la tabla rígida o roller.',
+      'Coordinación en cabecera: pase a la cuenta del anestesiólogo («1, 2, 3»), manteniendo la alineación del paciente.',
+      'Vigilancia estricta de sueros, vías venosas periféricas, sondas vesicales y tubo endotraqueal para evitar arrancamientos accidentales.'
+    ] : [
+      'Altuera lerrokatzea: mahaia eta ohea altuera berean jarri ukitu aurretik.',
+      'Balaztak blokeatuta: ohearen 4 gurpilak blokeatu eta zutabea egonkortu.',
+      'Transfer taula eta maindirea: mugimendu leuna eta segurua bermatu.',
+      'Koordinazioa burualdean: Anestesiologoaren zenbaketara («1, 2, 3») pazientea mugitu lerrokatuta mantenduz.',
+      'Bideak, serumak eta intubazio-hodia etengabe zaindu istripuzko tirakadak saihesteko.'
+    ];
+
+    if (proc.specialtyId === 'q1-urgencias') {
+      return [
+        ...common,
+        lang === 'es' ? 'En apendicitis y abdomen agudo: verificar obligatoriamente que el paciente haya vaciado la vejiga previamente (regla «TIENE QUE ORINAR ANTES»).' : 'Apendizitisean: egiaztatu aldez aurretik maskuria hustu duela («AURRETIK TXIZA EGIN BEHAR DU»).',
+        lang === 'es' ? 'Colocación de apoyabrazos dobles acolchados con apertura obligatoria menor a 90° para prevenir plexopatía braquial.' : 'Beso-euskarriak 90° baino gutxiagoko angeluarekin kokatu plexu brakiala babesteko.'
+      ];
+    } else if (proc.specialtyId === 'q2-orl') {
+      return [
+        ...common,
+        lang === 'es' ? 'Montar cabecero específico de cuernos o aro de silicona craneal según indicación antes de iniciar el transfer.' : 'Adar-euskarria edo silikonazko eraztuna muntatu transferra egin aurretik.',
+        lang === 'es' ? 'Cuidado extremo al colocar la cabeza en hiperextensión cervical para no descolocar el tubo anestésico flexometálico.' : 'Arreta handia burua kokatzean intubazio-hodia ez mugitzeko.'
+      ];
+    } else if (proc.specialtyId === 'q3-q4-oftalmo') {
+      return [
+        ...common,
+        lang === 'es' ? 'Acomodar la cabeza en el cabecero cóncavo ultrafino de la camilla (Stryker en Q3 o Middar en Q4) con cinta de fijación hipoalergénica si procede.' : 'Burua camillaren ahur ultrafinean egokitu (Stryker Q3an edo Middar Q4an).',
+        lang === 'es' ? 'Dejar libre y despejado el suelo inferior craneal para el pedal del microscopio y facoemulsificador del cirujano.' : 'Lurzorua libre utzi oftalmologoaren pedalentzat.'
+      ];
+    } else if (proc.specialtyId === 'q5-q6-urologia') {
+      return [
+        ...common,
+        lang === 'es' ? 'Colocar empapador absorbente previo en la mesa (regla mandatoria en toda urología).' : 'Enpapadore xurgatzailea jarri mahaian aldez aurretik.',
+        lang === 'es' ? 'En litotomía: nalgas al filo de la mesa solo con autorización de anestesia; subir y bajar ambas piernas de forma SIMULTÁNEA entre dos celadores con perneras de regulación manual.' : 'Litotomian: ipurmasailak mahaiaren ertzera jaitsi anestesiaren baimenarekin; bi hankak batera igo eta jaitsi bi pertsonen artean eskuzko pernerak erabiliz.'
+      ];
+    } else {
+      return [
+        ...common,
+        lang === 'es' ? 'Regla «EDAD» de Traumatología: colocar pañal y empapador protector antes de pasar al paciente.' : 'Traumako araua: pixoihala eta enpapadorea jarri pasa aurretik.',
+        lang === 'es' ? 'En fracturas de cadera/fémur: sostener la extremidad fracturada alineada en todo momento con tracción axial suave sin torsiones.' : 'Aldaka/femur hausturetan: kaltetutako hanka lerrokatuta mantendu mugimendu osoan.'
+      ];
+    }
+  };
 
   // Search filtering across all procedures
   const searchResults = useMemo(() => {
@@ -851,6 +903,23 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* ------------------------------------------------------------------- */}
       {activeTab === 'q1' && (
         <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Back Button to Specialties List */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                setActiveTab('todos');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-2xs flex items-center gap-2 group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-red-600 dark:text-red-400" />
+              <span>{language === 'es' ? '← Volver al listado de especialidades' : '← Itzuli espezialitateen zerrendara'}</span>
+            </button>
+            <span className="text-xs font-bold text-slate-500">
+              {q1Procedures.length} {language === 'es' ? 'Intervenciones catalogadas' : 'Ebakuntza'}
+            </span>
+          </div>
+
           {/* Header Banner */}
           <div className="p-4 sm:p-5 rounded-2xl bg-red-50/70 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -996,6 +1065,23 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* ------------------------------------------------------------------- */}
       {activeTab === 'q2' && (
         <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Back Button to Specialties List */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                setActiveTab('todos');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-2xs flex items-center gap-2 group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-sky-600 dark:text-sky-400" />
+              <span>{language === 'es' ? '← Volver al listado de especialidades' : '← Itzuli espezialitateen zerrendara'}</span>
+            </button>
+            <span className="text-xs font-bold text-slate-500">
+              {q2Procedures.length} {language === 'es' ? 'Intervenciones catalogadas' : 'Ebakuntza'}
+            </span>
+          </div>
+
           {/* Header Banner */}
           <div className="p-4 sm:p-5 rounded-2xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900/60">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1141,6 +1227,23 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* ------------------------------------------------------------------- */}
       {activeTab === 'q3_q4' && (
         <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Back Button to Specialties List */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                setActiveTab('todos');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-2xs flex items-center gap-2 group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-teal-600 dark:text-teal-400" />
+              <span>{language === 'es' ? '← Volver al listado de especialidades' : '← Itzuli espezialitateen zerrendara'}</span>
+            </button>
+            <span className="text-xs font-bold text-slate-500">
+              {q3q4Procedures.length} {language === 'es' ? 'Intervenciones catalogadas' : 'Ebakuntza'}
+            </span>
+          </div>
+
           {/* Header Banner */}
           <div className="p-4 sm:p-5 rounded-2xl bg-teal-50/70 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-900/60">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1272,6 +1375,23 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* ------------------------------------------------------------------- */}
       {activeTab === 'q5_q6' && (
         <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Back Button to Specialties List */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                setActiveTab('todos');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-2xs flex items-center gap-2 group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-purple-600 dark:text-purple-400" />
+              <span>{language === 'es' ? '← Volver al listado de especialidades' : '← Itzuli espezialitateen zerrendara'}</span>
+            </button>
+            <span className="text-xs font-bold text-slate-500">
+              {countQ5Q6} {language === 'es' ? 'Intervenciones catalogadas' : 'Ebakuntza'}
+            </span>
+          </div>
+
           {/* Header Banner */}
           <div className="p-4 sm:p-5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/60">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1501,6 +1621,23 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* ------------------------------------------------------------------- */}
       {activeTab === 'q7_q8' && (
         <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Back Button to Specialties List */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                setActiveTab('todos');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-2xs flex items-center gap-2 group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-orange-600 dark:text-orange-400" />
+              <span>{language === 'es' ? '← Volver al listado de especialidades' : '← Itzuli espezialitateen zerrendara'}</span>
+            </button>
+            <span className="text-xs font-bold text-slate-500">
+              {countQ7Q8} {language === 'es' ? 'Intervenciones catalogadas' : 'Ebakuntza'}
+            </span>
+          </div>
+
           {/* Header Banner */}
           <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/70 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-900/60">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -1730,6 +1867,23 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* ------------------------------------------------------------------- */}
       {activeTab === 'fichas' && (
         <div className="space-y-5 animate-in fade-in duration-150">
+          {/* Back Button to Specialties List */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                setActiveTab('todos');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all shadow-2xs flex items-center gap-2 group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform text-amber-600 dark:text-amber-400" />
+              <span>{language === 'es' ? '← Volver al listado de especialidades' : '← Itzuli espezialitateen zerrendara'}</span>
+            </button>
+            <span className="text-xs font-bold text-slate-500">
+              5 {language === 'es' ? 'Fichas Originales' : 'Jatorrizko Fitxa'}
+            </span>
+          </div>
+
           <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 block">
@@ -1796,73 +1950,118 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
       {/* =================================================================== */}
       {/* 5. MODAL: DETALLE COMPLETO DE PROCEDIMIENTO SELECCIONADO */}
       {/* =================================================================== */}
+      {/* 5. MODAL: FICHA INTERACTIVA COMPLETA (7 APARTADOS MANDATORIOS) */}
+      {/* =================================================================== */}
       {selectedProcedure && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
-          <div className={`w-full max-w-lg rounded-2xl border p-5 sm:p-6 shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto ${
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 animate-in fade-in duration-150">
+          <div className={`w-full max-w-2xl rounded-3xl border p-5 sm:p-7 shadow-2xl relative space-y-4 max-h-[92vh] overflow-y-auto ${
             nightMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             <button
               onClick={() => setSelectedProcedure(null)}
-              className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="space-y-1">
-              <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
-                selectedProcedure.specialtyId === 'q1-urgencias' ? 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300' :
-                selectedProcedure.specialtyId === 'q2-orl' ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' :
-                selectedProcedure.specialtyId === 'q3-q4-oftalmo' ? 'bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300' :
-                selectedProcedure.specialtyId === 'q5-q6-urologia' ? 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300' :
-                'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300'
-              }`}>
-                {selectedProcedure.operatingRoom}
-              </span>
-              <h3 className="text-lg font-black leading-snug">
-                {language === 'es' ? selectedProcedure.name : selectedProcedure.nameEu}
-              </h3>
-              <p className="text-xs text-slate-500 font-semibold">
-                {selectedProcedure.specialtyLabel}
-              </p>
-            </div>
-
-            <div className="space-y-2.5 text-xs">
-              <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60">
-                <span className="text-[10px] font-bold text-blue-800 dark:text-blue-300 uppercase block">
-                  {language === 'es' ? 'Configuración de la Mesa Quirúrgica:' : 'Mahaiaren Konfigurazioa:'}
+            {/* Header: APARTADO 1 & 2 */}
+            <div className="space-y-1.5 border-b border-slate-200 dark:border-slate-800 pb-3.5 pr-8">
+              {/* 2. Quirófano y especialidad */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full ${
+                  selectedProcedure.specialtyId === 'q1-urgencias' ? 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300' :
+                  selectedProcedure.specialtyId === 'q2-orl' ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' :
+                  selectedProcedure.specialtyId === 'q3-q4-oftalmo' ? 'bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300' :
+                  selectedProcedure.specialtyId === 'q5-q6-urologia' ? 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300' :
+                  'bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300'
+                }`}>
+                  {selectedProcedure.operatingRoom}
                 </span>
-                <span className="text-sm font-extrabold text-blue-950 dark:text-blue-100 block mt-0.5">
-                  {language === 'es' ? selectedProcedure.tableType : selectedProcedure.tableTypeEu}
+                <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
+                  {selectedProcedure.specialtyLabel}
                 </span>
-                {selectedProcedure.accessories && (
-                  <p className="text-[11px] text-blue-900/80 dark:text-blue-300 mt-1">
-                    <strong>Accesorios:</strong> {selectedProcedure.accessories}
-                  </p>
+                {selectedProcedure.priorityAlert && (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500 text-white">
+                    {selectedProcedure.priorityAlert}
+                  </span>
                 )}
               </div>
 
-              {selectedProcedure.goldenRuleOrNote && (
-                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60">
-                  <span className="text-[10px] font-bold text-amber-800 dark:text-amber-300 uppercase block">
-                    {language === 'es' ? 'Instrucción / Regla Mandatoria HUN:' : 'NUO Agindu Mandatorioa:'}
-                  </span>
-                  <p className="text-xs font-bold text-amber-950 dark:text-amber-100 mt-0.5">
-                    {language === 'es' ? selectedProcedure.goldenRuleOrNote : selectedProcedure.goldenRuleOrNoteEu}
-                  </p>
-                </div>
-              )}
+              {/* 1. Nombre de la intervención */}
+              <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug">
+                {language === 'es' ? selectedProcedure.name : selectedProcedure.nameEu}
+              </h3>
+            </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
-                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase block">
-                  {language === 'es' ? 'Posición Quirúrgica Habitual:' : 'Posizio Kirurgiko Ohikoa:'}
-                </span>
-                <span className="text-xs font-semibold text-slate-900 dark:text-white block mt-0.5">
+            {/* Content: 7 APARTADOS ESTRUCTURADOS */}
+            <div className="space-y-3 text-xs">
+              {/* 3. Preparación de la mesa quirúrgica */}
+              <div className="p-3.5 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 space-y-1">
+                <div className="flex items-center gap-2 text-blue-800 dark:text-blue-300 font-bold uppercase text-[10px] tracking-wider">
+                  <Sliders className="w-3.5 h-3.5" />
+                  <span>{language === 'es' ? '3. Preparación de la Mesa Quirúrgica' : '3. Mahai Kirurgikoaren Prestaketa'}</span>
+                </div>
+                <p className="text-sm font-extrabold text-blue-950 dark:text-blue-100 leading-snug">
+                  {language === 'es' ? selectedProcedure.tableType : selectedProcedure.tableTypeEu}
+                </p>
+              </div>
+
+              {/* 4. Posición del paciente */}
+              <div className="p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-900/60 space-y-1">
+                <div className="flex items-center gap-2 text-indigo-800 dark:text-indigo-300 font-bold uppercase text-[10px] tracking-wider">
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>{language === 'es' ? '4. Posición del Paciente' : '4. Pazientearen Posizioa'}</span>
+                </div>
+                <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
                   {language === 'es' ? selectedProcedure.positionSummary : selectedProcedure.positionSummaryEu}
-                </span>
+                </p>
+              </div>
+
+              {/* 5. Accesorios necesarios */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{language === 'es' ? '5. Accesorios Necesarios' : '5. Beharrezko Osagarriak'}</span>
+                </div>
+                <p className="text-xs font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+                  {selectedProcedure.accessories 
+                    ? (language === 'es' ? selectedProcedure.accessories : (selectedProcedure.accessoriesEu || selectedProcedure.accessories))
+                    : (language === 'es' ? 'Sábana de tiro limpia, empapador absorbente de protección y soportes apoyabrazos acolchados universales.' : 'Maindire garbia, enpapadore xurgatzailea eta beso-euskarri egokituak.')}
+                </p>
+              </div>
+
+              {/* 6. Observaciones y precauciones */}
+              <div className="p-3.5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 space-y-1">
+                <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold uppercase text-[10px] tracking-wider">
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>{language === 'es' ? '6. Observaciones y Precauciones HUN' : '6. Oharrak eta Prekauzioak (NUO)'}</span>
+                </div>
+                <p className="text-xs font-bold text-amber-950 dark:text-amber-100 leading-relaxed">
+                  {selectedProcedure.goldenRuleOrNote 
+                    ? (language === 'es' ? selectedProcedure.goldenRuleOrNote : (selectedProcedure.goldenRuleOrNoteEu || selectedProcedure.goldenRuleOrNote))
+                    : (language === 'es' ? 'Verificar antes del transfer: frenos bloqueados, nivelación exacta a la camilla y libre paso de cables y vías de anestesia.' : 'Transferra baino lehen egiaztatu: balaztak blokeatuta eta bideak zainduta.')}
+                </p>
+              </div>
+
+              {/* 7. Funciones del celador durante la transferencia */}
+              <div className="p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 space-y-1.5">
+                <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold uppercase text-[10px] tracking-wider">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>{language === 'es' ? '7. Funciones del Celador Durante la Transferencia' : '7. Zeladorearen Zereginak Transferrean Zehar'}</span>
+                </div>
+                <ul className="text-xs space-y-1.5 text-slate-700 dark:text-slate-300 pt-0.5">
+                  {getCeladorTransferDuties(selectedProcedure, language).map((duty, dIdx) => (
+                    <li key={dIdx} className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-1.5" />
+                      <span className="leading-relaxed">{duty}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            <div className="pt-2 flex justify-between items-center">
+            {/* Modal Actions */}
+            <div className="pt-2 flex justify-between items-center border-t border-slate-200 dark:border-slate-800">
               <button
                 onClick={() => {
                   const targetTab = selectedProcedure.specialtyId === 'q1-urgencias' ? 'q1' :
@@ -1871,16 +2070,17 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
                                     selectedProcedure.specialtyId === 'q5-q6-urologia' ? 'q5_q6' : 'q7_q8';
                   setActiveTab(targetTab);
                   setSelectedProcedure(null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1 shadow-2xs"
+                className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-2xs"
               >
-                <span>{language === 'es' ? 'Ir a su pestaña' : 'Bere fitxara joan'}</span>
+                <span>{language === 'es' ? 'Ir al quirófano correspondiente' : 'Dagokion ebakigelara joan'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
               <button
                 onClick={() => setSelectedProcedure(null)}
-                className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold"
+                className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-colors"
               >
                 {language === 'es' ? 'Cerrar' : 'Itxi'}
               </button>
