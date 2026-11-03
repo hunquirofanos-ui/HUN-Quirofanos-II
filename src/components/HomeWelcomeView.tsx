@@ -153,7 +153,7 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-3">
                 <img 
-                  src={`${import.meta.env.BASE_URL}assets/aistudio/Se_al_Hospitalaria_de_Quir_fanos_35bec465.png`}
+                  src={`${import.meta.env.BASE_URL}assets/aistudio/Logotipo_hospitalario_en_azul_y_rojo_589b4662.png`}
                   alt="Hospital Universitario de Navarra - Quirófano Central II & Quirófano de Urgencias II"
                   className="h-14 sm:h-16 md:h-20 w-auto object-contain bg-white rounded-2xl p-1 shadow-md border border-slate-200 dark:border-slate-700 hover:scale-102 transition-transform"
                 />

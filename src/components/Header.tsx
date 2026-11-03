@@ -210,7 +210,7 @@ export const Header: React.FC<HeaderProps> = ({
               title="Hospital Universitario de Navarra - Quirófano Central II & Quirófano de Urgencias II"
             >
               <img 
-                src={`${import.meta.env.BASE_URL}assets/aistudio/Se_al_Hospitalaria_de_Quir_fanos_35bec465.png`} 
+                src={`${import.meta.env.BASE_URL}assets/aistudio/Logotipo_hospitalario_en_azul_y_rojo_589b4662.png`} 
                 alt="Hospital Universitario de Navarra - Quirófano Central II & Urgencias II" 
                 className="h-10 sm:h-12 w-auto object-contain bg-white rounded-lg p-0.5 shadow-2xs border border-slate-200/80 dark:border-slate-700"
               />
