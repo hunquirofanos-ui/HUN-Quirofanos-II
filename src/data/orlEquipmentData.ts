@@ -9,6 +9,8 @@ export interface OrlEquipmentItem {
   secondaryPhotoCaptionEu?: string;
   badge: string;
   location: string;
+  transferM4: 'Sí' | 'No' | '-';
+  isPending?: boolean;
   mainFunction: string;
   mainFunctionEu?: string;
   orlApplications: string[];
@@ -19,8 +21,52 @@ export interface OrlEquipmentItem {
   precautionsAndWarningsEu?: string[];
 }
 
+export interface OrlSummaryTableRow {
+  id: string;
+  equipmentName: string;
+  functionDesc: string;
+  transferAndFoldingProtocol: string;
+  handlingPrecautions: string;
+  associatedAccessories: string;
+  transferM4: 'Sí' | 'No' | '-';
+}
+
+export interface OrlPositionGuide {
+  id: string;
+  title: string;
+  titleEu?: string;
+  subtitle?: string;
+  points: string[];
+  criticalAlert?: string;
+}
+
 export const ORL_PANORAMIC_PHOTO = 'assets/aistudio/ee926c55b711c8b2b1fd7f640aff27bd7789544b76f87c5f9b257fedd74a2574_4267f004.png';
-export const ORL_GUIDE_PDF = 'assets/aistudio/Guia_aparataje_ORL_HUN_actualizada.pdf';
+export const ORL_GUIDE_PDF = 'assets/aistudio/Guia_aparataje_ORL_HUN_estructurada_con_traslado_maternal_3_70910c20.pdf';
+
+export const ORL_DOC_META = {
+  titleEs: 'Guía Resumida de Aparataje y Protocolos de ORL',
+  titleEu: 'ORLeko Tresneriaren eta Protokoloen Gida Laburtua',
+  versionEs: 'Versión reorganizada · 5 de noviembre de 2026',
+  versionEu: 'Bertsio berrantolatua · 2026ko azaroaren 5a',
+  objectiveEs:
+    'Documento práctico de identificación y apoyo logístico del aparataje utilizado en el entorno de Otorrinolaringología (ORL). Describe las tareas del celador relacionadas con el traslado, ubicación, disposición espacial y comprobación externa de los equipos. No sustituye las instrucciones de uso del fabricante ni las indicaciones de Enfermería, Anestesia o Electromedicina.',
+  objectiveEu:
+    'Otorrinolaringologia (ORL) ingurunean erabiltzen den tresneria identifikatzeko eta laguntza logistikoa emateko dokumentu praktikoa. Zeladorearen zereginak deskribatzen ditu: lekualdatzea, kokapena, espazio-antolaketa eta kanpo-egiaztapena. Ez ditu fabrikatzailearen jarraibideak edo Erizaintza, Anestesia zein Elektromedizinako aginduak ordezkatzen.',
+  schedulingTitleEs: '1. Organización y Preparación según la Programación Quirúrgica',
+  schedulingTitleEu: '1. Antolaketa eta Prestaketa Programazio Kirurgikoaren Arabera',
+  schedulingIntroEs:
+    'La programación quirúrgica debe estar disponible para celadores y TCAEs con antelación. Su revisión permite anticipar el tipo de intervención, preparar el quirófano y determinar qué equipos, sillones y accesorios será necesario disponer o trasladar. Las indicaciones concretas se confirmarán con Enfermería de ORL cuando haya cambios o excepciones.',
+  schedulingIntroEu:
+    'Programazio kirurgikoa aldez aurretik eskuragarri egon behar da zeladore eta EOTentzat, ebakuntza mota aurreikusteko eta behar diren ekipoak, besaulkiak eta osagarriak prestatzeko.',
+  schedulingPointsEs: [
+    'La programación quirúrgica debe facilitarse con antelación a celadores y TCAEs para organizar la preparación del quirófano y del material específico.',
+    'Antes de cada jornada, revisar el cirujano y la intervención previstos, el tipo de sillón, los accesorios de mesa necesarios y el tipo de láser indicado.'
+  ],
+  schedulingPointsEu: [
+    'Programazio kirurgikoa aldez aurretik eman behar zaie zeladore eta EOTei ebakigela eta material espezifikoa antolatzeko.',
+    'Jardunaldi bakoitzaren aurretik, aurreikusitako zirujaua eta ebakuntza, besaulki mota, mahaiko osagarriak eta adierazitako laser mota berrikusi.'
+  ]
+};
 
 export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
   {
@@ -28,11 +74,14 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
     itemNumber: 1,
     name: 'Microscopio Quirúrgico ZEISS',
     nameEu: 'ZEISS Mikroskopio Kirurgikoa',
-    originalPhoto: 'assets/aistudio/IMG20261030075111_00f2c65e.jpg',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_25.jpg',
     badge: 'Microcirugía Otológica & Laringe',
     location: 'Quirófano 2 (ORL BQG 2)',
-    mainFunction: 'Magnificación óptica de alta resolución e iluminación coaxial profunda para estructuras anatómicas milimétricas del oído medio y laringe.',
-    mainFunctionEu: 'Bereizmen handiko handipen optikoa eta argiztapen koaxial sakona erdiko belarriko eta laringeko egitura milimetrikoetarako.',
+    transferM4: 'Sí',
+    mainFunction:
+      'Equipo óptico montado sobre soporte móvil, utilizado para proporcionar magnificación e iluminación del campo quirúrgico en procedimientos que requieren visión ampliada.',
+    mainFunctionEu:
+      'Euskarri mugikor baten gaineko ekipo optikoa, handipen optikoa eta argiztapena emateko ikuspen handitua behar duten prozeduretan.',
     orlApplications: [
       'Microcirugía otológica: timpanoplastias, mastoidectomías, estapedectomías y osiculoplastias.',
       'Microcirugía laríngea con laringoscopio de suspensión (cuerdas vocales, pólipos, nódulos).',
@@ -44,40 +93,30 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
       'Aurpegiko nerbioaren kirurgia eta inplante koklearrak.'
     ],
     celadorDuties: [
-      'Traslado OBLIGATORIO siempre entre DOS personas: una dirige la base con visibilidad directa y otra estabiliza el brazo y guía el equipo.',
-      'El brazo superior debe estar SIEMPRE PLEGADO para atravesar las puertas del quirófano y los pasillos.',
-      'Para plegar el brazo superior: el microscopio DEBE ESTAR ENCHUFADO a la corriente y utilizarse exclusivamente el panel de control motorizado.',
-      'Precauciones críticas durante el traslado: avanzar a ritmo sumamente pausado, vigilar de continuo el paso por marcos de puertas y esquinas, y evitar golpes, tirones o sacudidas.',
-      'Posicionamiento lateral a la cabecera de la mesa quirúrgica según lateralidad quirúrgica indicada por el cirujano.',
-      'Bloquear los frenos de la base inmediatamente tras ubicarlo en la posición indicada.',
-      'Tendido seguro de cables por el suelo perimetral evitando zonas de paso o estrangulamientos.',
-      'Colocar la funda protectora antipolvo al finalizar la jornada quirúrgica y devolver al área asignada.'
+      '1. Traslado siempre entre DOS PERSONAS. Coordinar los movimientos antes de iniciar el desplazamiento.',
+      '2. Antes de atravesar puertas, el brazo superior debe quedar completamente plegado en la posición de transporte para reducir la altura y evitar golpes.',
+      '3. Para realizar el plegado, el equipo debe estar conectado a la corriente y la maniobra se realiza mediante el panel de control del microscopio.',
+      '4. Una vez plegado, comprobar visualmente que el brazo queda recogido y estable; recoger los cables para evitar enganches.',
+      '5. Durante el traslado, avanzar despacio, vigilar el paso por puertas y esquinas y evitar golpes, tirones o movimientos bruscos.',
+      '6. Bloquear frenos al emplazarlo en el lateral indicado en quirófano y colocar funda protectora al finalizar.'
     ],
     celadorDutiesEu: [
-      'Garraioa DERRIGORREZKOA beti BI pertsonen artean: batek oinarria zuzentzen du eta besteak besoa egonkortzen du.',
-      'Goiko besoa BETI TOLESTUTA egon behar da ateak eta pasilloak zeharkatzeko.',
-      'Besoa tolesteko: mikroskopioak KONEKTATUTA egon behar du eta aginte-panela erabili behar da.',
-      'Garraio-prekauzioak: oso pausatuta joan, ate-ertzak eta kantoietako igarobideak etengabe zaindu, kolpeak eta tirakadak saihestu.',
-      'Mahaiaren alboan kokatzea zirujauak adierazitako belarriaren edo lepoaren aldean.',
-      'Oinarriko balaztak berehala blokeatzea behin lekuan dagoenean.',
-      'Kableak zoruan segurtasunez bideratzea zapaldu ez daitezen.',
-      'Hauts-babeslekoa jartzea jardunaldia amaitzean eta dagokion lekuan gordetzea.'
+      '1. Garraioa beti BI PERTSONEN ARTEAN. Mugimenduak koordinatu abiatu aurretik.',
+      '2. Ateak zeharkatu aurretik, goiko besoak erabat tolestuta egon behar du garraio-posizioan.',
+      '3. Tolesteko, ekipoak korrontera konektatuta egon behar du eta mikroskopioaren aginte-panelaren bidez egiten da.',
+      '4. Behin tolestuta, besoa jasota eta egonkor dagoela egiaztatu eta kableak bildu.',
+      '5. Garraioan astiro joan, ateak eta kantoiak zaindu, kolpeak eta tirakadak saihestuz.',
+      '6. Ebakigelan adierazitako alboan kokatzean balaztak blokeatu.'
     ],
     precautionsAndWarnings: [
-      'NUNCA forzar el brazo superior articulado de forma manual si los bloqueos mecánicos o electromagnéticos están activados.',
-      'Para plegar o desplegar el brazo es obligatorio que esté enchufado y accionar el panel de control.',
-      'Si el panel de control no responde o no pliega el brazo, avisar de inmediato al personal de Enfermería o al Servicio de Electromedicina (no manipular a la fuerza).',
-      'Extremar precauciones al atravesar puertas: vigilar que el brazo no golpee los marcos de las puertas para evitar averías o descalibración de las lentes.',
-      'No tocar bajo ningún concepto las lentes ópticas con manos desnudas o productos abrasivos.',
-      'Comprobar holgura suficiente en los cables antes de iniciar el movimiento del cabecero de la mesa.'
+      'No forzar manualmente articulaciones ni accionar controles cuya función no se conozca.',
+      'Si el panel no responde o el brazo no se pliega, detener la maniobra y avisar a Enfermería / Electromedicina.',
+      'No tocar bajo ningún concepto las lentes ópticas.'
     ],
     precautionsAndWarningsEu: [
-      'INOIZ ez behartu goiko beso giltzatua eskuz blokeoak aktibatuta badaude.',
-      'Besoa tolesteko edo mugitzeko ezinbestekoa da konektatuta egotea eta kontrol-panela erabiltzea.',
-      'Panelak erantzuten ez badu, abisatu berehala Erizaintzari edo Elektromedizinari (ez behartu eskuz).',
-      'Ateetatik igarotzean arreta handitu: besoa tolestuta egon arren ertzak jo ez ditzan.',
-      'Ez ukitu leiar optikoak esku hutsez edo produktu urratzaileekin.',
-      'Egiaztatu kableen tentsioa mahaia mugitu aurretik.'
+      'Ez behartu eskuz artikulazioak eta ez erabili ezagutzen ez diren aginteak.',
+      'Panelak erantzuten ez badu edo besoa tolesten ez bada, gelditu eta abisatu Erizaintza / Elektromedizinari.',
+      'Inoiz ez ukitu leiar optikoak.'
     ]
   },
   {
@@ -85,167 +124,176 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
     itemNumber: 2,
     name: 'Torre de Vídeo-Endoscopia KARL STORZ',
     nameEu: 'KARL STORZ Bideo-Endoskopia Dorrea',
-    originalPhoto: 'assets/aistudio/IMG20261030075236_cb3396df.jpg',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_28.jpg',
+    secondaryPhoto: 'assets/q2_orl_actualizada/obj_33.jpg',
+    secondaryPhotoCaption:
+      'Peso metálico / pieza metálica de apoyo en la zona superior de la torre KARL STORZ. Hace de contrapeso cuando se despliega el brazo articulado que sujeta el abrebocas.',
+    secondaryPhotoCaptionEu:
+      'KARL STORZ dorrearen goialdean dagoen pisu metalikoa / laguntza-pieza: aho-irekigailua eusten duen beso artikulatua zabaltzean kontrapisu gisa erabiltzen da.',
     badge: 'CENS & Rinología Endoscópica',
-    location: 'Quirófano 2 (ORL)',
-    mainFunction: 'Captura y visualización en pantalla de alta definición de la cavidad endonasal y senos paranasales con fuente de luz fría LED y sistema de grabación.',
-    mainFunctionEu: 'Sudur-barrunbearen eta sinuen definizio handiko bistaratzea pantailan argi hotzeko LED iturriarekin.',
+    location: 'Quirófano 2 (ORL · Zona Podal)',
+    transferM4: 'Sí',
+    mainFunction:
+      'Carro con monitor y módulos de vídeo-endoscopia para visualización de imágenes durante exploraciones y procedimientos de ORL. Incluye en su zona superior una pieza metálica / bandeja de apoyo (contrapeso del brazo articulado del abrebocas).',
+    mainFunctionEu:
+      'ORLko miaketa eta prozeduretan irudiak ikusteko monitorea eta bideo-endoskopia moduluak dituen orga. Goialdean laguntza-pieza metalikoa darama.',
     orlApplications: [
       'Cirugía Endoscópica Nasosinusal (CENS): sinusitis crónica, poliposis nasosinusal.',
       'Dacricistorrinostomías endoscópicas y abordajes de base de cráneo.',
-      'Septoplastias complejas y turbinectomías asistidas por endoscopio.'
+      'Procedimientos de laringe/faringe que requieren brazo articulado de abrebocas con contrapeso.'
     ],
     orlApplicationsEu: [
       'Sudur-sinusetako kirurgia endoskopikoa (CENS): sinusitisa, poliposia.',
-      'Dakriozistorrinostomia endoskopikoak.',
-      'Septoplastiak eta hanka-turbinektomiak.'
+      'Dakriozistorrinostomia endoskopikoak eta garezurreko oinarria.',
+      'Aho-irekigailuaren beso artikulatua behar duten prozedurak.'
     ],
     celadorDuties: [
-      'Incorporada una fotografía adicional de detalle de la parte superior, con identificación de la pieza metálica situada en esa zona (pendiente de confirmar su denominación técnica exacta).',
-      'Colocar la torre en el lado contralateral a la posición de trabajo del cirujano principal para visión directa frontal.',
-      'Conectar el cable de alimentación a toma hospitalaria de grado médico en quirófano.',
-      'Proteger la fibra óptica: evitar radios de curvatura cerrados (ángulo recto) y no dejarla en el suelo donde pueda ser pisada.',
-      'Limpieza de chasis y pantallas con toallitas de desinfección específicas del HUN tras la cirugía.'
+      'Trasladar con cuidado, comprobando que todos los elementos (incluida la pieza metálica superior) estén colocados de forma estable.',
+      'Posicionar la torre de endoscopia en la zona podal (pies del paciente) o contralateral al cirujano según indicación.',
+      'Evitar tirones, atrapamientos o tensiones en cables, fibra óptica y conexiones.',
+      'Devolver el conjunto a su ubicación habitual manteniendo el peso/pieza metálica siempre asociado al conjunto de la torre de ORL.'
     ],
     celadorDutiesEu: [
-      'Goiko aldeko argazki gehigarria barneratuta (pieza metalikoaren identifikazioarekin, izen tekniko zehatza baieztatzearen zain).',
-      'Dorrea zirujauaren aurkako aldean jartzea zuzenean pantaila ikus dezan.',
-      'Ospitaleko sare elektriko segurura konektatzea.',
-      'Zuntz optikoa babestea: ez tolestu angelu zuzenean eta ez utzi lurrean gurpilek zapaldu dezaten.',
-      'Xasia eta pantailak NUOko toallatxo desinfektatzaileekin garbitzea amaieran.'
+      'Kontuz eraman, elementu guztiak (goiko pieza metalikoa barne) egonkor daudela egiaztatuz.',
+      'Endoskopia-dorrea zona podalean (oinetan) edo zirujauaren aurkako aldean kokatu.',
+      'Kableetan eta zuntz optikoan tirakadak eta harrapaketak saihestu.',
+      'Ohiko tokira itzultzean, pieza metalikoa beti dorreari lotuta mantendu.'
     ],
     precautionsAndWarnings: [
-      'Pieza metálica superior: identificada en la zona alta de la torre (fotografía de detalle incorporada); pendiente de confirmar su denominación técnica exacta.',
-      'Las fibras ópticas son de cuarzo extremadamente frágil: el doblado excesivo provoca rotura interna irreversible.',
-      'Comprobar frenos de las 4 ruedas antes de que el equipo quirúrgico conecte las cámaras esterilizadas.'
+      'No desconectar, reconectar ni modificar configuraciones técnicas por iniciativa propia.',
+      'No modificar el montaje ni utilizar la pieza metálica/bandeja superior de forma distinta a la indicada por el personal responsable.',
+      'No colocar la pieza metálica directamente sobre el paciente (se coloca encima de una mesa metálica situada sobre el pecho).'
     ],
     precautionsAndWarningsEu: [
-      'Goiko pieza metalikoa: dorrearen goialdean kokatua; izen tekniko zehatza baieztatzeko zain.',
-      'Zuntz optikoak oso hauskorrak dira: gehiegi tolestuz gero barneko haustura eragiten da.',
-      'Egiaztatu 4 gurpilen balaztak ekipo esterila konektatu aurretik.'
+      'Ez deskonektatu, birkonektatu edo konfigurazio teknikoak aldatu zure kabuz.',
+      'Ez erabili goiko pieza metalikoa adierazitakoaz bestelako moduan.',
+      'Ez jarri pieza metalikoa zuzenean pazientearen gainean.'
     ]
   },
   {
     id: 'medtronic-ipc',
     itemNumber: 3,
-    name: 'Consola MEDTRONIC IPC (Integrated Power Console)',
-    nameEu: 'MEDTRONIC IPC Kontsola (Potentzia Integratua)',
-    originalPhoto: 'assets/aistudio/IMG20261030075318_a1d38218.jpg',
-    badge: 'Fresado Óseo & Microdebrider',
-    location: 'Quirófano 2 (Montada en soporte vertical rodable)',
-    mainFunction: 'Consola electrónica multipropósito que acciona motores de fresado de alta velocidad para hueso y piezas de mano para microdebrider (desbridador de tejidos blandos).',
-    mainFunctionEu: 'Kontsola elektronikoa abiadura handiko hezur-fresak eta ehun bigunak kentzeko mikrodebriderra eragiteko.',
+    name: 'Consola MEDTRONIC IPC',
+    nameEu: 'MEDTRONIC IPC Kontsola',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_29.jpg',
+    badge: 'Instrumental Motorizado · NO a M4',
+    location: 'Quirófano 2 (Soporte vertical rodable)',
+    transferM4: 'No',
+    mainFunction:
+      'Consola de control para instrumental motorizado compatible (fresas de alta velocidad y microdebrider). Puede emplearse con distintos accesorios según la configuración clínica.',
+    mainFunctionEu:
+      'Tresneria motordun bateragarrirako kontrol-kontsola. Konfigurazio klinikoaren arabera hainbat osagarrirekin erabil daiteke.',
     orlApplications: [
-      'Mastoidectomía con fresado del hueso temporal y peñasco en cirugía ótica.',
-      'Desbridamiento tisular rápido y limpio de pólipos nasales en CENS.',
-      'Apertura endoscópica de senos frontales y esfenoidales.'
+      'Mastoidectomía con fresado óseo en cirugía otológica.',
+      'Microdebrider en Cirugía Endoscópica Nasosinusal (CENS).',
+      'Nota Quirófano Maternal (M4): NO se traslada al M4 porque ya disponen de otra consola allí.'
     ],
     orlApplicationsEu: [
-      'Mastoidektomia hezur tenporalaren fresaketarekin belarri-kirurgian.',
-      'Polipo nasalen desbridamendu azkarra CENS bidez.',
-      'Fronteko eta esfenoideko sinuen irekiera endoskopikoa.'
+      'Mastoidektomia hezur-fresaketarekin belarri-kirurgian.',
+      'Mikrodebriderra CENS kirurgian.',
+      'Maternal Ebakigela (M4) oharra: EZ da M4ra eramaten bertan beste bat baitago.'
     ],
     celadorDuties: [
-      'Traslado sobre su pie vertical con base rodable; sujetar con firmeza la barra vertical durante el movimiento.',
-      'Ubicar la consola próxima al campo pero sin interferir con la circulación estéril.',
-      'Bajar y colocar el pedal multifunción de pie en el suelo a disposición del cirujano.',
-      'Colaborar con enfermería instrumentista y circulante en la colocación de la bolsa de suero de irrigación en el portasueros superior.'
+      'Antes de solicitar un traslado, consultar la programación quirúrgica y confirmar con Enfermería si existe alguna excepción que requiera otra consola.',
+      'Trasladar sujetando con firmeza el mástil vertical rodable a velocidad controlada.',
+      'Acercar y situar el pedal de control conforme a la indicación del equipo quirúrgico.',
+      'Recordar en traslados a Maternal (M4): esta consola NO se traslada al disponer de otra en M4.'
     ],
     celadorDutiesEu: [
-      'Oin bertikaleko zutoina bi eskuekin eutsita mugitu oreka mantentzeko.',
-      'Ebakuntza-eremuaren ondoan kokatu baina zirkulazio esterila oztopatu gabe.',
-      'Zoluko kontrol-pedala zirujauaren oinetan prest utzi.',
-      'Erizaintzarekin lankidetzan goiko seruma zintzilikatu ureztatzerako.'
+      'Lekualdaketa eskatu aurretik, programazio kirurgikoa kontsultatu eta Erizaintzarekin baieztatu beste kontsola bat behar den.',
+      'Zutoina tinko helduta eraman abiadura kontrolatuan.',
+      'Maternalera (M4) egindako lekualdaketetan gogoratu: kontsola hau EZ da eramaten M4an beste bat dagoelako.'
     ],
     precautionsAndWarnings: [
-      'Centro de gravedad elevado: desplazar siempre a velocidad moderada para evitar vuelco del portasueros.',
-      'Comprobar que el cable del pedal no quede tenso ni cruce el pasillo de paso del celador y circulante.'
+      'No manipular parámetros, conexiones clínicas ni configuraciones.',
+      'Comunicar cualquier anomalía al personal responsable.',
+      'Centro de gravedad elevado en el pie rodable: evitar movimientos bruscos.'
     ],
     precautionsAndWarningsEu: [
-      'Grabitate-zentro altua: beti abiadura kontrolatuan mugitu irauli ez dadin.',
-      'Egiaztatu pedalaren kablea ez dela tenk geratzen igarotze-guneetan.'
+      'Ez manipulatu parametroak, konexio klinikoak edo konfigurazioak.',
+      'Edozein anomalia arduradunari jakinarazi.',
+      'Grabitate-zentro altua: saihestu mugimendu zakarrak.'
     ]
   },
   {
     id: 'sillon-clinico',
     itemNumber: 4,
-    name: 'Sillón Clínico Regulable con Reposabrazos',
-    nameEu: 'Besaulkidun Eserleku Kliniko Erregulagarria',
-    originalPhoto: 'assets/aistudio/IMG20261030075336_8764b581.jpg',
-    badge: 'Exploración & Posición Incorporada',
-    location: 'Quirófano 2 / Sala Exploración ORL',
-    mainFunction: 'Sillón médico reclinable con acolchado higiénico, reposacabezas y reposabrazos abatibles para acomodar al paciente despierto o en procedimientos locales.',
-    mainFunctionEu: 'Eserleku mediko etzangarria buru-euskarri eta beso-euskarriekin gaixoa eroso kokatuta aztertzeko.',
+    name: 'Sillón Clínico Regulable',
+    nameEu: 'Besaulki Kliniko Erregulagarria',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_32.jpg',
+    badge: 'Uso Clínico & Exploración',
+    location: 'Quirófano 2 / Entorno ORL',
+    transferM4: 'No',
+    mainFunction:
+      'Sillón con apoyos y elementos de regulación para uso clínico en procedimientos y exploraciones de Otorrinolaringología.',
+    mainFunctionEu:
+      'Erabilera klinikorako euskarri eta erregulazio-elementuak dituen besaulkia.',
     orlApplications: [
-      'Exploración nasofaringolaríngea prequirúrgica y colocación de anestesia tópica/descongestionante.',
-      'Curas de oído, aspiración de secreciones y retirada de taponamientos.',
-      'Procedimientos ambulatorios de laringe indirecta y biopsias menores.'
+      'Exploración nasofaringolaríngea y procedimientos realizados en sedestación o posición clínica regulada.',
+      'Curas y manipulaciones específicas de ORL bajo indicación sanitaria.'
     ],
     orlApplicationsEu: [
-      'Ebakuntza aurreko miaketak eta anestesia topikoaren aplikazioa.',
-      'Belarriko sendaketak eta sudurreko taponamenduen erretiratzea.',
-      'Laringearen miaketa zuzenak eta biopsia txikiak.'
+      'Miaketa nasofaringolaringeoa eta eserita egiten diren prozedurak.',
+      'ORLko sendaketa eta manipulazio espezifikoak.'
     ],
     celadorDuties: [
-      'Acomodar al paciente de forma ergonómica ayudándole al sentarse y levantarse.',
-      'Regular la altura y la inclinación del respaldo según solicitud del especialista.',
-      'Asegurar los apoyabrazos antes de que el paciente cargue su peso.',
-      'Desinfección de superficies tras cada paciente con producto homologado del HUN.'
+      'Colaborar en su traslado y colocación evitando golpes contra marcos de puertas o paredes.',
+      'Comprobar que queda estable, frenado y correctamente ubicado antes de su uso.',
+      'Desinfectar superficies tras el procedimiento según protocolo HUN.'
     ],
     celadorDutiesEu: [
-      'Pazienteari esertzen eta zutitzen laguntzea modu seguruan.',
-      'Altuera eta bizkarraldearen inklinazioa zirujauaren eskaeraren arabera doitzea.',
-      'Beso-euskarriak ondo finkatuta daudela egiaztatzea.',
-      'Paziente bakoitzaren ondoren azalak garbitu eta desinfektatzea.'
+      'Lekualdatzean eta kokatzean lagundu kolpeak saihestuz.',
+      'Egonkor eta behar bezala kokatuta geratzen dela egiaztatu.',
+      'Prozeduraren ondoren gainazalak desinfektatu.'
     ],
     precautionsAndWarnings: [
-      'Comprobar la estabilidad del freno de la base antes de iniciar el transfer o sentar al paciente.',
-      'Evitar movimientos bruscos del respaldo en pacientes con inestabilidad hemodinámica o cervical.'
+      'No modificar ajustes o posiciones clínicas sin indicación del personal sanitario.',
+      'Comprobar siempre la estabilidad y bloqueo de frenos.'
     ],
     precautionsAndWarningsEu: [
-      'Egiaztatu oinarriaren egonkortasuna gaixoa eseri aurretik.',
-      'Ez egin mugimendu bortitzik bizkarraldearekin.'
+      'Ez aldatu doikuntzarik edo posizio klinikorik osasun-langileen agindurik gabe.',
+      'Beti egiaztatu egonkortasuna eta balaztak.'
     ]
   },
   {
     id: 'peso-metalico',
     itemNumber: 5,
-    name: 'Peso Metálico Contrapeso para Bandeja sobre Paciente',
-    nameEu: 'Paziente Gaineko Erretiluaren Kontrapisu Metalikoa',
-    originalPhoto: 'assets/aistudio/IMG20261030075409_ac5f971b.jpg',
-    badge: 'Estabilización Mayo en Cabeza y Cuello',
-    location: 'Quirófano 2 (ORL)',
-    mainFunction: 'Bloque macizo cilíndrico de acero de alto pesaje montado en vástago que ejerce de contrapeso estructural para evitar el balanceo de la bandeja de instrumental sobre el paciente.',
-    mainFunctionEu: 'Altzairu trinkozko zilindro astuna mahai-hegaleko tresneria-erretilua egonkor mantentzeko buruko kirurgian.',
+    name: 'Peso Metálico / Pieza Metálica de Apoyo',
+    nameEu: 'Pisu Metalikoa / Laguntza-Pieza Metalikoa',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_33.jpg',
+    badge: 'Contrapeso Abrebocas · Torre STORZ',
+    location: 'Zona superior de la Torre KARL STORZ (Q2)',
+    transferM4: 'Sí',
+    mainFunction:
+      'Elemento metálico ubicado en la zona superior de la torre KARL STORZ. Su función confirmada es hacer de contrapeso cuando se despliega el brazo articulado que sujeta el abrebocas.',
+    mainFunctionEu:
+      'KARL STORZ dorrearen goialdean kokatutako elementu metalikoa. Bere funtzioa aho-irekigailua eusten duen beso artikulatua zabaltzean kontrapisua egitea da.',
     orlApplications: [
-      'Microcirugía de laringe con laringoscopio de suspensión.',
-      'Cirugías con instrumental microquirúrgico delicado colocado encima del tórax.',
-      'Amigdalectomías y faringoplastias con abrebocas de Davis-Boyle.'
+      'Amigdalotomías, faringoplastias y microcirugías transorales con brazo articulado que sujeta el abrebocas.',
+      'Se traslada también al Quirófano Maternal (M4) junto con la Torre de ORL cuando corresponde.'
     ],
     orlApplicationsEu: [
-      'Laringeko mikrokirurgia laringoskopio esekiarekin.',
-      'Mikrokirurgiako tresnak bularraren gaineko erretiluan bermatzeko.',
-      'Amigdalektomiak Davis-Boyle aho-irekigailuarekin.'
+      'Amigdalotomiak eta aho-irekigailua eusteko beso artikulatua behar duten prozedurak.',
+      'Maternal Ebakigelara (M4) eramaten da ORL dorrearekin batera behar denean.'
     ],
     celadorDuties: [
-      'Manipulación estricta a dos manos sujetando el vástago y la masa para evitar desprendimientos accidentales.',
-      'Asegurar el roscado o acople mecánico en la barra de fijación con apriete firme.',
-      'Comprobar que nunca repose sobre el paciente: debe quedar fijado al soporte externo homologado con separación de seguridad.',
-      'Guardar tras limpieza en el mueble asignado para evitar riesgos de caída a nivel del suelo.'
+      'Localizarlo siempre en la parte superior de la torre KARL STORZ; mantenerlo asociado a dicho conjunto tanto en Q2 como en devoluciones desde M4.',
+      'Manipular con firmeza al retirarlo o colocarlo sobre la mesa metálica situada encima del pecho del paciente (bajo indicación del personal responsable).',
+      'Al finalizar la cirugía, limpiar y devolverlo a su ubicación habitual en la parte superior de la torre de ORL.'
     ],
     celadorDutiesEu: [
-      'Beti bi eskuekin heldu zutoinari eta pisuzko masari ez erortzeko.',
-      'Torlojua edo akoplamendua ondo estutu barra finkatzailean.',
-      'Egiaztatu EZ DUELA INOIZ gaixoa zuzenean ukitzen: egiturak distantzia segurua bermatu behar du.',
-      'Garbiketa ondoren altzari berezian gorde zoruan erortzeko arriskurik gabe.'
+      'Beti KARL STORZ dorrearen goialdean kokatua egon behar du; dorreari lotuta mantendu bai Q2n bai M4tik itzultzean.',
+      'Pazientearen bularraren gainean kokatutako mahai metalikoaren gainean jartzean tinko heldu.',
+      'Amaitzean garbitu eta ohiko tokira (ORL dorrearen goialdera) itzuli.'
     ],
     precautionsAndWarnings: [
-      'Elemento de elevado peso: riesgo grave de atrapamiento o caída sobre pies o extremidades si no se sujeta con firmeza.',
-      'Asegurar el pasador antes de soltar el agarre manual.'
+      'SE COLOCA ENCIMA DE UNA MESA METÁLICA SITUADA ENCIMA DEL PECHO DEL PACIENTE. NO COLOCARLO DIRECTAMENTE SOBRE EL PACIENTE.',
+      'No modificar el montaje ni utilizar la pieza metálica / bandeja superior de forma distinta a la indicada por el personal responsable.',
+      'Elemento pesado: sujetar firmemente para evitar caídas accidentales.'
     ],
     precautionsAndWarningsEu: [
-      'Pisu handiko elementua: oinetara edo eskuetara erortzeko arriskua bi eskuekin heltzen ez bada.',
-      'Segurtasun-pasadizoa egiaztatu heldulekua askatu aurretik.'
+      'PAZIENTEAREN BULARRAREN GAINEAN KOKATUTAKO MAHAI METALIKOAREN GAINEAN JARTZEN DA. INOIZ EZ JARRI ZUZENEAN PAZIENTEAREN GAINEAN.',
+      'Ez aldatu muntaia eta ez erabili adierazitakoaz bestelako moduan.'
     ]
   },
   {
@@ -253,40 +301,41 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
     itemNumber: 6,
     name: 'Monitor de Nervio Intraoperatorio NEUROSIGN V4',
     nameEu: 'NEUROSIGN V4 Barne-Ebakuntzako Nerbio Monitorea',
-    originalPhoto: 'assets/aistudio/IMG20261030075437_9437edd3.jpg',
-    badge: 'Monitorización EMG Nervio Facial VII',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_36.jpg',
+    badge: 'Monitorización Neuromuscular',
     location: 'Quirófano 2 (ORL)',
-    mainFunction: 'Monitor electromiográfico (EMG) intraoperatorio que detecta y alerta acústicamente ante la proximidad, estimulación o irritación mecánica de nervios craneales motores.',
-    mainFunctionEu: 'Nerbio motoreen estimulazioa eta hurbiltasuna soinu-alerta bidez abisatzen duen EMG monitorea.',
+    transferM4: 'Sí',
+    mainFunction:
+      'Sistema de monitorización utilizado en determinados procedimientos para registrar respuestas neuromusculares (nervio facial VII y nervio laríngeo recurrente).',
+    mainFunctionEu:
+      'Prozedura jakin batzuetan erantzun neuromuskularrak erregistratzeko monitorizazio-sistema.',
     orlApplications: [
-      'Parotidectomías (disección y preservación obligatoria de las ramas del Nervio Facial VII).',
-      'Timpanoplastias y mastoidectomías complejas (trayecto timpánico y mastoideo del nervio facial).',
-      'Tiroidectomías y cirugía cervical (Nervio Laríngeo Recurrente X).'
+      'Parotidectomías (preservación del nervio facial VII).',
+      'Timpanoplastias y mastoidectomías complejas.',
+      'Cirugía cervical / tiroides (monitorización de nervios motores).'
     ],
     orlApplicationsEu: [
-      'Parotidektomiak (Aurpegiko VII Nerbioaren adarrak babesteko).',
-      'Mastoidektomia konplexuak (nerbio fazialaren ibilbidea babesteko).',
-      'Tiroidektomiak (Laringeko Nerbio Errekurrentea babesteko).'
+      'Parotidektomiak (aurpegiko VII. nerbioa babestea).',
+      'Timpanoplastia eta mastoidektomia konplexuak.',
+      'Lepoko eta tiroideko kirurgiak.'
     ],
     celadorDuties: [
-      'Ubicación en la cabecera o lado contralateral a la incisión con la pantalla visible para el cirujano y anestesista.',
-      'Conexión eléctrica a enchufe de quirófano con toma de tierra hospitalaria.',
-      'Comprobar paso libre de cables sin interferir con la movilidad del equipo ni del microscopio.',
-      'Apagar correctamente desde el interruptor principal al terminar la intervención antes de desconectar.'
+      'Conocer su ubicación y colaborar en el traslado cuidadoso al quirófano o a Maternal (M4) cuando esté programado.',
+      'Situar el monitor en zona visible para el equipo quirúrgico sin invadir el corredor estéril.',
+      'Evitar tensiones o atrapamientos con los cables de los electrodos durante los movimientos de la mesa.'
     ],
     celadorDutiesEu: [
-      'Burualdean edo ebakiaren kontrako aldean kokatu zirujauak pantaila ondo ikus dezan.',
-      'Ebakigelako sare elektriko segurura konektatu.',
-      'Kableak modu ordenatuan bideratu mikroskopioaren mugimendua ez trabatzeko.',
-      'Etengailu nagusitik itzali ebakuntza amaitutakoan.'
+      'Bere kokapena ezagutu eta ebakigelara edo M4ra garraiatzen lagundu.',
+      'Ekipo kirurgikoarentzat ikusgai dagoen tokian jarri pasabide esterila oztopatu gabe.',
+      'Elektrodoen kableetan tirakadak saihestu.'
     ],
     precautionsAndWarnings: [
-      'No desconectar cables de electrodos durante el acto quirúrgico; cualquier señal acústica debe ser comunicada inmediatamente al equipo quirúrgico.',
-      'Mantener alejado de fuentes intensas de electrocauterio para evitar artefactos en la señal EMG.'
+      'No manipular electrodos, parámetros ni conexiones clínicas.',
+      'Comunicar cualquier incidente o desconexión accidental de inmediato al equipo de Enfermería o Cirugía.'
     ],
     precautionsAndWarningsEu: [
-      'Ez deskonektatu elektrodoen kableak ebakuntza bitartean.',
-      'Kauterio elektrikotik bereizita mantendu seinalearen interferentziak saihesteko.'
+      'Ez manipulatu elektrodoak, parametroak edo konexio klinikoak.',
+      'Edozein deskonexio edo gertakari berehala jakinarazi.'
     ]
   },
   {
@@ -294,86 +343,404 @@ export const ORL_EQUIPMENT_LIST: OrlEquipmentItem[] = [
     itemNumber: 7,
     name: 'Silla de Trabajo Regulable con Ruedas y Pedales',
     nameEu: 'Gurpildun eta Pedaldun Lan Eserleku Erregulagarria',
-    originalPhoto: 'assets/aistudio/IMG20261030075630_4bed967d.jpg',
-    badge: 'Ergonomía Motorizada Microcirugía',
-    location: 'Quirófano 2 (ORL)',
-    mainFunction: 'Silla quirúrgica motorizada de alta precisión diseñada para largas intervenciones microquirúrgicas con microscopio, regulable en altura mediante pedales en la base sin contaminar las manos.',
-    mainFunctionEu: 'Mikrokirurgiako eserleku motorizatua, oineko pedalen bidez altueran doigarria eskuak ez kutsatzeko.',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_37.jpg',
+    badge: 'Ergonomía Microcirugía · Enchufe Almacén',
+    location: 'Quirófano 2 / Almacén',
+    transferM4: 'No',
+    mainFunction:
+      'Silla regulable mediante ruedas y pedales utilizada por el personal quirúrgico durante determinados procedimientos (especialmente en microcirugía y cirugías de la Drª Uzcanga).',
+    mainFunctionEu:
+      'Prozedura jakinetan langileek erabiltzen duten gurpildun eta pedaldun lan-aulki erregulagarria.',
     orlApplications: [
-      'Microcirugía ótica prolongada (mastoidectomías, estapedectomías, implantes cocleares de 3 a 5 horas).',
-      'Microcirugía transoral laríngea y procedimientos reconstructivos de cabeza y cuello.'
+      'Microcirugía otológica y laríngea prolongada.',
+      'Requerida sistemáticamente junto con «Cuernos» en intervenciones de la Drª Uzcanga.'
     ],
     orlApplicationsEu: [
-      'Iraupen luzeko belarriko mikrokirurgia (3-5 orduko mastoidektomiak eta inplanteak).',
-      'Ahozko laringeko mikrokirurgia eta berreraikitze-prozedurak.'
+      'Belarriko eta laringeko mikrokirurgia luzea.',
+      'Uzcanga doktorearen ebakuntzetan beharrezkoa.'
     ],
     celadorDuties: [
-      'PRECAUCIÓN DE USO: Desenchufar de la red eléctrica ANTES de trasladarla o antes de que el cirujano la use en el quirófano para evitar tirones o tropiezos.',
-      'Posicionarla en la cabecera junto al microscopio según indicación del cirujano.',
-      'Ajustar la altura inicial y los apoyabrazos orientables.',
-      'PRECAUCIÓN AL GUARDAR: Al terminar la jornada quirúrgica y tras la desinfección, VOLVER A ENCHUFAR a la corriente eléctrica en su zona de aparcamiento para que la batería interna se recargue por completo para el día siguiente.'
+      'INSTRUCCIÓN DE CARGA OBLIGATORIA: Al sacarla del almacén para utilizarla, DESENCHUFARLA.',
+      'Acercarla a la cabecera / puesto quirúrgico indicado y verificar la estabilidad.',
+      'Dejar el cable recogido y situado de forma que no genere tropiezos ni atrapamientos con las ruedas.',
+      'Al devolverla al almacén tras su uso y limpieza, VOLVER A ENCHUFARLA para mantener su carga.'
     ],
     celadorDutiesEu: [
-      'ERABILTZEKO OHARRA: Sare elektrikotik DESKONEKTATU mugitu edo erabili aurretik kablea ez hausteko.',
-      'Burualdean kokatu mikroskopioaren alboan zirujauaren eskaeraren arabera.',
-      'Beso-euskarriak eta hasierako altuera prestatu.',
-      'GORDETZEKO OHARRA: Jardunaldia amaitzean, BERRIRO KONEKTATU korronte elektrikora barneko bateriak hurrengo egunerako karga daitezen.'
+      'KARGA JARRAIBIDEA: Biltegitik ateratzean erabiltzeko, DESENTXUFATU.',
+      'Adierazitako lanpostura hurbildu eta kablea bildu behaztoparik ez sortzeko.',
+      'Biltegira itzultzean, BERRIRO ENTXUFATU kargatzen uzteko.'
     ],
     precautionsAndWarnings: [
-      '¡REGLA ESENCIAL HUN!: DESENCHUFAR para mover/usar -> VOLVER A ENCHUFAR siempre al terminar la jornada para recarga.',
-      'No manipular los cables de carga con manos húmedas o durante la limpieza de suelos.',
-      'Comprobar el correcto funcionamiento de los pedales de elevación y descenso antes de comenzar.'
+      '¡REGLA ESENCIAL!: Al sacarla del almacén -> DESENCHUFARLA. Al devolverla al almacén -> VOLVER A ENCHUFARLA.',
+      'Dejar el cable recogido de modo que no genere tropiezos al personal ni sea pisado por carros.'
     ],
     precautionsAndWarningsEu: [
-      'NUO FUNTSEZKO ARAUA!: DESKONEKTATU mugitzeko/erabiltzeko -> BERRIRO KONEKTATU beti gordetzean kargatzeko.',
-      'Ez ukitu karga-kableak esku bustiekin.',
-      'Egiaztatu pedalen igotze- eta jaiste-funtzionamendua hasi aurretik.'
+      'FUNTSEZKO ARAUA!: Biltegitik ateratzean -> DESENTXUFATU. Biltegira itzultzean -> BERRIRO ENTXUFATU.',
+      'Kablea bilduta utzi behaztoparik ez sortzeko.'
     ]
   },
   {
     id: 'laser-deka-smartxide',
     itemNumber: 8,
-    name: 'Láser DEKA SmartXide² con Maletín Metálico',
-    nameEu: 'DEKA SmartXide² Laserra Maletategi Metalikoarekin',
-    originalPhoto: 'assets/aistudio/IMG20261030075719_96f811a2.jpg',
-    badge: 'Láser CO₂ de Microprecisión & Maletín',
+    name: 'Láser DEKA SmartXide² (CO₂) y Maletín «LÁSER»',
+    nameEu: 'DEKA SmartXide² (CO₂) Laserra eta «LÁSER» Maletatxoa',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_45.jpg',
+    badge: 'Láser CO₂ vs Láser BLUE',
     location: 'Quirófano 2 / Almacén técnico',
-    mainFunction: 'Sistema generador de láser de dióxido de carbono (CO₂) de alta precisión acoplado al microscopio para microsección y coagulación tisular mínimamente invasiva.',
-    mainFunctionEu: 'Mikroskopioari akoplatutako karbono dioxidozko (CO₂) laser sistema, ahots-kordetan ebaki zehatzak egiteko.',
+    transferM4: 'Sí',
+    mainFunction:
+      'Plataforma láser CO₂ DEKA SmartXide² para determinados procedimientos quirúrgicos de ORL. Debe distinguirse del LÁSER BLUE, un equipo pequeño que llevan los propios otorrinolaringólogos desde la consulta.',
+    mainFunctionEu:
+      'ORLko prozedura kirurgikoetarako DEKA SmartXide² CO₂ laser plataforma. Kontsultatik otorrinoek ekartzen duten LÁSER BLUE txikitik bereizi behar da.',
     orlApplications: [
-      'Cordectomías y resección de tumores de cuerda vocal sin traqueotomía (TOLMS).',
-      'Papilomatosis respiratoria recurrente y estenosis subglóticas.',
-      'Resección de lesiones benignas de laringe con mínimo edema circundante.'
+      'Microcirugía laríngea con láser CO₂ (cordectomías, lesiones glóticas, estenosis).',
+      'Diferenciación clave en programación: si figura «LÁSER BLUE», NO acercar este láser CO₂ del quirófano.'
     ],
     orlApplicationsEu: [
-      'Kordektomiak eta ahots-kordetako tumoreen erauzketa.',
-      'Arnasbideetako papilomatosia eta estenosia.',
-      'Laringeko kaltegarriak ez diren lesioak tratatzea.'
+      'CO₂ laserrarekin egindako laringeko mikrokirurgia.',
+      'Programazioan «LÁSER BLUE» agertzen bada, EZ hurbildu CO₂ laser hau ebakigelara.'
     ],
     celadorDuties: [
-      '¡REGLA OBLIGATORIA HUN!: La torre del láser DEKA SmartXide² debe trasladarse SIEMPRE acompañada de su MALETÍN METÁLICO de aluminio rotulado "LÁSER" con sus adaptadores y piezas correspondientes.',
-      'Traslado pausado protegiendo el brazo articulado emisor de haz.',
-      'Colocación del pedal de emisión láser en el suelo, junto al pie del cirujano.',
-      'Colocación obligatoria del cartel exterior de advertencia "PELIGRO LÁSER" en todas las puertas de acceso al Quirófano 2.',
-      'Disponer de las gafas de protección de longitud de onda específica para CO₂ en la esclusa/entrada antes de encender el láser.'
+      'Verificar previamente la programación quirúrgica: si figura «LÁSER BLUE», NO acercar el láser CO₂ DEKA del quirófano.',
+      'Trasladar SIEMPRE el láser CO₂ DEKA junto con el maletín metálico identificado con la inscripción «LÁSER».',
+      'Comprobar que torre y maletín permanecen juntos tanto en el traslado (Q2 o Maternal M4) como en el almacenamiento.',
+      'Avanzar despacio protegiendo el brazo articulado y respetar la señalización de seguridad láser.'
     ],
     celadorDutiesEu: [
-      'NUO BEHARREZKO ARAUA!: DEKA laser dorrea BETI "LASER" idatzita duen ALUMINIOZKO MALETATEGI METALIKOAREKIN eraman behar da.',
-      'Emisio-besoa babestuz astiro eta kontuz mugitu.',
-      'Laserraren pedala lurrean zirujauaren oinean jarri.',
-      '2. Ebakigelako ate guztietan "LASER ARRISKUA" kartela zintzilikatu kanpotik.',
-      'CO₂ uhin-luzerarako babes-betaurreko homologatuak atean prest utzi piztu aurretik.'
+      'Programazioa egiaztatu: «LÁSER BLUE» bada, EZ hurbildu CO₂ laserra.',
+      'DEKA CO₂ laserra BETI «LÁSER» inskripzioa duen maletatxo metalikoarekin eraman.',
+      'Dorrea eta maleta elkarrekin mantentzen direla ziurtatu bai garraioan bai biltegian.'
     ],
     precautionsAndWarnings: [
-      '¡ATENCIÓN SEGURIDAD LÁSER!: La torre NUNCA se mueve sin su maletín metálico rotulado "LÁSER".',
-      'Nadie puede ingresar al quirófano sin gafas de protección ocular específicas cuando el láser esté en modo "Ready".',
-      'Asegurar el brazo articulado en su posición de bloqueo de transporte para no descalibrar los espejos internos.'
+      'Si en la programación figura «LÁSER BLUE», NO acercar el láser CO₂ del quirófano (el BLUE lo traen los propios otorrinos desde consulta).',
+      'Respetar las normas de seguridad específicas del láser. No activar ni manipular el equipo.',
+      'Nunca separar la torre del maletín metálico «LÁSER».'
     ],
     precautionsAndWarningsEu: [
-      'LASER SEGURTASUN OHARRA!: Dorrea EZ DA INOIZ mugitzen "LASER" maletatxo metalikorik gabe.',
-      'Inor ezin da sartu ebakigelara babes-betaurrekorik gabe laserra martxan badago.',
-      'Garraiorako blokeatu beso artikulatua barneko ispiluak ez deskalibratzeko.'
+      'Programazioan «LÁSER BLUE» agertzen bada, EZ hurbildu CO₂ laserra.',
+      'Laserraren segurtasun-arauak errespetatu. Ez aktibatu eta ez manipulatu ekipoa.',
+      'Inoiz ez bereizi dorrea eta «LÁSER» maleta metalikoa.'
     ]
+  },
+  {
+    id: 'exoscopio-orbeye',
+    itemNumber: 9,
+    name: 'Exoscopio (Incorporación Pendiente)',
+    nameEu: 'Exoskopioa (Txertatzeke)',
+    originalPhoto: 'assets/q2_orl_actualizada/obj_46.jpg',
+    badge: 'Incorporación Pendiente · 2 Pantallas',
+    location: 'Pendiente de recepción en HUN',
+    transferM4: '-',
+    isPending: true,
+    mainFunction:
+      'Equipo de grandes dimensiones con dos pantallas (sistema ORBEYE) de próxima incorporación en el HUN para visualización quirúrgica de alta definición.',
+    mainFunctionEu:
+      'Tamaina handiko ekipoa bi pantailarekin (ORBEYE sistema), NUOn laster jasoko dena.',
+    orlApplications: [
+      'Visualización exoscópica en procedimientos microquirúrgicos de cabeza, cuello y oído.',
+      'Incorporación pendiente de recepción física en el Hospital Universitario de Navarra.'
+    ],
+    orlApplicationsEu: [
+      'Buru, lepo eta belarriko mikrokirurgiarako bistaratze exoskopikoa.',
+      'Nafarroako Unibertsitate Ospitalean jasotzeko zain.'
+    ],
+    celadorDuties: [
+      'Una vez recibido en el HUN, se acordará su ubicación definitiva y el protocolo logístico de traslado y almacenamiento.'
+    ],
+    celadorDutiesEu: [
+      'NUOn jaso ondoren, bere kokapena eta protokolo logistikoa adostuko dira.'
+    ],
+    precautionsAndWarnings: [
+      'Equipo de grandes dimensiones con dos pantallas: pendiente de definir protocolo logístico definitivo en el HUN tras su recepción.'
+    ],
+    precautionsAndWarningsEu: [
+      'Bi pantailako tamaina handiko ekipoa: jaso ondoren zehaztuko da protokolo logistikoa.'
+    ]
+  }
+];
+
+export const ORL_CIRCUIT_AND_LAYOUT = {
+  introEs:
+    'La elevada concentración de aparataje electromédico en el Quirófano 2 de ORL (torres de endoscopia, microscopios quirúrgicos, pedales de corte, motores y sistemas de aspiración) exige una distribución espacial rigurosa. El mantenimiento del espacio de trabajo despejado resulta imprescindible para preservar la esterilidad del campo y permitir el movimiento fluido del equipo quirúrgico.',
+  particularities: [
+    {
+      num: 1,
+      title: 'Zona Cefálica (Área Quirúrgica Principal)',
+      desc: 'El cirujano, ayudantes y la mesa de instrumental se posicionan en la cabecera del paciente. Requiere el máximo nivel de preservación de la esterilidad y un espacio despejado.'
+    },
+    {
+      num: 2,
+      title: 'Zona Podal (Área de Accesos y Equipos)',
+      desc: 'La torre de ORL, los pedales de control, monitores secundarios y conexiones a tomas de gases se instalan desde la zona de los pies del paciente.'
+    },
+    {
+      num: 3,
+      title: 'Corredor Logístico y de Cableado',
+      desc: 'El celador de dentro coordina con Enfermería la orientación de la mesa quirúrgica, verificando que los cables de luz fría, líneas de aspiración, pedales y gases discurran por un pasillo técnico delimitado y libre de paso.'
+    },
+    {
+      num: 4,
+      title: 'Requerimiento Específico por Cirujano (Criterio Drª Uzcanga)',
+      desc: 'Instalar y ajustar el accesorio denominado «Cuernos» en la mesa quirúrgica de ORL siempre que la intervención sea realizada por la Drª Uzcanga, con independencia de la técnica concreta. Acercar la silla de trabajo regulable (acordarse de desenchufarla del almacén y de volver a enchufarla al guardarla de nuevo).',
+      highlight: true
+    }
+  ],
+  intraoperativeSequence: [
+    {
+      title: 'Inspección matutina',
+      desc: 'Comprobar operatividad de tomas de aspiración, aire/oxígeno, frenado de la mesa y disponibilidad de accesorios básicos en Quirófano 2.'
+    },
+    {
+      title: 'Ingreso y transferencia',
+      desc: 'Trasladar la mesa de transporte hasta el transfer para recibir al paciente con el celador de fuera e introducirlo en Quirófano 2 garantizando el frenado de ruedas.'
+    },
+    {
+      title: 'Manejo del Rayos X (Arco en C)',
+      desc: 'Introducir el equipo cuando se requiera bajo indicación directa del cirujano/técnico. Al finalizar, retirar y limpiar antes de devolver a su estacionamiento.'
+    },
+    {
+      title: 'Disposición de aparataje',
+      desc: 'Posicionar la torre de endoscopia en la zona podal, emplazar el microscopio en el lateral indicado y ajustar las sillas ergonómicas.'
+    },
+    {
+      title: 'Traslados de alta complejidad (UCI B)',
+      desc: 'Acudir a la UCI B para el traslado de pacientes críticos en su propia cama o camilla especial, asistiendo en la transferencia e instalación de soportes de perfusión.'
+    },
+    {
+      title: 'Secuencia de evacuación',
+      desc: 'Igualar la altura de superficies para la transferencia a la cama postoperatoria. Retirar carro de transporte y palo de gotero al antequirófano. Preguntar a Anestesia si se requiere mascarilla y bala de O₂.'
+    }
+  ],
+  mandatorySafetyNote:
+    'Es obligatoria la consulta previa con la Enfermería de Anestesia antes de realizar cualquier cambio posicional, modificación en los segmentos de la mesa o retirada de accesorios auxiliares (incluyendo el palo del gotero), garantizando la estabilidad de la vía aérea y de las vías venosas.'
+};
+
+export const ORL_POSITIONS_DATA = {
+  introEs:
+    'El posicionamiento anatómico busca maximizar la exposición del campo en cavidades anatómicas reducidas (oído, fosa nasal, laringe), previniendo lesiones neurológicas o úlceras por presión.',
+  positions: [
+    {
+      id: 'amigdalotomia',
+      title: '1. Amigdalotomía',
+      points: [
+        'Decúbito supino con ligera inclinación en Trendelenburg.',
+        'Cabeza en hiperextensión controlada, alineada y ajustada en el límite superior de la mesa.',
+        'Braceros laterales a la altura del tórax y sujeciones de muñeca acolchadas.'
+      ]
+    },
+    {
+      id: 'microcirugia-laringea',
+      title: '2. Microcirugía Laríngea',
+      points: [
+        'Decúbito supino horizontal.',
+        'Extensión cervical pronunciada. Colocar un pile (rodete firme de sábanas verdes) en la zona subescapular/hombros para elevar el tórax y permitir deflexión de la cabeza.',
+        'Braceros regulados con fijadores radiales y sujeciones acolchadas.'
+      ]
+    },
+    {
+      id: 'timpanoplastia',
+      title: '3. Timpanoplastia',
+      points: [
+        'Decúbito supino en Antitrendelenburg (Trendelenburg invertido) para favorecer retorno venoso y reducir sangrado capilar.',
+        'Lateralización de la cabeza hacia el lado contralateral a la lesión auditiva.',
+        'Braceros con mordazas radiales y cinchas de seguridad.'
+      ]
+    },
+    {
+      id: 'roser-proetz',
+      title: '4. Posición Roser / Proetz',
+      points: [
+        'Decúbito supino horizontal.',
+        'Desplazamiento longitudinal del paciente hacia la cabecera hasta que la cabeza sobrepase el plano superior del tablero, en hiperextensión suspendida.'
+      ],
+      criticalAlert:
+        'Maniobra crítica de seguridad: Durante todo el deslizamiento, el celador debe sostener y acunar manualmente el occipucio/cabeza del paciente, manteniendo el control cervical hasta la colocación del cabezal específico o toma de control por Anestesiología/Cirugía.'
+    }
+  ] as OrlPositionGuide[],
+  generalAccessoriesNote:
+    'Accesorios habituales: Fijadores radiales, sujeciones de muñeca, arco de anestesia (e incorporar «Cuernos» si opera la Drª Uzcanga).',
+  specialAccessories: [
+    {
+      id: 'touss',
+      title: 'TOUSS (Cirugía transoral ultrasónica)',
+      desc: 'Colocar el prolongador en el lado izquierdo de la mesa para instalar el brazo del TOUSS.'
+    },
+    {
+      id: 'baha-ponto',
+      title: 'BAHA / PONTO (Implante osteointegrado)',
+      desc: 'Colocar el arco siempre en el lado contrario al utilizado para el prolongador del TOUSS.'
+    },
+    {
+      id: 'sniffing',
+      title: 'Posición Sniffing (Olfateo)',
+      desc: 'Indicada para microcirugía de laringe (elevación del occipucio para optimizar la alineación laríngea).'
+    }
+  ],
+  images: [
+    {
+      src: 'assets/q2_orl_actualizada/obj_51.jpg',
+      title: 'Infografía: Amigdalotomía y Microcirugía Laríngea',
+      caption: 'Comparativa visual de decúbito supino, soporte bajo hombros (pile) y objetivo anatómico.'
+    },
+    {
+      src: 'assets/q2_orl_actualizada/obj_54.jpg',
+      title: 'Infografía: Timpanoplastia y Posición Roser / Proetz',
+      caption: 'Lateralización cefálica en oído medio e inclinación cefálica posterior para cavidades nasales y rinofaringe.'
+    },
+    {
+      src: 'assets/q2_orl_actualizada/obj_55.jpg',
+      title: 'Infografía: TOUSS, BAHA / PONTO y Posición Sniffing',
+      caption: 'Alineación conducto auditivo–esternón en Sniffing, acceso transoral en TOUSS y apoyo sin compresión retroauricular en BAHA / PONTO.'
+    },
+    {
+      src: 'assets/q2_orl_actualizada/obj_58.jpg',
+      title: 'Fotografía real en quirófano: Posición de Sniffing (Olfateo)',
+      caption: 'Elevación controlada del occipucio y sujeción coordinada en quirófano de ORL.'
+    }
+  ]
+};
+
+export const ORL_CUERNOS_TRANSFER = {
+  titleEs: '5. Transfer: Preparación de la Mesa Quirúrgica y Accesorios («Cuernos»)',
+  titleEu: '5. Transferra: Mahai Kirurgikoaren Prestaketa eta Osagarriak («Cuernos»)',
+  introEs:
+    'En los procedimientos en los que esté indicado el accesorio «Cuernos» (obligatorio siempre que opere la Drª Uzcanga), la mesa quirúrgica se prepara sustituyendo la pieza del cabezal por el prolongador dorsal y montando sobre este el accesorio.',
+  steps: [
+    'Comprobar que la mesa está libre de paciente y que se encuentra estable antes de comenzar el montaje.',
+    'Retirar la pieza o sección del cabezal de la mesa quirúrgica, siguiendo el sistema de desbloqueo previsto para ese modelo.',
+    'Colocar el prolongador dorsal en el extremo correspondiente de la mesa y asegurarlo en sus anclajes.',
+    'Montar los «Cuernos» sobre el prolongador dorsal, utilizando los puntos de fijación diseñados para ello.',
+    'Comprobar visualmente que el prolongador y los «Cuernos» han quedado correctamente encajados y bloqueados, sin holguras ni piezas sueltas.',
+    'Dejar la mesa preparada y comunicar a Enfermería que el montaje está realizado para que compruebe y valide la configuración antes de colocar al paciente.'
+  ],
+  photos: [
+    {
+      src: 'assets/q2_orl_actualizada/obj_61.jpg',
+      title: 'Accesorio «Cuernos» y prolongador dorsal',
+      caption: 'Conjunto del prolongador dorsal con anclajes y cabezal de «Cuernos» antes de su acoplamiento a la mesa.'
+    },
+    {
+      src: 'assets/q2_orl_actualizada/obj_62.jpg',
+      title: 'Vista frontal de la mesa con el accesorio «Cuernos» montado',
+      caption: 'Cabezal de «Cuernos» ya encajado y bloqueado en el extremo cefálico de la mesa quirúrgica.'
+    },
+    {
+      src: 'assets/q2_orl_actualizada/obj_63.jpg',
+      title: 'Vista lateral del prolongador dorsal y puntos de unión a la mesa',
+      caption: 'Detalle de los raíl-anclajes laterales, bloqueos azules y acoplamiento firme sin holguras.'
+    }
+  ]
+};
+
+export const ORL_MATERNAL_TRANSFER = {
+  titleEs: '6. Traslado de Material de ORL al Quirófano Maternal (M4)',
+  titleEu: '6. ORL Materiala Maternal Ebakigelara (M4) Eramatea',
+  introEs:
+    'Revisar la programación quirúrgica antes de preparar el material para determinar la movilización requerida.',
+  itemsToTransfer: [
+    'Microscopio quirúrgico ZEISS (siempre entre 2 personas y con brazo superior plegado conectado a corriente).',
+    'Láser CO₂ DEKA y su maleta metálica identificada con la inscripción «LÁSER».',
+    'Carro de Otorrinolaringología con el material de Enfermería.',
+    'Torre de ORL (KARL STORZ).',
+    'Peso (situado en la parte superior de la Torre de ORL).'
+  ],
+  excludedNote:
+    'Nota importante: La consola MEDTRONIC IPC NO se traslada al Quirófano Maternal por disponer ya de otra en el M4.',
+  verificationSteps: [
+    'Confirmar con Enfermería de ORL el material exacto requerido.',
+    'Verificar que los equipos se trasladan con todos sus accesorios (maletín «LÁSER», peso superior en torre, etc.).',
+    'Coordinar la entrega y ubicación en la zona maternal.',
+    'Al finalizar la intervención, verificar el retorno completo del material al Quirófano 2.'
+  ]
+};
+
+export const ORL_SUMMARY_TABLE: OrlSummaryTableRow[] = [
+  {
+    id: 'sum-storz',
+    equipmentName: 'Torre de vídeo-endoscopia KARL STORZ',
+    functionDesc:
+      'Carro con monitor y módulos de vídeo-endoscopia para visualización de imágenes durante exploraciones y procedimientos de ORL. Incluye una pieza metálica / bandeja superior de apoyo (peso/contrapeso del brazo del abrebocas).',
+    transferAndFoldingProtocol:
+      'Trasladar con cuidado, comprobando que los elementos estén colocados de forma estable. Evitar tirones, atrapamientos o tensiones en cables y conexiones. Devolver el conjunto a su ubicación habitual manteniendo el peso asociado a la torre de ORL.',
+    handlingPrecautions:
+      'No desconectar, reconectar ni modificar configuraciones técnicas por iniciativa propia. No modificar el montaje ni utilizar la pieza metálica/bandeja superior de forma distinta a la indicada. No colocar la pieza metálica directamente sobre el paciente.',
+    associatedAccessories: 'Accesorios indicados por Enfermería y pieza metálica / bandeja superior de apoyo.',
+    transferM4: 'Sí'
+  },
+  {
+    id: 'sum-zeiss',
+    equipmentName: 'Microscopio quirúrgico ZEISS',
+    functionDesc:
+      'Equipo óptico montado sobre soporte móvil, utilizado para proporcionar magnificación e iluminación del campo quirúrgico en procedimientos que requieren visión ampliada.',
+    transferAndFoldingProtocol:
+      'Traslado siempre entre dos personas. Coordinar antes de iniciar. Antes de atravesar puertas, el brazo superior debe quedar completamente plegado en posición de transporte (panel de control conectado a la corriente). Comprobar brazo recogido, recoger cables, avanzar despacio vigilando puertas y esquinas.',
+    handlingPrecautions:
+      'No forzar manualmente articulaciones ni accionar controles cuya función no se conozca. Si el panel no responde o el brazo no se pliega, detener la maniobra y avisar a Enfermería / Electromedicina.',
+    associatedAccessories: 'No presente en la fuente (funda protectora y cables propios).',
+    transferM4: 'Sí'
+  },
+  {
+    id: 'sum-deka',
+    equipmentName: 'Láser DEKA SmartXide²',
+    functionDesc:
+      'Plataforma láser CO₂ DEKA SmartXide² para determinados procedimientos quirúrgicos de ORL. Se distingue del láser BLUE (equipo pequeño traído por los otorrinos desde consulta).',
+    transferAndFoldingProtocol:
+      'Debe trasladarse junto con el maletín metálico identificado con la inscripción «LÁSER». Comprobar que torre y maletín permanecen juntos tanto en el traslado como en el almacenamiento.',
+    handlingPrecautions:
+      'Respetar las normas de seguridad específicas del láser. No activar ni manipular el equipo. Si en la programación figura «LÁSER BLUE», no acercar el láser CO₂ del quirófano.',
+    associatedAccessories: 'Maletín metálico identificado con la inscripción «LÁSER».',
+    transferM4: 'Sí'
+  },
+  {
+    id: 'sum-medtronic',
+    equipmentName: 'Consola MEDTRONIC IPC',
+    functionDesc:
+      'Consola de control para instrumental motorizado compatible. Puede emplearse con distintos accesorios según la configuración clínica.',
+    transferAndFoldingProtocol:
+      'Antes de solicitar un traslado, consultar la programación quirúrgica y confirmar con Enfermería si existe alguna excepción que requiera otra consola. Nota: no se traslada al Quirófano Maternal por disponer de otra en el M4.',
+    handlingPrecautions:
+      'No manipular parámetros, conexiones clínicas ni configuraciones. Comunicar cualquier anomalía al personal responsable.',
+    associatedAccessories: 'Distintos accesorios según la configuración clínica.',
+    transferM4: 'No'
+  },
+  {
+    id: 'sum-neurosign',
+    equipmentName: 'Monitor de nervio intraoperatorio NEUROSIGN V4',
+    functionDesc:
+      'Sistema de monitorización utilizado en determinados procedimientos para registrar respuestas neuromusculares.',
+    transferAndFoldingProtocol: 'Conocer su ubicación y colaborar en el traslado.',
+    handlingPrecautions: 'No manipular electrodos, parámetros ni conexiones clínicas.',
+    associatedAccessories: 'Electrodos.',
+    transferM4: 'Sí'
+  },
+  {
+    id: 'sum-exoscopio',
+    equipmentName: 'Exoscopio (incorporación pendiente)',
+    functionDesc: 'Equipo de grandes dimensiones con dos pantallas (incorporación pendiente en HUN).',
+    transferAndFoldingProtocol: 'Una vez recibido en el HUN, se acordará su ubicación y protocolo logístico.',
+    handlingPrecautions: 'Pendiente de protocolo definitivo tras recepción en el HUN.',
+    associatedAccessories: 'Dos pantallas.',
+    transferM4: '-'
+  },
+  {
+    id: 'sum-sillon',
+    equipmentName: 'Sillón clínico regulable',
+    functionDesc: 'Sillón con apoyos y elementos de regulación para uso clínico.',
+    transferAndFoldingProtocol: 'Colaborar en su traslado y colocación evitando golpes.',
+    handlingPrecautions:
+      'No modificar ajustes o posiciones clínicas sin indicación del personal sanitario. Comprobar que queda estable y correctamente ubicado.',
+    associatedAccessories: 'Apoyos y elementos de regulación.',
+    transferM4: 'No'
+  },
+  {
+    id: 'sum-silla-pedales',
+    equipmentName: 'Silla de trabajo regulable con ruedas y pedales',
+    functionDesc: 'Silla regulable utilizada por el personal durante determinados procedimientos.',
+    transferAndFoldingProtocol:
+      'Al sacarla del almacén para utilizarla, desenchufarla. Al devolverla al almacén, volver a enchufarla. Dejar el cable recogido y situado de forma que no genere tropiezos.',
+    handlingPrecautions: 'No presente en la fuente (cumplir regla de desenchufar/enchufar y recoger cable).',
+    associatedAccessories: 'Ruedas, pedales y cable de enchufe.',
+    transferM4: 'No'
   }
 ];
 
@@ -386,24 +753,24 @@ export const ORL_GENERAL_RULES = {
       desc: 'Mover todos los equipos a paso moderado, sujetando las estructuras principales y evitando tirones en cables. Al alcanzar la ubicación definitiva en quirófano, activar SIEMPRE los frenos de bloqueo en las ruedas antes de soltar el equipo.'
     },
     {
-      title: 'Gestión y protección de cables y fibras ópticas',
-      desc: 'Los cables de conexión eléctrica y pedales deben tenderse por el perímetro sin generar bucles sueltos ni zonas de tropiezo. Las fibras ópticas de Karl Storz y microscopios de cuarzo NO deben doblarse en ángulo agudo ni ser pisadas bajo ningún concepto por ruedas de mesas o carros.'
+      title: 'Gestión de cables y corredor técnico',
+      desc: 'Los cables de luz fría, líneas de aspiración, pedales y gases deben discurrir por un pasillo técnico delimitado y libre de paso. Las fibras ópticas de Karl Storz NO deben doblarse en ángulo agudo ni ser pisadas por ruedas.'
     },
     {
-      title: 'Conexión eléctrica y protocolo de recarga',
-      desc: 'Conectar únicamente a tomas hospitalarias de grado médico con toma de tierra. En aparatos con batería autónoma (especialmente la Silla de Cirujano con pedales): DESENCHUFAR para su uso y traslado, y VOLVER A ENCHUFAR obligatoriamente al finalizar la jornada para garantizar su carga completa.'
+      title: 'Silla de trabajo y protocolo de recarga',
+      desc: 'En la silla de trabajo regulable con ruedas y pedales: DESENCHUFAR al sacarla del almacén para utilizarla, recoger el cable para evitar tropiezos, y VOLVER A ENCHUFAR obligatoriamente al devolverla al almacén.'
     },
     {
-      title: 'Custodia inseparable de maletines de accesorios',
-      desc: 'Equipos como el Láser DEKA SmartXide² requieren piezas y lentes ópticas específicas alojadas en su MALETÍN METÁLICO DE ALUMINIO rotulado "LÁSER". Dicho maletín debe viajar SIEMPRE y de manera indivisible junto a la torre.'
+      title: 'Láser DEKA vs Láser BLUE y maletín «LÁSER»',
+      desc: 'El Láser CO₂ DEKA SmartXide² viaja y se guarda SIEMPRE junto con su maletín metálico rotulado «LÁSER». Si en la programación figura «LÁSER BLUE», no acercar el láser CO₂ del quirófano.'
     },
     {
-      title: 'Limpieza y desinfección reglamentaria',
-      desc: 'Tras cada intervención, aplicar toallitas con solución desinfectante autorizada por el Servicio de Medicina Preventiva del HUN sobre chasis y cables. JAMÁS aplicar pulverizaciones directas ni productos abrasivos sobre pantallas táctiles, lentes de microscopio u ópticas de vídeo.'
+      title: 'Peso metálico / pieza de apoyo en mesa',
+      desc: 'El peso metálico situado en la zona superior de la torre KARL STORZ sirve de contrapeso del brazo articulado del abrebocas. Se coloca encima de una mesa metálica situada sobre el pecho del paciente: NUNCA directamente sobre el paciente.'
     },
     {
-      title: 'NOTA DE PRECAUCIÓN CRUCIAL EN MESA QUIRÚRGICA',
-      desc: 'Ante cualquier modificación de los tramos de la mesa quirúrgica Trumpf, intercambio de cabecero (cuernos, herradura, plano) o la retirada de cualquier accesorio (incluido el portasueros de anestesia), el celador debe CONSULTAR PREVIAMENTE con el personal de Enfermería de Anestesia antes de actuar.'
+      title: 'NOTA DE SEGURIDAD OBLIGATORIA EN MESA QUIRÚRGICA',
+      desc: 'Es obligatoria la consulta previa con la Enfermería de Anestesia antes de realizar cualquier cambio posicional, modificación en los segmentos de la mesa (cabeceros, «Cuernos», prolongador dorsal) o retirada de accesorios auxiliares (incluido el palo del gotero).'
     }
   ],
   rulesEu: [
@@ -412,24 +779,24 @@ export const ORL_GENERAL_RULES = {
       desc: 'Ekipo guztiak erritmo pausatuan mugitu egitura nagusietatik helduta. Ebakigelan behin betiko lekuan uztean, gurpilen balaztak BETI aktibatu heldulekua askatu aurretik.'
     },
     {
-      title: 'Kableen eta zuntz optikoen kudeaketa',
-      desc: 'Kableak perimetroan bideratu behaztoparik ez sortzeko. Zuntz optikoak ez tolestu angelu itxian eta ez utzi lurrean gurpilek zapal ez ditzaten.'
+      title: 'Kableen eta pasabide teknikoaren kudeaketa',
+      desc: 'Argi hotzeko kableak, aspirazioa, pedalak eta gasak pasabide tekniko libre batetik bideratu. Zuntz optikoak ez tolestu eta ez zapaldu.'
     },
     {
-      title: 'Konexio elektrikoa eta birkarga protokoloa',
-      desc: 'Ospitaleko sare segurura soilik konektatu. Bateriadun gailuetan (bereziki zirujauren pedaldun aulkian): DESKONEKTATU erabiltzeko eta BERRIRO KONEKTATU gordetzean.'
+      title: 'Lan-aulkia eta birkarga protokoloa',
+      desc: 'Gurpildun eta pedaldun aulkia biltegitik ateratzean DESENTXUFATU, kablea bildu, eta biltegira itzultzean BERRIRO ENTXUFATU.'
     },
     {
-      title: 'Osagarrien maletatxoak zatiezin mantentzea',
-      desc: 'DEKA SmartXide² laserrak "LASER" idatzitako ALUMINIOZKO MALETATEGI METALIKOA behar du; dorrearekin batera eraman behar da beti zatiezin.'
+      title: 'DEKA Laserra vs BLUE Laserra eta «LÁSER» maleta',
+      desc: 'DEKA SmartXide² laserra BETI «LÁSER» maleta metalikoarekin elkarrekin eraman eta gorde. Programazioan «LÁSER BLUE» bada, ez hurbildu CO₂ laserra.'
     },
     {
-      title: 'Garbiketa eta desinfekzio arautua',
-      desc: 'Ebakuntza bakoitzaren ondoren, NUOko zapi desinfektatzaile homologatuekin garbitu azalak. Inoiz ez bota likidorik zuzenean pantaila edo optika gainera.'
+      title: 'Pisu metalikoa mahai gainean',
+      desc: 'KARL STORZ dorrearen goiko pisu metalikoa pazientearen bularraren gaineko mahai metalikoan jartzen da, INOIZ EZ zuzenean pazientearen gainean.'
     },
     {
-      title: 'MAHAI KIRURGIKOAREN PREKAUZIO OHARRA',
-      desc: 'Trumpf mahaiaren zatiak aldatu edo edozein osagarri kendu aurretik (serum-euskarria barne), zeladoreak BETI Anestesiako Erizaintzari galdetu behar dio lehendabizi.'
+      title: 'MAHAI KIRURGIKOAREN DERRIGORREZKO SEGURTASUN OHARRA',
+      desc: 'Beti Anestesiako Erizaintzari galdetu aldez aurretik posizio-aldaketarik, mahai-atalen aldaketarik edo osagarririk kendu aurretik (serum-euskarria barne).'
     }
   ]
 };

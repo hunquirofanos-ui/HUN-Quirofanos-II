@@ -50,6 +50,7 @@ import {
 } from '../data/tablePreEntryProtocols';
 import { Language } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
+import { ORL_CUERNOS_TRANSFER, ORL_POSITIONS_DATA } from '../data/orlEquipmentData';
 
 interface TablePreEntryPreparationProps {
   nightMode: boolean;
@@ -1105,7 +1106,7 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
                   className="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-2xs self-start sm:self-auto"
                 >
                   <Stethoscope className="w-3.5 h-3.5" />
-                  <span>{language === 'es' ? 'Ver Aparataje ORL (8 Equipos)' : 'ORL Ekipamendua (8 Ekipo)'}</span>
+                  <span>{language === 'es' ? 'Ver Guía y Aparataje ORL (9 Equipos)' : 'ORL Gida eta Tresneria (9 Ekipo)'}</span>
                 </button>
               )}
             </div>
@@ -1168,17 +1169,91 @@ export const TablePreEntryPreparation: React.FC<TablePreEntryPreparationProps> =
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
-                  <span><strong>Soporte cervical bimanual:</strong> Una persona guía el tronco y otra sostiene cuidadosamente la cabeza para posarla en los cuernos.</span>
+                  <span><strong>Soporte cervical bimanual (Roser / Proetz):</strong> Sostener y acunar manualmente el occipucio durante todo el deslizamiento hasta la fijación por Cirugía/Anestesia.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
-                  <span><strong>Cuidado del tubo:</strong> Sincronización estricta con anestesia para proteger el tubo endotraqueal anillado.</span>
+                  <span><strong>Criterio Drª Uzcanga:</strong> Instalar «Cuernos» siempre que opere la Drª Uzcanga (con independencia de la técnica) y acercar la silla regulable desenchufada.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-3.5 h-3.5 text-sky-600 shrink-0 mt-0.5" />
-                  <span><strong>Monitorización facial:</strong> Proteger cables del Neurosign V4 para que no se desconecten con los movimientos.</span>
+                  <span><strong>TOUSS y BAHA / PONTO:</strong> En TOUSS, prolongador en lado izquierdo; en BAHA / PONTO, arco siempre en lado contrario al prolongador del TOUSS.</span>
                 </li>
               </ul>
+            </div>
+          </div>
+
+          {/* Secuencia oficial de montaje «Cuernos» + Prolongador Dorsal y 3 fotografías */}
+          <div className={`p-4 sm:p-5 rounded-2xl border space-y-4 ${nightMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-200'}`}>
+            <div>
+              <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-sky-900 dark:text-sky-200">
+                {language === 'es' ? 'Secuencia de Montaje: Prolongador Dorsal + «Cuernos» (Guía ORL Nov 2026)' : 'Muntagai Sekuentzia: Luzagailu Dortsala + «Cuernos»'}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                {ORL_CUERNOS_TRANSFER.introEs}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+              {ORL_CUERNOS_TRANSFER.steps.map((step, sIdx) => (
+                <div
+                  key={sIdx}
+                  className={`p-3 rounded-xl border text-xs flex items-start gap-2 ${
+                    nightMode ? 'bg-slate-950/50 border-slate-800 text-slate-200' : 'bg-sky-50/40 border-sky-100 text-slate-800'
+                  }`}
+                >
+                  <span className="w-5 h-5 rounded-full bg-sky-600 text-white text-[10px] font-black flex items-center justify-center shrink-0">
+                    {sIdx + 1}
+                  </span>
+                  <span className="leading-snug">{step}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {ORL_CUERNOS_TRANSFER.photos.map((photo, pIdx) => (
+                <div
+                  key={pIdx}
+                  onClick={() => setSelectedSheetModal(`${import.meta.env.BASE_URL}${photo.src}`)}
+                  className={`rounded-xl border overflow-hidden cursor-pointer group ${
+                    nightMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'
+                  }`}
+                >
+                  <div className="aspect-[4/3] bg-slate-950 relative overflow-hidden">
+                    <img
+                      src={`${import.meta.env.BASE_URL}${photo.src}`}
+                      alt={photo.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="p-2.5">
+                    <span className="text-[11px] font-bold text-slate-900 dark:text-white block">{photo.title}</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400">{photo.caption}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              {ORL_POSITIONS_DATA.images.slice(2, 4).map((posImg, iIdx) => (
+                <div
+                  key={iIdx}
+                  onClick={() => setSelectedSheetModal(`${import.meta.env.BASE_URL}${posImg.src}`)}
+                  className={`p-2.5 rounded-xl border cursor-pointer flex items-center gap-3 hover:border-sky-400 transition-colors ${
+                    nightMode ? 'bg-slate-950/60 border-slate-800' : 'bg-sky-50/30 border-sky-200'
+                  }`}
+                >
+                  <img
+                    src={`${import.meta.env.BASE_URL}${posImg.src}`}
+                    alt={posImg.title}
+                    className="w-20 h-14 object-cover rounded-lg shrink-0 bg-slate-950"
+                  />
+                  <div className="min-w-0">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white block truncate">{posImg.title}</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">{posImg.caption}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

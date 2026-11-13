@@ -111,9 +111,9 @@ export const Header: React.FC<HeaderProps> = ({
       id: 'q2', 
       label: t.navQ2, 
       shortLabel: 'Q2 · ORL',
-      sublabel: language === 'es' ? 'Microcirugía Otológica, CENS y 8 Equipos' : 'Belarriko Mikrokirurgia, CENS eta 8 Ekipo',
+      sublabel: language === 'es' ? 'Microcirugía, CENS, M4 y 9 Equipos' : 'Belarriko Mikrokirurgia, CENS eta 9 Ekipo',
       icon: Stethoscope,
-      badge: '8 Equipos'
+      badge: '9 Equipos'
     },
     { 
       id: 'q3_q4', 

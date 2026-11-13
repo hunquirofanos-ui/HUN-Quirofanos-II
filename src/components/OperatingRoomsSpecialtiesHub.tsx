@@ -32,6 +32,7 @@ import { TRANSLATIONS } from '../i18n/translations';
 import { OrlEquipmentSection } from './OrlEquipmentSection';
 import { Q1CirugiaNavegadaSection } from './Q1CirugiaNavegadaSection';
 import { Q1_NAVEGADA_PDF_URL, Q1_NAVEGADA_PHOTOS } from '../data/q1CirugiaNavegadaData';
+import { ORL_GUIDE_PDF } from '../data/orlEquipmentData';
 
 interface OperatingRoomsSpecialtiesHubProps {
   nightMode: boolean;
@@ -120,17 +121,17 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
       textColor: 'text-sky-700 dark:text-sky-400',
       badgeColor: 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border-sky-300 dark:border-sky-800',
       operatingRoomsText: 'Quirófano 2',
-      tagline: language === 'es' ? 'Microcirugía Otológica, Faríngea y CENS' : 'Belarriko Mikrokirurgia, Faringea eta CENS',
+      tagline: language === 'es' ? 'Microcirugía Otológica, Laringe, CENS & Maternal (M4)' : 'Belarriko Mikrokirurgia, Faringea eta CENS',
       description: language === 'es'
-        ? 'Cirugía endoscópica nasosinusal (CENS), timpanoplastias, mastoidectomías, amigdalectomías y microcirugía de laringe con suspensión.'
-        : 'Sudur-sinusetako kirurgia endoskopikoa (CENS), timpanoplastiak, mastoidektomiak eta laringeko mikrokirurgia esekiduran.',
+        ? 'Cirugía endoscópica nasosinusal (CENS), timpanoplastias, amigdalotomías, microcirugía de laringe (Sniffing, TOUSS), BAHA/PONTO y traslado de material a Maternal (M4).'
+        : 'Sudur-sinusetako kirurgia endoskopikoa (CENS), timpanoplastiak, amigdalotomiak eta laringeko mikrokirurgia (Sniffing, TOUSS).',
       accessoriesRule: language === 'es'
-        ? 'Accesorios en lugar protegido; tras desinfección por limpieza -> Mueble del ANTEQUIRÓFANO.'
+        ? 'Accesorios en lugar protegido; tras desinfección por limpieza -> Mueble del ANTEQUIRÓFANO. Peso metálico siempre asociado a la torre KARL STORZ.'
         : 'Osagarriak babestutako lekuan; desinfektatu ondoren -> AURRE-EBAKIGELAKO altzarian.',
       celadorDutySummary: language === 'es'
-        ? 'Colocación en posición de Rose (hiperextensión cervical controlada con rodete) o cabecero especial de herradura; entrada cuidadosa del microscopio quirúrgico Zeiss/Leica.'
-        : 'Rose posizioa (lepoko hiperextentsio kontrolatua errodamenduarekin) edo ferra-burukoa; Zeiss/Leica mikroskopioa arreta handiz sartzea.',
-      keyAccessories: ['Cabecero de herradura acolchado', 'Rodete cervical de silicona', 'Microscopio quirúrgico Zeiss', 'Soporte suspensión laringoscopio']
+        ? 'Circuito Zona Cefálica/Podal, Criterio Drª Uzcanga («Cuernos» + silla regulable desenchufada), posición Roser/Proetz y Sniffing, microscopio ZEISS entre 2 personas y traslado a Maternal (M4).'
+        : 'Zonalde zefaliko/podala, Uzcanga doktorearen irizpidea («Cuernos» + aulkia), Roser/Proetz posizioa, ZEISS mikroskopioa eta M4 garraioa.',
+      keyAccessories: ['Prolongador dorsal y «Cuernos»', 'Peso metálico Torre STORZ', 'Microscopio ZEISS & Láser DEKA', 'TOUSS / BAHA-PONTO / Sniffing']
     },
     {
       id: 'Q3-Q4',
@@ -380,7 +381,7 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
                   }`}
                 >
                   <Stethoscope className="w-3.5 h-3.5" />
-                  <span>{showOrlEquipment ? (language === 'es' ? '← Volver a Q2 General' : '← Itzuli Q2 Orokorrera') : (language === 'es' ? 'Aparataje ORL (8 Equipos)' : 'ORL Tresneria (8 Ekipo)')}</span>
+                  <span>{showOrlEquipment ? (language === 'es' ? '← Volver a Q2 General' : '← Itzuli Q2 Orokorrera') : (language === 'es' ? 'Guía y Aparataje ORL (9 Equipos)' : 'ORL Gida eta Tresneria (9 Ekipo)')}</span>
                 </button>
               )}
               {activeHub.id === 'Q5-Q6' && (
@@ -603,22 +604,33 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
 
                         <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                           {language === 'es'
-                            ? 'Fotografía panorámica oficial que muestra la ubicación exacta de los puestos quirúrgicos: columna central Trumpf, microscopio quirúrgico ZEISS al fondo izquierdo, torre laparoscópica KARL STORZ, carro de anestesia GE, consolas de microdesbridador Medtronic IPC, monitor Neurosign V4 y carro con láser DEKA SmartXide 2.'
-                            : 'Argazki panoramiko ofiziala: Trumpf erdiko zutabea, ZEISS mikroskopioa ezkerrean, KARL STORZ laparoskopia dorrea, GE anestesia-karroa, Medtronic IPC kontsolak, Neurosign V4 monitorea eta DEKA laserra.'}
+                            ? 'Guía reorganizada (5 nov 2026): los 9 equipos de ORL (incl. Peso metálico en torre STORZ y Exoscopio pendiente), distinción Láser DEKA vs Láser BLUE, circuito del celador de dentro, criterio Drª Uzcanga («Cuernos» y silla), posiciones (Roser/Proetz, Sniffing, TOUSS, BAHA/PONTO), traslado a Maternal (M4) y tabla resumen.'
+                            : 'Gida berrantolatua: ORLeko 9 ekipoak, DEKA vs BLUE laserra, zeladorearen zirkuitua, Uzcanga irizpidea, posizioak eta Maternalera (M4) garraioa.'}
                         </p>
                       </div>
 
                       <div className="space-y-2 pt-2">
-                        <button
-                          onClick={() => setShowOrlEquipment(true)}
-                          className="w-full py-3 px-4 rounded-xl text-xs font-extrabold bg-sky-600 hover:bg-sky-700 text-white transition-all shadow-sm flex items-center justify-center gap-2 group"
-                        >
-                          <Stethoscope className="w-4 h-4" />
-                          <span>{language === 'es' ? 'Abrir Catálogo de Aparataje Específico (8 Equipos)' : 'ORLeko 8 Ekipoen Katalogoa Ireki'}</span>
-                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          <button
+                            onClick={() => setShowOrlEquipment(true)}
+                            className="flex-1 py-3 px-4 rounded-xl text-xs font-extrabold bg-sky-600 hover:bg-sky-700 text-white transition-all shadow-sm flex items-center justify-center gap-2 group"
+                          >
+                            <Stethoscope className="w-4 h-4" />
+                            <span>{language === 'es' ? 'Abrir Guía y Aparataje Q2 (9 Equipos)' : 'ORLeko 9 Ekipoen Gida Ireki'}</span>
+                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </button>
+                          <a
+                            href={`${import.meta.env.BASE_URL}${ORL_GUIDE_PDF}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="py-3 px-4 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-1.5 shrink-0"
+                          >
+                            <FileText className="w-4 h-4 text-sky-600" />
+                            <span>{language === 'es' ? 'Ver PDF' : 'Ikusi PDFa'}</span>
+                          </a>
+                        </div>
                         <p className="text-[11px] text-center text-slate-500">
-                          {language === 'es' ? 'Incluye fotos individuales, traslados de celadores y precauciones' : 'Argazki indibidualak, garraio-oharrak eta neurriak barne'}
+                          {language === 'es' ? 'Incluye 9 equipos, posiciones ORL, montaje «Cuernos», traslado M4 y tabla resumen' : '9 ekipo, posizioak, «Cuernos» muntaia, M4 garraioa eta laburpen taula barne'}
                         </p>
                       </div>
                     </div>
