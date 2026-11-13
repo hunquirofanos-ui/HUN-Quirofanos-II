@@ -21,7 +21,8 @@ import {
   Play,
   Maximize2,
   X,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Compass
 } from 'lucide-react';
 import { SPECIALTIES, SURGERY_PROTOCOLS } from '../data/operatingRoomData';
 import { OPERATING_TABLE_VIDEOS } from '../data/operatingTableVideos';
@@ -29,6 +30,8 @@ import { HUN_OR_DISTRIBUTION } from '../data/hunOfficialProtocols';
 import { Language, SurgeryProtocol } from '../types/operatingRoom';
 import { TRANSLATIONS } from '../i18n/translations';
 import { OrlEquipmentSection } from './OrlEquipmentSection';
+import { Q1CirugiaNavegadaSection } from './Q1CirugiaNavegadaSection';
+import { Q1_NAVEGADA_PDF_URL, Q1_NAVEGADA_PHOTOS } from '../data/q1CirugiaNavegadaData';
 
 interface OperatingRoomsSpecialtiesHubProps {
   nightMode: boolean;
@@ -52,10 +55,14 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
   const t = TRANSLATIONS[language];
   const [selectedHubId, setSelectedHubId] = useState<string | null>(() => {
     if (initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT') return 'Q2';
+    if (initialRoomId === 'q1_navegada' || initialRoomId === 'Q1-NAVEGADA') return 'Q1';
     return initialRoomId || null;
   });
   const [showOrlEquipment, setShowOrlEquipment] = useState<boolean>(() => {
     return initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT';
+  });
+  const [showQ1Navegada, setShowQ1Navegada] = useState<boolean>(() => {
+    return initialRoomId === 'q1_navegada' || initialRoomId === 'Q1-NAVEGADA';
   });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [expandedSurgeryId, setExpandedSurgeryId] = useState<string | null>(null);
@@ -65,9 +72,15 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
     if (initialRoomId === 'orl_aparataje' || initialRoomId === 'Q2-EQUIPMENT') {
       setSelectedHubId('Q2');
       setShowOrlEquipment(true);
+      setShowQ1Navegada(false);
+    } else if (initialRoomId === 'q1_navegada' || initialRoomId === 'Q1-NAVEGADA') {
+      setSelectedHubId('Q1');
+      setShowQ1Navegada(true);
+      setShowOrlEquipment(false);
     } else if (initialRoomId) {
       setSelectedHubId(initialRoomId);
       setShowOrlEquipment(false);
+      setShowQ1Navegada(false);
     }
   }, [initialRoomId]);
 
@@ -339,7 +352,24 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
               <span>{language === 'es' ? 'Volver a Quirófanos y Especialidades' : 'Itzuli Ebakigela eta Espezialitateetara'}</span>
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {activeHub.id === 'Q1' && (
+                <button
+                  onClick={() => setShowQ1Navegada(!showQ1Navegada)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs ${
+                    showQ1Navegada
+                      ? 'bg-rose-800 text-white'
+                      : 'bg-rose-600 hover:bg-rose-700 text-white'
+                  }`}
+                >
+                  <Compass className="w-3.5 h-3.5" />
+                  <span>
+                    {showQ1Navegada
+                      ? (language === 'es' ? '← Volver a Q1 General' : '← Itzuli Q1 Orokorrera')
+                      : (language === 'es' ? 'Cirugía Navegada · Q1' : 'Kirurgia Nabigatua · Q1')}
+                  </span>
+                </button>
+              )}
               {activeHub.id === 'Q2' && (
                 <button
                   onClick={() => setShowOrlEquipment(!showOrlEquipment)}
@@ -374,8 +404,14 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
             </div>
           </div>
 
-          {/* Render dedicated ORL Equipment Section if active in Q2 */}
-          {activeHub.id === 'Q2' && showOrlEquipment ? (
+          {/* Render dedicated sub-sections for Q1 Cirugía Navegada or Q2 ORL Equipment */}
+          {activeHub.id === 'Q1' && showQ1Navegada ? (
+            <Q1CirugiaNavegadaSection
+              nightMode={nightMode}
+              language={language}
+              onBackToQ1={() => setShowQ1Navegada(false)}
+            />
+          ) : activeHub.id === 'Q2' && showOrlEquipment ? (
             <OrlEquipmentSection
               nightMode={nightMode}
               language={language}
@@ -436,6 +472,89 @@ export const OperatingRoomsSpecialtiesHub: React.FC<OperatingRoomsSpecialtiesHub
                   </div>
                 </div>
               </div>
+
+              {/* PRESENTATION CARD: QUIRÓFANO 1 · CIRUGÍA NAVEGADA (MESA DE CARBONO, LOOP-X & BRAINLAB) */}
+              {activeHub.id === 'Q1' && (
+                <div className={`p-5 sm:p-7 rounded-3xl border transition-all ${
+                  nightMode
+                    ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/30 border-rose-800/80'
+                    : 'bg-gradient-to-br from-rose-50/70 via-white to-slate-50 border-rose-200 shadow-sm'
+                }`}>
+                  <div className="flex flex-col lg:flex-row items-stretch gap-6">
+                    {/* Left: Authentic Photo of Q1 Navigated Surgery Setup */}
+                    <div
+                      onClick={() => setSelectedPhotoModal({
+                        src: `${import.meta.env.BASE_URL}${Q1_NAVEGADA_PHOTOS.portada.src}`,
+                        title: language === 'es' ? 'Cirugía Navegada · Quirófano 1 · Hospital Universitario de Navarra' : 'Kirurgia Nabigatua · 1. Ebakigela · NUO',
+                        subtitle: language === 'es' ? 'Mesa de carbono, transformador, sistema Loop-X y microscopio quirúrgico preparados en Q1.' : 'Karbonozko mahaia, transformadorea, Loop-X sistema eta mikroskopioa Q1ean prestatuta.'
+                      })}
+                      className="lg:w-5/12 relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 dark:border-slate-800 group cursor-pointer shadow-md shrink-0"
+                    >
+                      <img
+                        src={`${import.meta.env.BASE_URL}${Q1_NAVEGADA_PHOTOS.portada.src}`}
+                        alt="Cirugía Navegada Quirófano 1 HUN"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex flex-col justify-end p-4">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-white bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1.5">
+                            <Maximize2 className="w-3.5 h-3.5 text-rose-400" />
+                            <span>{language === 'es' ? 'Tocar para ampliar foto' : 'Ukitu argazkia handitzeko'}</span>
+                          </span>
+                          <span className="text-[10px] font-bold text-rose-300 bg-rose-950/80 px-2 py-0.5 rounded-md border border-rose-800">
+                            HUN Q1 · 21 Fotos
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Technical Summary & Direct Actions */}
+                    <div className="lg:w-7/12 flex flex-col justify-between space-y-4">
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+                            <Compass className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+                            <span>{language === 'es' ? 'Protocolo de Actuación del Celador' : 'Zeladorearen Jarduketa Protokoloa'}</span>
+                          </div>
+                          <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                            {language === 'es' ? 'Borrador · Pendiente de validación' : 'Zirriborroa · Balioztatzeke'}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-snug">
+                          {language === 'es' ? 'Cirugía Navegada · Quirófano 1' : 'Kirurgia Nabigatua · 1. Ebakigela'}
+                        </h3>
+
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                          {language === 'es'
+                            ? 'Guía práctica completa (12 apartados y 21 fotografías reales): preparación y traslado de la mesa de carbono desde maternal, transformador y mandos (MAQUET / GETINGE), accesorios (tríneo, alargaderas de Q2 y bracero), orientación para el Loop-X, neuronavegador Brainlab Curve, transferencias cama-mesa a prono, microscopio, tabla de límites y checklist previo interactivo.'
+                            : 'Gida praktiko osoa (12 atal eta 21 benetako argazki): karbonozko mahaiaren lekualdatzea, transformadorea eta aginteak, osagarriak (lerak, Q2ko luzagarriak, bracero), Loop-X orientazioa, Brainlab Curve, zirkuitua eta checklist interaktiboa.'}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                        <button
+                          onClick={() => setShowQ1Navegada(true)}
+                          className="flex-1 py-3 px-4 rounded-xl text-xs font-extrabold bg-rose-600 hover:bg-rose-700 text-white transition-all shadow-sm flex items-center justify-center gap-2 group"
+                        >
+                          <Compass className="w-4 h-4" />
+                          <span>{language === 'es' ? 'Abrir Protocolo Completo e Interactivo (12 Apartados)' : 'Protokolo Osoa Ireki (12 Atal)'}</span>
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        <a
+                          href={`${import.meta.env.BASE_URL}${Q1_NAVEGADA_PDF_URL}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="py-3 px-4 rounded-xl text-xs font-bold border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-1.5 shrink-0"
+                        >
+                          <FileText className="w-4 h-4 text-rose-600" />
+                          <span>{language === 'es' ? 'Ver PDF' : 'Ikusi PDFa'}</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* PRESENTATION CARD: QUIRÓFANO 2 (ORL) CON FOTOGRAFÍA PANORÁMICA DE LA SALA */}
               {activeHub.id === 'Q2' && (

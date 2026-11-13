@@ -134,7 +134,7 @@ export const HomeWelcomeView: React.FC<HomeWelcomeViewProps> = ({
   ];
 
   const orRoomsList = [
-    { id: 'q1', name: 'Q1 · Urgencias', spec: 'Urgencias 24h', color: 'border-red-400 bg-red-50/70 dark:bg-red-950/30 text-red-700 dark:text-red-300' },
+    { id: 'q1', name: 'Q1 · Urgencias', spec: 'Urgencias 24h · Navegada', color: 'border-red-400 bg-red-50/70 dark:bg-red-950/30 text-red-700 dark:text-red-300' },
     { id: 'q2', name: 'Q2 · Otorrino (ORL)', spec: 'Microcirugía & 8 Equipos', color: 'border-sky-400 bg-sky-50/70 dark:bg-sky-950/30 text-sky-700 dark:text-sky-300' },
     { id: 'q3_q4', name: 'Q3–Q4 · Oftalmología', spec: 'Cataratas & Polo Post.', color: 'border-blue-400 bg-blue-50/70 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300' },
     { id: 'q5_q6', name: 'Q5–Q6 · Urología', spec: 'Pilé & Litotomía Fig. 1-20', color: 'border-indigo-400 bg-indigo-50/70 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300' },

@@ -225,13 +225,13 @@ export default function App() {
           )}
 
           {/* =================================================================== */}
-          {/* 4. Q1 – URGENCIAS (24 H.) */}
+          {/* 4. Q1 – URGENCIAS (24 H.) Y CIRUGÍA NAVEGADA */}
           {/* =================================================================== */}
-          {activeTab === 'q1' && (
+          {(activeTab === 'q1' || activeTab === 'q1_navegada') && (
             <OperatingRoomsSpecialtiesHub
               nightMode={nightMode}
               language={language}
-              initialRoomId="Q1"
+              initialRoomId={activeTab === 'q1_navegada' ? 'q1_navegada' : 'Q1'}
               onNavigateToUrologyDoc={() => handleNavigateFromHome('urologia_doc')}
               onNavigateToPreEntry={() => handleNavigateFromHome('transfer')}
               onNavigateToVideo={(vId) => handleNavigateFromHome('videos')}

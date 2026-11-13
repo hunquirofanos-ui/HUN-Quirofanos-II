@@ -498,6 +498,21 @@ export const GLOBAL_SEARCH_INDEX: GlobalSearchResult[] = [
     targetTab: 'transfer',
     targetSubParam: 'fichas',
     keywords: ['fichas', 'fichas oficiales', 'documentos', 'fotos escaneadas', 'documentacion', 'cartel aviso']
+  },
+  {
+    id: 'q1-cirugia-navegada-protocol',
+    title: 'Protocolo Cirugía Navegada · Quirófano 1 (Mesa de Carbono, Loop-X y Brainlab)',
+    titleEu: 'Kirurgia Nabigatuaren Protokoloa · 1. Ebakigela (Karbonozko Mahaia, Loop-X eta Brainlab)',
+    category: 'videos_docs',
+    categoryLabel: 'Vídeos & Documentos',
+    categoryLabelEu: 'Bideoak & Dokumentuak',
+    operatingRoom: 'Quirófano 1 (Q1)',
+    description: 'Guía práctica de 12 apartados y 21 fotos: mesa de carbono desde maternal, transformador y 2 mandos, tríneo, alargaderas de Q2, bracero, aproximación Loop-X, Brainlab Curve, transferencia a prono y checklist previo.',
+    descriptionEu: '12 atal eta 21 argazkiko gida praktikoa: karbonozko mahaia, transformadorea eta aginteak, trineoa, Q2ko luzagarriak, bracero, Loop-X, Brainlab Curve eta aurreko checklist-a.',
+    badge: 'Protocolo Q1 · 21 Fotos',
+    badgeColor: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300',
+    targetTab: 'q1_navegada',
+    keywords: ['cirugia navegada', 'navegada', 'mesa carbono', 'carbono', 'loop-x', 'loop', 'brainlab', 'neuronavegador', 'trineo', 'alargaderas', 'bracero', 'transformador', 'prono', 'espalda', 'q1']
   }
 ];
 

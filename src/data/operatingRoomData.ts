@@ -969,5 +969,85 @@ export const SURGERY_PROTOCOLS: SurgeryProtocol[] = [
       cleaningLocation: 'Dentro del Quirófano 1',
       destinationRule: 'Los accesorios se dejan dentro de quirófano protegidos; una vez limpios por el personal de limpieza, se depositan en el mueble del ANTEQUIRÓFANO.'
     }
+  },
+  {
+    id: 'urg-cirugia-navegada-q1',
+    name: 'Cirugía Navegada de Espalda (Mesa de Carbono · Loop-X · Brainlab Curve)',
+    nameEu: 'Bizkarreko Kirurgia Nabigatua (Karbonozko Mahaia · Loop-X · Brainlab)',
+    specialtyId: 'urgencias',
+    operatingRoom: 'Quirófano 1',
+    estimatedDuration: '120 - 240 min',
+    summary: 'Preparación logística de mesa de carbono (desde maternal), transformador, 2 mandos (enchufado e inalámbrico), accesorios (tríneo, alargaderas de Q2 y bracero), orientación para Loop-X y Brainlab Curve.',
+    summaryEu: 'Karbonozko mahaiaren prestaketa logistikoa, transformadorea, 2 aginteak, osagarriak (trineoa, Q2ko luzagarriak, bracero), Loop-X eta Brainlab Curve.',
+    position: {
+      name: 'Decúbito Prono en Mesa de Carbono (orientación hacia Loop-X)',
+      nameEu: 'Ahuspez Etzana Karbonozko Mahaian (Loop-X norabidean)',
+      code: 'decubito_prono',
+      description: 'Cabeza del paciente orientada hacia el lado contrario al Loop-X (pasillo limpio); zona de los pies hacia el Loop-X apoyada sobre cabecero convencional; brazos en L con muñecas hacia la cabeza.',
+      pointsOfAttention: [
+        'Cabeza orientada hacia el lado contrario al Loop-X (pasillo limpio) y pies hacia el Loop-X.',
+        'Desplazar tomas para dejar espacio al Loop-X y tomar el marco como referencia.',
+        'Desplazar longitudinalmente la mesa hacia los pies con el mando nº 2 inalámbrico según indicación del equipo.',
+        'No mover mesa, paciente ni equipo durante registro o adquisición de imágenes salvo autorización expresa.'
+      ],
+      anatomicalProtection: [
+        'Colocación clínica, protección de puntos de presión, posición de cabeza y vía aérea corresponden al equipo sanitario.',
+        'Ordenar cableado del transformador para evitar atrapamientos o zonas de paso.'
+      ],
+      svgIllustrationType: 'prone'
+    },
+    tableSetup: {
+      configuration: 'Mesa de carbono trasladada desde pasillo de maternal (con cambio de pie correspondiente), conectada a red eléctrica mediante transformador externo (sin batería propia).',
+      headBoardPosition: 'invertida',
+      footBoardPosition: 'estandar',
+      tableTiltNotes: 'Desplazamiento longitudinal con mando nº 2 inalámbrico (GETINGE); mando 1 enchufado (MAQUET).',
+      transferNotes: 'Introducir cama completa/habitual para inducción y giro coordinado a decúbito prono; al terminar, regreso a cama habitual en supino hacia URPA.'
+    },
+    requiredAccessories: [
+      {
+        id: 'acc-q1-trineo',
+        name: 'Tríneo (cuando se solicita)',
+        category: 'especial',
+        description: 'Accesorio de posicionamiento incorporado cuando lo solicita el equipo responsable.',
+        placementGuide: 'Colocación definitiva y comprobación de apoyos por equipo sanitario.',
+        cleaningDestinationNote: 'Según procedimiento del servicio tras limpieza.'
+      },
+      {
+        id: 'acc-q1-alargaderas',
+        name: 'Alargaderas (guardadas en Q2) + Bracero / Soportes de brazos',
+        category: 'apoyo_brazo',
+        description: 'Alargaderas acopladas a los extremos de la estructura lateral en U para soportar los brazos en L.',
+        placementGuide: 'Traer del Quirófano 2 y acoplar según indicaciones del equipo responsable.',
+        cleaningDestinationNote: 'Devolver al Quirófano 2 tras limpieza y desinfección.'
+      }
+    ],
+    celadorDentroActions: [
+      'Localizar y trasladar la mesa de carbono desde el pasillo de quirófanos maternal al Q1 (con cambio de pie según procedimiento).',
+      'Conectar el transformador externo a la toma indicada y ordenar el cableado fuera de zonas de paso.',
+      'Comprobar disponibilidad de ambos mandos (enchufado e inalámbrico).',
+      'Traer alargaderas del Q2 y preparar tríneo y bracero cuando estén solicitados.',
+      'Facilitar la entrada/retirada de la cama completa y mantener despejada la trayectoria del Loop-X desde los pies hacia la cabeza.'
+    ],
+    celadorFueraActions: [
+      'Introducir y retirar la cama habitual completa del paciente para transferencias en inducción y despertar.',
+      'Colaborar en traslado de microscopio desde maternal si se solicita (brazo superior plegado enchufado y con panel).',
+      'Traslado autorizado a URPA al finalizar.'
+    ],
+    nursingCollaboration: {
+      anesthesiaCoordination: [
+        'No accionar movimientos de mesa sin avisar y coordinarse previamente con Enfermería y Anestesia.',
+        'Giros y transferencias dirigidos exclusivamente por anestesista y enfermera de anestesia.'
+      ],
+      scrubNurseCoordination: [
+        'Confirmar accesorios solicitados y ubicación de consola Brainlab Curve / seguimiento óptico / brazo articulado en maleta.'
+      ],
+      positioningSafetyChecks: [
+        'Trayectoria del Loop-X completamente libre desde pies a cabeza; no mover durante adquisición de imágenes (TER).'
+      ]
+    },
+    postOpAccessoryHandling: {
+      cleaningLocation: 'Dentro del Quirófano 1',
+      destinationRule: 'Alargaderas vuelven al Quirófano 2 tras limpieza; mesa de carbono y pie al pasillo de maternal según procedimiento.'
+    }
   }
 ];
